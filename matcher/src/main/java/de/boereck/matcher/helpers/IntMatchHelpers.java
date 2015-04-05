@@ -250,10 +250,13 @@ public final class IntMatchHelpers {
     }
 
     /**
-     *
-     * @param excluding
-     * @param excludingMore
-     * @return
+     * Returns a predicate that checks if a given int value is not on a black list of integer values, defined by parameters
+     * {@code excluding} and {@code excludingMore}.
+     * @param excluding if input value to returned predicate equals this value, the predicate will return {@code false}
+     * @param excludingMore excluding if input value to returned predicate equals any of this int values, the predicate
+     *                      will return {@code false}. This parameter must not be {@code null}.
+     * @return Predicate that returns {@code false} if the input value equals {@code excluding} or values in {@code excludingMore},
+     *         otherwise it returns {@code true}.
      */
     public static AdvIntPredicate allExcept(int excluding, int... excludingMore) {
         Objects.requireNonNull(excludingMore);
