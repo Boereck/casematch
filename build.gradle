@@ -1,0 +1,49 @@
+version = '1.0'
+
+defaultTasks 'clean', 'build'
+
+repositories {
+    mavenCentral()
+}
+
+allprojects {
+    apply plugin: 'idea'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'osgi'
+
+    sourceCompatibility = 1.8
+    group = 'de.boereck'
+    archivesBaseName = project.parent.name + '-' + project.name
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.11'
+    }
+}
+
+// Project specific dependencies
+
+project(':guava') {
+    dependencies {
+        compile group:'com.google.guava', name:'guava', version: '15.0'
+        compile project(':matcher')
+    }
+}
+
+project(':experimental') {
+    dependencies {
+        compile project(':matcher')
+    }
+}
+
+project(':hamcrest') {
+    dependencies {
+        compile group:'org.hamcrest', name:'hamcrest-core', version: '1.3'
+    }
+}
