@@ -1,0 +1,4 @@
+rootProject.name = 'casematch'
+
+include ':matcher', ':experimental', ':guava', ':hamcrest'
+
