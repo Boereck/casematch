@@ -19,10 +19,9 @@ import de.boereck.matcher.ResultLongCaseMatcher;
 /**
  * This class represents a {@link ResultLongCaseMatcher} that already had a matching case. A new instance holding the result
  * value will be created by {@link ResultLongCaseMatcherUnfinished} whenever a matching case is found.
- * 
+ *
+ * @param <O> type of the output/return object
  * @author Max Bureck
- * @param <O>
- *            type of the output/return object
  */
 final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O> {
 
@@ -34,9 +33,8 @@ final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O>
     /**
      * Package private constructor, will be called from {@link ResultLongCaseMatcherUnfinished} with the result of a function
      * defined for the matching case.
-     * 
-     * @param result
-     *            result object (may be null)
+     *
+     * @param result result object (may be null)
      */
     public ResultLongCaseMatcherFinished(O result) {
         this.result = Optional.ofNullable(result);

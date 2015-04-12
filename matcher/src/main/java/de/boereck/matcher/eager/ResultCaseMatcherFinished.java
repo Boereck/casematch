@@ -19,12 +19,10 @@ import de.boereck.matcher.ResultCaseMatcher;
 /**
  * This class represents a {@link ResultCaseMatcher} that already had a matching case. A new instance holding the result
  * value will be created by {@link ResultCaseMatcherUnfinished} whenever a matching case is found.
- * 
+ *
+ * @param <I> type of the input object
+ * @param <O> type of the output/return object
  * @author Max Bureck
- * @param <I>
- *            type of the input object
- * @param <O>
- *            type of the output/return object
  */
 final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
 
@@ -36,9 +34,8 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
     /**
      * Package private constructor, will be called from {@link ResultCaseMatcherUnfinished} with the result of a function
      * defined for the matching case.
-     * 
-     * @param result
-     *            result object (may be null)
+     *
+     * @param result result object (may be null)
      */
     ResultCaseMatcherFinished(O result) {
         this.result = Optional.ofNullable(result);
@@ -49,6 +46,15 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      */
     @Override
     public <T> ResultCaseMatcher<I, O> caseOf(Class<T> clazz, Function<? super T, ? extends O> consumer) {
+        // we already have the result and don't need to check case
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> ResultCaseMatcher<I, O> caseOf(Class<T> clazz, Predicate<? super T> condition, Function<? super T, ? extends O> f) throws NullPointerException {
         // we already have the result and don't need to check case
         return this;
     }

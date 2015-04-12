@@ -20,7 +20,7 @@ import de.boereck.matcher.NoResultLongCaseMatcher;
  * {@link de.boereck.matcher.eager.NoResultLongCaseMatcherFinished#instance() singleton instance} is provided by
  * {@link NoResultLongCaseMatcherUnfinished} whenever a matching case is found. This class will never check a case since the
  * matching case was already found.
- * 
+ *
  * @author Max Bureck
  */
 final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
@@ -32,7 +32,7 @@ final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
 
     /**
      * Access to singleton instance
-     * 
+     *
      * @return singleton instance
      */
     static NoResultLongCaseMatcherFinished instance() {

@@ -20,7 +20,7 @@ import de.boereck.matcher.NoResultIntCaseMatcher;
  * {@link de.boereck.matcher.eager.NoResultIntCaseMatcherFinished#instance() singleton instance} is provided by {@link NoResultIntCaseMatcherUnfinished}
  * whenever a matching case is found. This class will never check a case since the matching case was
  * already found.
- * 
+ *
  * @author Max Bureck
  */
 final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
@@ -32,12 +32,13 @@ final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
 
     /**
      * Access to singleton instance
+     *
      * @return singleton instance
      */
     static NoResultIntCaseMatcherFinished instance() {
         return INSTANCE;
     }
-    
+
     /**
      * Should only be used from within this class. From the outside the singleton
      * accessor {@link de.boereck.matcher.eager.NoResultIntCaseMatcherFinished#instance() instance()} should be used.

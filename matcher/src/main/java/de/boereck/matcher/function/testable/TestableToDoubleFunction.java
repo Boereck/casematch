@@ -12,12 +12,12 @@ import de.boereck.matcher.function.predicate.AdvPredicate;
 
 
 public interface TestableToDoubleFunction<I> extends ToDoubleFunction<I> {
-    
+
     default AdvPredicate<I> thenTest(DoublePredicate test) {
         Objects.requireNonNull(test);
         return i -> test.test(applyAsDouble(i));
     }
-    
+
     default OptionalDoubleMapper<I> filter(DoublePredicate test) {
         Objects.requireNonNull(test);
         return i -> {
@@ -25,7 +25,7 @@ public interface TestableToDoubleFunction<I> extends ToDoubleFunction<I> {
             return test.test(result) ? OptionalDouble.of(result) : OptionalDouble.empty();
         };
     }
-    
+
     default Consumer<I> thenDo(DoubleConsumer consumer) {
         Objects.requireNonNull(consumer);
         return i -> consumer.accept(this.applyAsDouble(i));

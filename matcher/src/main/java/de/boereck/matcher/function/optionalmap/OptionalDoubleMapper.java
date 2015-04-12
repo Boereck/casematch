@@ -15,10 +15,10 @@ import java.util.function.Predicate;
 
 @FunctionalInterface
 public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
-    
+
     default <V> OptionalMapper<I, V> map(DoubleFunction<? extends V> after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalDouble thisResult = apply(i);
             if (thisResult.isPresent()) {
                 final V afterResult = after.apply(thisResult.getAsDouble());
@@ -28,10 +28,10 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
             }
         };
     }
-    
+
     default OptionalIntMapper<I> mapI(DoubleToIntFunction after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalDouble thisResult = apply(i);
             if (thisResult.isPresent()) {
                 final int afterResult = after.applyAsInt(thisResult.getAsDouble());
@@ -41,10 +41,10 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
             }
         };
     }
-    
+
     default OptionalLongMapper<I> mapL(DoubleToLongFunction after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalDouble thisResult = apply(i);
             if (thisResult.isPresent()) {
                 final long afterResult = after.applyAsLong(thisResult.getAsDouble());
@@ -54,10 +54,10 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
             }
         };
     }
-    
+
     default OptionalDoubleMapper<I> mapD(DoubleUnaryOperator after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalDouble thisResult = apply(i);
             if (thisResult.isPresent()) {
                 final double afterResult = after.applyAsDouble(thisResult.getAsDouble());
@@ -67,11 +67,11 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
             }
         };
     }
-    
-    
+
+
     default <V> OptionalMapper<I, V> flatMap(DoubleFunction<Optional<V>> after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalDouble thisResult = apply(i);
             if (thisResult.isPresent()) {
                 return after.apply(thisResult.getAsDouble());
@@ -80,10 +80,10 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
             }
         };
     }
-    
+
     default OptionalIntMapper<I> flatMapI(DoubleFunction<OptionalInt> after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalDouble thisResult = apply(i);
             if (thisResult.isPresent()) {
                 return after.apply(thisResult.getAsDouble());
@@ -92,10 +92,10 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
             }
         };
     }
-    
+
     default OptionalLongMapper<I> flatMapL(DoubleFunction<OptionalLong> after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalDouble thisResult = apply(i);
             if (thisResult.isPresent()) {
                 return after.apply(thisResult.getAsDouble());
@@ -104,10 +104,10 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
             }
         };
     }
-    
+
     default OptionalDoubleMapper<I> flatMapD(DoubleFunction<OptionalDouble> after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalDouble thisResult = apply(i);
             if (thisResult.isPresent()) {
                 return after.apply(thisResult.getAsDouble());
@@ -116,8 +116,8 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
             }
         };
     }
-    
-    default  OptionalDoubleMapper<I> filter(DoublePredicate after) {
+
+    default OptionalDoubleMapper<I> filter(DoublePredicate after) {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalDouble thisResult = apply(i);
@@ -128,13 +128,13 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
             }
         };
     }
-    
+
     default Predicate<I> hasResult() {
         return i -> this.apply(i).isPresent();
     }
-    
+
     default Predicate<I> hasResultAnd(DoublePredicate test) {
-        return i ->  {
+        return i -> {
             final OptionalDouble result = apply(i);
             return result.isPresent() && test.test(result.getAsDouble());
         };

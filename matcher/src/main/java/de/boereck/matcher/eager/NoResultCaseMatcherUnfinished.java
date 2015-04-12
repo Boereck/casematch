@@ -22,11 +22,9 @@ import de.boereck.matcher.NoResultCaseMatcher;
  * called (and in the order they were called). When a case does not match it will return itself, when case matches
  * {@link NoResultCaseMatcherFinished} will be returned. This will not evaluate further predicate on cases, since the
  * matching case was already found.
- * 
- * @author Max Bureck
  *
- * @param <I>
- *            type of the input object
+ * @param <I> type of the input object
+ * @author Max Bureck
  */
 final class NoResultCaseMatcherUnfinished<I> implements NoResultCaseMatcher<I> {
 
@@ -37,9 +35,8 @@ final class NoResultCaseMatcherUnfinished<I> implements NoResultCaseMatcher<I> {
 
     /**
      * Package private constructor. Should only be called from {@link EagerMatcher#match(Object)}.
-     * 
-     * @param toCheck
-     *            element cases are defined for.
+     *
+     * @param toCheck element cases are defined for.
      */
     NoResultCaseMatcherUnfinished(I toCheck) {
         this.toCheck = toCheck;
@@ -59,6 +56,28 @@ final class NoResultCaseMatcherUnfinished<I> implements NoResultCaseMatcher<I> {
         if (clazz.isInstance(toCheck)) {
             consumer.accept((T) toCheck);
             return NoResultCaseMatcherFinished.instance();
+        } else {
+            return this;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> NoResultCaseMatcher<I> caseOf(Class<T> clazz, Predicate<? super T> condition, Consumer<? super T> consumer) throws NullPointerException {
+        Objects.requireNonNull(clazz);
+        Objects.requireNonNull(condition);
+        Objects.requireNonNull(consumer);
+        final I toCheck = this.toCheck;
+        if (clazz.isInstance(toCheck)) {
+            T casted = (T) toCheck;
+            if (condition.test(casted)) {
+                consumer.accept(casted);
+                return NoResultCaseMatcherFinished.instance();
+            } else {
+                return this;
+            }
         } else {
             return this;
         }

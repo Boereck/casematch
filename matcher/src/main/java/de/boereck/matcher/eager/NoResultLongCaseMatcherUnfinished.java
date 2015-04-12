@@ -22,7 +22,7 @@ import de.boereck.matcher.NoResultLongCaseMatcher;
  * called (and in the order they were called). When a case does not match it will return itself, when case matches
  * {@link NoResultLongCaseMatcherFinished} will be returned. This will not evaluate further predicate on cases, since the
  * matching case was already found.
- * 
+ *
  * @author Max Bureck
  */
 final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher {
@@ -34,9 +34,8 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
 
     /**
      * Package private constructor. Should only be called from {@link EagerMatcher#match(long)}.
-     * 
-     * @param toCheck
-     *            long value cases are defined for.
+     *
+     * @param toCheck long value cases are defined for.
      */
     NoResultLongCaseMatcherUnfinished(long toCheck) {
         this.toCheck = toCheck;

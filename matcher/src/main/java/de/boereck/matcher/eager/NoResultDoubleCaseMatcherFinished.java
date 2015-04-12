@@ -20,7 +20,7 @@ import de.boereck.matcher.NoResultDoubleCaseMatcher;
  * {@link de.boereck.matcher.eager.NoResultDoubleCaseMatcherFinished#instance() singleton instance} is provided by
  * {@link NoResultDoubleCaseMatcherUnfinished} whenever a matching case is found. This class will never check a case since the
  * matching case was already found.
- * 
+ *
  * @author Max Bureck
  */
 final class NoResultDoubleCaseMatcherFinished implements NoResultDoubleCaseMatcher {
@@ -32,7 +32,7 @@ final class NoResultDoubleCaseMatcherFinished implements NoResultDoubleCaseMatch
 
     /**
      * Access to singleton instance
-     * 
+     *
      * @return singleton instance
      */
     static NoResultDoubleCaseMatcherFinished instance() {

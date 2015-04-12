@@ -25,7 +25,7 @@ import de.boereck.matcher.ResultLongCaseMatcher;
  * <p>
  * This class is not intended to be instantiated or inherited from.
  * </p>
- * 
+ *
  * @author Max Bureck
  */
 public final class EagerMatcher {
@@ -39,9 +39,8 @@ public final class EagerMatcher {
      * and associated actions. The cases will be evaluated eagerly when being defined and in order of their definition. After
      * a matching case was found, no further case checks will be evaluated. Due to the eager evaluation it is not needed to
      * use a closing method to start evaluation.
-     * 
-     * @param o
-     *            object to find a matching case for
+     *
+     * @param o object to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static <I> NoResultCaseMatcher<I> match(I o) {
@@ -53,9 +52,8 @@ public final class EagerMatcher {
      * functions, that will provide a value returned on closing methods. The cases will be evaluated eagerly when being
      * defined and in order of their definition. After a matching case and therefore result value was found, no further case
      * checks will be evaluated.
-     * 
-     * @param i
-     *            object to find a matching case for
+     *
+     * @param i object to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static <I, O> ResultCaseMatcher<I, O> resultMatch(I i) {
@@ -67,11 +65,9 @@ public final class EagerMatcher {
      * functions, that will provide a value returned on closing methods. The type of the returned object can be defined by
      * parameter {@code outputType}. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case and therefore result value was found, no further case checks will be evaluated.
-     * 
-     * @param ouptutType
-     *            expected type of the result object, that can be retrieved via closing methods.
-     * @param i
-     *            object to find a matching case for
+     *
+     * @param ouptutType expected type of the result object, that can be retrieved via closing methods.
+     * @param i          object to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static <I, O> ResultCaseMatcher<I, O> resultMatch(Class<O> ouptutType, I i) {
@@ -83,9 +79,8 @@ public final class EagerMatcher {
      * cases and associated actions. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case was found, no further case checks will be evaluated. Due to the eager evaluation it is not
      * needed to use a closing method to start evaluation.
-     * 
-     * @param i
-     *            int value to find a matching case for
+     *
+     * @param i int value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static NoResultIntCaseMatcher match(int i) {
@@ -97,9 +92,8 @@ public final class EagerMatcher {
      * functions, that will provide a value returned on closing methods. The cases will be evaluated eagerly when being
      * defined and in order of their definition. After a matching case and therefore result value was found, no further case
      * checks will be evaluated.
-     * 
-     * @param i
-     *            int value to find a matching case for
+     *
+     * @param i int value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static <O> ResultIntCaseMatcher<O> resultMatch(int i) {
@@ -111,25 +105,22 @@ public final class EagerMatcher {
      * functions, that will provide a value returned on closing methods. The type of the returned object can be defined by
      * parameter {@code outputType}. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case and therefore result value was found, no further case checks will be evaluated.
-     * 
-     * @param outputType
-     *            expected type of the result object, that can be retrieved via closing methods.
-     * @param i
-     *            int value to find a matching case for
+     *
+     * @param outputType expected type of the result object, that can be retrieved via closing methods.
+     * @param i          int value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static <O> ResultIntCaseMatcher<O> resultMatch(Class<O> outputType, int i) {
         return resultMatch(i);
     }
-    
+
     /**
      * This method will return a {@link NoResultLongCaseMatcher} object for the given input long value. It allows definition of
      * cases and associated actions. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case was found, no further case checks will be evaluated. Due to the eager evaluation it is not
      * needed to use a closing method to start evaluation.
-     * 
-     * @param l
-     *            long value to find a matching case for
+     *
+     * @param l long value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static NoResultLongCaseMatcher match(long l) {
@@ -141,9 +132,8 @@ public final class EagerMatcher {
      * functions, that will provide a value returned on closing methods. The cases will be evaluated eagerly when being
      * defined and in order of their definition. After a matching case and therefore result value was found, no further case
      * checks will be evaluated.
-     * 
-     * @param l
-     *            long value to find a matching case for
+     *
+     * @param l long value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static <O> ResultLongCaseMatcher<O> resultMatch(long l) {
@@ -155,25 +145,22 @@ public final class EagerMatcher {
      * functions, that will provide a value returned on closing methods. The type of the returned object can be defined by
      * parameter {@code outputType}. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case and therefore result value was found, no further case checks will be evaluated.
-     * 
-     * @param outputType
-     *            expected type of the result object, that can be retrieved via closing methods.
-     * @param l
-     *            long value to find a matching case for
+     *
+     * @param outputType expected type of the result object, that can be retrieved via closing methods.
+     * @param l          long value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static <O> ResultLongCaseMatcher<O> resultMatch(Class<O> outputType, long l) {
         return resultMatch(l);
-    }    
-    
+    }
+
     /**
      * This method will return a {@link NoResultDoubleCaseMatcher} object for the given input double value. It allows definition of
      * cases and associated actions. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case was found, no further case checks will be evaluated. Due to the eager evaluation it is not
      * needed to use a closing method to start evaluation.
-     * 
-     * @param d
-     *            double value to find a matching case for
+     *
+     * @param d double value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static NoResultDoubleCaseMatcher match(double d) {
@@ -185,9 +172,8 @@ public final class EagerMatcher {
      * functions, that will provide a value returned on closing methods. The cases will be evaluated eagerly when being
      * defined and in order of their definition. After a matching case and therefore result value was found, no further case
      * checks will be evaluated.
-     * 
-     * @param d
-     *            double value to find a matching case for
+     *
+     * @param d double value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static <O> ResultDoubleCaseMatcher<O> resultMatch(double d) {
@@ -199,14 +185,12 @@ public final class EagerMatcher {
      * functions, that will provide a value returned on closing methods. The type of the returned object can be defined by
      * parameter {@code outputType}. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case and therefore result value was found, no further case checks will be evaluated.
-     * 
-     * @param outputType
-     *            expected type of the result object, that can be retrieved via closing methods.
-     * @param d
-     *            double value to find a matching case for
+     *
+     * @param outputType expected type of the result object, that can be retrieved via closing methods.
+     * @param d          double value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
     public static <O> ResultDoubleCaseMatcher<O> resultMatch(Class<O> outputType, double d) {
         return resultMatch(d);
-    }    
+    }
 }

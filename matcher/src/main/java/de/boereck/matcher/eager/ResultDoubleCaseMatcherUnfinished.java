@@ -22,11 +22,9 @@ import de.boereck.matcher.ResultDoubleCaseMatcher;
  * evaluate predicates as soon as case methods are called (and in the order they were called). When a case does not match it
  * will return itself, when case matches {@link NoResultDoubleCaseMatcherFinished} will be returned. This will not evaluate
  * further predicate on cases, since the matching case was already found.
- * 
- * @author Max Bureck
  *
- * @param <I>
- *            type of the input object
+ * @param <I> type of the input object
+ * @author Max Bureck
  */
 final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatcher<O> {
 
@@ -37,9 +35,8 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
 
     /**
      * Package private constructor. Should only be called from {@link EagerMatcher#resultMatch(double)}.
-     * 
-     * @param toCheck
-     *            element cases are defined for.
+     *
+     * @param toCheck element cases are defined for.
      */
     ResultDoubleCaseMatcherUnfinished(double toCheck) {
         this.toCheck = toCheck;
@@ -50,11 +47,9 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
      * {@link ResultCaseMatcherUnfinished#toCheck toCheck}. The result will be passed to a new instance of
      * {@link ResultCaseMatcherFinished}, which will be returned. Otherwise ({@code condition == false}) the method returns
      * {@code this}.
-     * 
-     * @param condition
-     *            determines if {@code consumer} is called with {@link ResultCaseMatcherUnfinished#toCheck toCheck}
-     * @param consumer
-     *            will be called if {@code condition} is true.
+     *
+     * @param condition determines if {@code consumer} is called with {@link ResultCaseMatcherUnfinished#toCheck toCheck}
+     * @param consumer  will be called if {@code condition} is true.
      * @return either a new instance of {@link ResultCaseMatcherFinished} holding the result or {@code this}.
      */
     private ResultDoubleCaseMatcher<O> completeOrSelf(boolean condition, DoubleFunction<? extends O> consumer) {
