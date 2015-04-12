@@ -12,12 +12,12 @@ import de.boereck.matcher.function.predicate.AdvPredicate;
 
 
 public interface TestableToLongFunction<I> extends ToLongFunction<I> {
-    
+
     default AdvPredicate<I> thenTest(LongPredicate test) {
         Objects.requireNonNull(test);
         return i -> test.test(applyAsLong(i));
     }
- 
+
     default OptionalLongMapper<I> filter(LongPredicate test) {
         Objects.requireNonNull(test);
         return i -> {
@@ -25,7 +25,7 @@ public interface TestableToLongFunction<I> extends ToLongFunction<I> {
             return test.test(result) ? OptionalLong.of(result) : OptionalLong.empty();
         };
     }
-    
+
     default Consumer<I> thenDo(LongConsumer consumer) {
         Objects.requireNonNull(consumer);
         return i -> consumer.accept(this.applyAsLong(i));

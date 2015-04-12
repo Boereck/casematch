@@ -12,12 +12,12 @@ import de.boereck.matcher.function.predicate.AdvPredicate;
 
 
 public interface TestableToIntFunction<I> extends ToIntFunction<I> {
-    
+
     default AdvPredicate<I> thenTest(IntPredicate test) {
         Objects.requireNonNull(test);
         return i -> test.test(applyAsInt(i));
     }
-    
+
     default OptionalIntMapper<I> filter(IntPredicate test) {
         Objects.requireNonNull(test);
         return i -> {
@@ -25,7 +25,7 @@ public interface TestableToIntFunction<I> extends ToIntFunction<I> {
             return test.test(result) ? OptionalInt.of(result) : OptionalInt.empty();
         };
     }
-    
+
     default Consumer<I> thenDo(IntConsumer consumer) {
         Objects.requireNonNull(consumer);
         return i -> consumer.accept(this.applyAsInt(i));

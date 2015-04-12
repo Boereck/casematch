@@ -20,26 +20,26 @@ import de.boereck.matcher.helpers.MatchHelpers;
  * Function mapping an input of type I to an Optional&lt;O&gt;.
  * This interface is especially useful when working with {@link NoResultCaseMatcher#caseObj(java.util.function.Function, java.util.function.Consumer)}
  * or {@link ResultCaseMatcher#caseOf(java.util.function.BooleanSupplier, java.util.function.Function)}.
- * 
+ *
+ * @param <I> type of input to function
+ * @param <O> type of optional output of function
  * @author Max Bureck
  * @see MatchHelpers#optional(java.util.function.Function)
  * @see MatchHelpers#cast(Class)
- * @param <I> type of input to function
- * @param <O> type of optional output of function
  */
 @FunctionalInterface
-public interface OptionalMapper<I,O> extends Function<I, Optional<O>>{
-    
+public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
+
     default <V> OptionalMapper<I, V> map(Function<? super O, ? extends V> after) {
         Objects.requireNonNull(after);
         return (I i) -> apply(i).map(after);
     }
-    
+
     default <V> OptionalIntMapper<I> mapI(ToIntFunction<? super O> after) {
         Objects.requireNonNull(after);
         return (I i) -> {
             Optional<O> thisResult = apply(i);
-            if(thisResult.isPresent()) {
+            if (thisResult.isPresent()) {
                 final O val = thisResult.get();
                 return OptionalInt.of(after.applyAsInt(val));
             } else {
@@ -47,12 +47,12 @@ public interface OptionalMapper<I,O> extends Function<I, Optional<O>>{
             }
         };
     }
-    
+
     default <V> OptionalLongMapper<I> mapL(ToLongFunction<? super O> after) {
         Objects.requireNonNull(after);
         return (I i) -> {
             Optional<O> thisResult = apply(i);
-            if(thisResult.isPresent()) {
+            if (thisResult.isPresent()) {
                 final O val = thisResult.get();
                 return OptionalLong.of(after.applyAsLong(val));
             } else {
@@ -65,7 +65,7 @@ public interface OptionalMapper<I,O> extends Function<I, Optional<O>>{
         Objects.requireNonNull(after);
         return (I i) -> {
             Optional<O> thisResult = apply(i);
-            if(thisResult.isPresent()) {
+            if (thisResult.isPresent()) {
                 final O val = thisResult.get();
                 return OptionalDouble.of(after.applyAsDouble(val));
             } else {
@@ -73,17 +73,17 @@ public interface OptionalMapper<I,O> extends Function<I, Optional<O>>{
             }
         };
     }
-    
+
     default <V> OptionalMapper<I, V> flatMap(Function<? super O, Optional<V>> after) {
         Objects.requireNonNull(after);
         return (I i) -> apply(i).flatMap(after);
     }
-    
+
     default <V> OptionalIntMapper<I> flatMapI(Function<? super O, OptionalInt> after) {
         Objects.requireNonNull(after);
         return (I i) -> {
             Optional<O> thisResult = apply(i);
-            if(thisResult.isPresent()) {
+            if (thisResult.isPresent()) {
                 final O val = thisResult.get();
                 return after.apply(val);
             } else {
@@ -96,7 +96,7 @@ public interface OptionalMapper<I,O> extends Function<I, Optional<O>>{
         Objects.requireNonNull(after);
         return (I i) -> {
             Optional<O> thisResult = apply(i);
-            if(thisResult.isPresent()) {
+            if (thisResult.isPresent()) {
                 final O val = thisResult.get();
                 return after.apply(val);
             } else {
@@ -109,7 +109,7 @@ public interface OptionalMapper<I,O> extends Function<I, Optional<O>>{
         Objects.requireNonNull(after);
         return (I i) -> {
             Optional<O> thisResult = apply(i);
-            if(thisResult.isPresent()) {
+            if (thisResult.isPresent()) {
                 final O val = thisResult.get();
                 return after.apply(val);
             } else {
@@ -117,18 +117,18 @@ public interface OptionalMapper<I,O> extends Function<I, Optional<O>>{
             }
         };
     }
-    
-    default  OptionalMapper<I, O> filter(Predicate<O> after) {
+
+    default OptionalMapper<I, O> filter(Predicate<O> after) {
         Objects.requireNonNull(after);
         return (I i) -> apply(i).filter(after);
     }
-    
+
     default Predicate<I> hasResult() {
         return i -> this.apply(i).isPresent();
     }
-    
+
     default Predicate<I> hasResultAnd(Predicate<O> test) {
-        return i ->  {
+        return i -> {
             final Optional<O> result = apply(i);
             return result.isPresent() && test.test(result.get());
         };

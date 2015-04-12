@@ -1,4 +1,4 @@
-package de.boereck.matcher.de.boereck.test.matcher;
+package de.boereck.test.matcher;
 
 import static de.boereck.matcher.eager.EagerMatcher.match;
 import static org.junit.Assert.*;
@@ -15,8 +15,8 @@ public class NoResultInteCaseMatcherTest {
         int i = 42;
         AtomicBoolean success = new AtomicBoolean(false);
         match(i)
-            .caseOf(13, o -> fail())
-            .caseOf(42, o -> success.set(true));
+                .caseOf(13, o -> fail())
+                .caseOf(42, o -> success.set(true));
 
         assertTrue(success.get());
     }
@@ -62,16 +62,16 @@ public class NoResultInteCaseMatcherTest {
         int i = 42;
         AtomicBoolean success = new AtomicBoolean(false);
         match(i)
-            .caseOf(i > 3, o -> success.set(true));
+                .caseOf(i > 3, o -> success.set(true));
 
         assertTrue(success.get());
     }
-    
+
     @Test
     public void testCaseOfFunction() {
         int i = 42;
         AtomicBoolean success = new AtomicBoolean(false);
-        match(i).caseObj(v -> v > 0 ? Optional.of(Math.sqrt(v)) : Optional.empty() , s -> success.set(true));
+        match(i).caseObj(v -> v > 0 ? Optional.of(Math.sqrt(v)) : Optional.empty(), s -> success.set(true));
 
         assertTrue(success.get());
     }

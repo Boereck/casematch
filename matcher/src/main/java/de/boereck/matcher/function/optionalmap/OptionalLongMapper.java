@@ -67,7 +67,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
             }
         };
     }
-    
+
     default <V> OptionalMapper<I, V> flatMap(LongFunction<Optional<V>> after) {
         Objects.requireNonNull(after);
         return (I i) -> {
@@ -131,9 +131,9 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
     default Predicate<I> hasResult() {
         return i -> this.apply(i).isPresent();
     }
-    
+
     default Predicate<I> hasResultAnd(LongPredicate test) {
-        return i ->  {
+        return i -> {
             final OptionalLong result = apply(i);
             return result.isPresent() && test.test(result.getAsLong());
         };

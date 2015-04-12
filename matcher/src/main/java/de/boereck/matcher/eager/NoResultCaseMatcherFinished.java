@@ -12,6 +12,7 @@ import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
 import de.boereck.matcher.NoResultCaseMatcher;
 
 
@@ -19,10 +20,9 @@ import de.boereck.matcher.NoResultCaseMatcher;
  * This class represents a {@link NoResultCaseMatcher} that already had a matching case. The
  * {@link de.boereck.matcher.eager.NoResultCaseMatcherFinished#instance() singleton instance} is provided by {@link NoResultCaseMatcherUnfinished}
  * whenever a matching case is found.
- * 
+ *
+ * @param <I> type of the input object
  * @author Max Bureck
- * @param <I>
- *            type of the input object
  */
 final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
 
@@ -33,6 +33,7 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
 
     /**
      * Generics aware access to singleton instance
+     *
      * @return singleton instance
      */
     @SuppressWarnings("unchecked")
@@ -53,6 +54,15 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
      */
     @Override
     public <T> NoResultCaseMatcher<I> caseOf(Class<T> clazz, Consumer<? super T> consumer) {
+        // we already have a result, so nothing to check
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> NoResultCaseMatcher<I> caseOf(Class<T> clazz, Predicate<? super T> condition, Consumer<? super T> consumer) throws NullPointerException {
         // we already have a result, so nothing to check
         return this;
     }

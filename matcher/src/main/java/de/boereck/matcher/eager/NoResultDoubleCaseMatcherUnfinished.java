@@ -22,7 +22,7 @@ import de.boereck.matcher.NoResultDoubleCaseMatcher;
  * called (and in the order they were called). When a case does not match it will return itself, when case matches
  * {@link NoResultDoubleCaseMatcherFinished} will be returned. This will not evaluate further predicate on cases, since the
  * matching case was already found.
- * 
+ *
  * @author Max Bureck
  */
 final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMatcher {
@@ -34,9 +34,8 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
 
     /**
      * Package private constructor. Should only be called from {@link EagerMatcher#match(double)}.
-     * 
-     * @param toCheck
-     *            double value cases are defined for.
+     *
+     * @param toCheck double value cases are defined for.
      */
     NoResultDoubleCaseMatcherUnfinished(double toCheck) {
         this.toCheck = toCheck;

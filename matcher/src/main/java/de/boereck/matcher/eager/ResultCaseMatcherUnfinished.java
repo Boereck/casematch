@@ -22,11 +22,9 @@ import de.boereck.matcher.ResultCaseMatcher;
  * called (and in the order they were called). When a case does not match it will return itself, when case matches
  * {@link NoResultCaseMatcherFinished} will be returned. This will not evaluate further predicate on cases, since the
  * matching case was already found.
- * 
- * @author Max Bureck
  *
- * @param <I>
- *            type of the input object
+ * @param <I> type of the input object
+ * @author Max Bureck
  */
 final class ResultCaseMatcherUnfinished<I, O> implements ResultCaseMatcher<I, O> {
 
@@ -37,9 +35,8 @@ final class ResultCaseMatcherUnfinished<I, O> implements ResultCaseMatcher<I, O>
 
     /**
      * Package private constructor. Should only be called from {@link EagerMatcher#resultMatch(Object)}.
-     * 
-     * @param toCheck
-     *            element cases are defined for.
+     *
+     * @param toCheck element cases are defined for.
      */
     ResultCaseMatcherUnfinished(I toCheck) {
         this.toCheck = toCheck;
@@ -50,8 +47,9 @@ final class ResultCaseMatcherUnfinished<I, O> implements ResultCaseMatcher<I, O>
      * with the object {@link de.boereck.matcher.eager.ResultCaseMatcherUnfinished#toCheck toCheck}. The result will be
      * passed to a new instance of {@link ResultCaseMatcherFinished}, which will be returned.
      * Otherwise ({@code condition == false}) the method returns {@code this}.
+     *
      * @param condition determines if {@code consumer} is called with {@link de.boereck.matcher.eager.ResultCaseMatcherUnfinished#toCheck toCheck}
-     * @param consumer will be called if {@code condition} is true.
+     * @param consumer  will be called if {@code condition} is true.
      * @return either a new instance of {@link ResultCaseMatcherFinished} holding the result or {@code this}.
      */
     private <T> ResultCaseMatcher<I, O> finishedOrSelf(boolean condition, Function<? super I, ? extends O> consumer) {
@@ -78,6 +76,31 @@ final class ResultCaseMatcherUnfinished<I, O> implements ResultCaseMatcher<I, O>
             // cast is safe, we checked if toCheck is instance of compatible type
             final O result = consumer.apply((T) toCheck);
             return new ResultCaseMatcherFinished<I, O>(result);
+        } else {
+            return this;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> ResultCaseMatcher<I, O> caseOf(Class<T> clazz, Predicate<? super T> condition, Function<? super T, ? extends O> f) throws NullPointerException {
+        Objects.requireNonNull(clazz);
+        Objects.requireNonNull(condition);
+        Objects.requireNonNull(f);
+        // check if input object instance of clazz
+        final I toCheck = this.toCheck;
+        if (clazz.isInstance(toCheck)) {
+            final T casted = (T) toCheck;
+            if (condition.test(casted)) {
+                @SuppressWarnings("unchecked")
+                // cast is safe, we checked if toCheck is instance of compatible type
+                final O result = f.apply(casted);
+                return new ResultCaseMatcherFinished<I, O>(result);
+            } else {
+                return this;
+            }
         } else {
             return this;
         }

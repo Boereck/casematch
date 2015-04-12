@@ -19,10 +19,9 @@ import de.boereck.matcher.ResultDoubleCaseMatcher;
 /**
  * This class represents a {@link ResultDoubleCaseMatcher} that already had a matching case. A new instance holding the result
  * value will be created by {@link ResultDoubleCaseMatcherUnfinished} whenever a matching case is found.
- * 
+ *
+ * @param <O> type of the output/return object
  * @author Max Bureck
- * @param <O>
- *            type of the output/return object
  */
 final class ResultDoubleCaseMatcherFinished<O> implements ResultDoubleCaseMatcher<O> {
 
@@ -34,9 +33,8 @@ final class ResultDoubleCaseMatcherFinished<O> implements ResultDoubleCaseMatche
     /**
      * Package private constructor, will be called from {@link ResultDoubleCaseMatcherUnfinished} with the result of a function
      * defined for the matching case.
-     * 
-     * @param result
-     *            result object (may be null)
+     *
+     * @param result result object (may be null)
      */
     public ResultDoubleCaseMatcherFinished(O result) {
         this.result = Optional.ofNullable(result);

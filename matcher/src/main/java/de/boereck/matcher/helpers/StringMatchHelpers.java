@@ -19,7 +19,7 @@ import de.boereck.matcher.function.predicate.AdvPredicate;
  * <p>
  * This class is not intended to be instantiated or sub-classed.
  * </p>
- * 
+ *
  * @author Max Bureck
  */
 public final class StringMatchHelpers {
@@ -36,9 +36,8 @@ public final class StringMatchHelpers {
     /**
      * Returns true if the parameter {@code s} is {@code null} or if {@code s} is an empty String (see
      * {@link String#isEmpty()}.
-     * 
-     * @param s
-     *            to be checked if is null or empty
+     *
+     * @param s to be checked if is null or empty
      * @return true if {@code s} is {@code null} or an empty String.
      */
     private static boolean isEmpty(String s) {
@@ -47,9 +46,7 @@ public final class StringMatchHelpers {
 
     /**
      * Will return true if parameter {@code s} is not null and not empty.
-     * 
-     * @param s
-     *            to be checked if not empty.
+     * @param s to be checked if not empty.
      * @return false if {@code s} is {@code null} or empty. True otherwise.
      */
     private static boolean notEmpty(String s) {
@@ -69,12 +66,11 @@ public final class StringMatchHelpers {
     /**
      * Returns predicate, checking if the tested string starts with the string passed in as parameter {@code other}. Input
      * values to the returned predicate can be {@code null}, in this case the predicate will return {@code false}.
-     * 
-     * @param other
-     *            predicate inputs will be checked if they start with this String. This parameter must not be null.
+     * @param other predicate inputs will be checked if they start with this String. This parameter must not be {@code null}.
      * @return predicate checking if input strings start with string {@code other}
+     * @throws NullPointerException thrown, if {@code other} is {@code null}.
      */
-    public static AdvPredicate<String> startsWith(String other) {
+    public static AdvPredicate<String> startsWith(String other) throws NullPointerException {
         Objects.requireNonNull(other);
         return str -> str == null ? false : str.startsWith(other);
     }
@@ -83,26 +79,27 @@ public final class StringMatchHelpers {
      * Returns predicate, checking if the tested string starts with the string passed in as parameter {@code other}. The
      * input will be checked starting with the given offset {@code toffset}. Input values to the returned predicate can be
      * {@code null}, in this case the predicate will return {@code false}.
-     * 
-     * @param other
-     *            predicate inputs will be checked if they start with this String. This parameter must not be null.
-     * @param toffset
-     *            defines where to begin looking in the input string to the predicate.
+     *
+     * @param other   predicate inputs will be checked if they start with this String.
+     *                This parameter must not be {@code null}.
+     * @param toffset defines where to begin looking in the input string to the predicate.
      * @return predicate checking if input strings start with string {@code other}
+     * @throws NullPointerException thrown, if {@code other} is {@code null}.
      */
-    public static Predicate<String> startsWith(String other, int toffset) {
+    public static Predicate<String> startsWith(String other, int toffset) throws NullPointerException {
         Objects.requireNonNull(other);
         return str -> str == null ? false : str.startsWith(other, toffset);
     }
 
     /**
      * Returns a predicate checking if tested strings match the given regular expression {@code regEx}.
-     * 
-     * @param regEx
-     *            the regular expressions inputs to the returned predicate will be checked against
+     *
+     * @param regEx the regular expressions inputs to the returned predicate will be checked against.
+     *              Must not be {@code null}.
      * @return predicate checking if tested strings are matching the given regular expression {@code regEx}
+     * @throws NullPointerException thrown, if {@code regEx} is {@code null}.
      */
-    public static AdvPredicate<String> matches(String regEx) {
+    public static AdvPredicate<String> matches(String regEx) throws NullPointerException {
         Objects.requireNonNull(regEx);
         final Pattern compiledPattern = Pattern.compile(regEx);
         return str -> compiledPattern.matcher(str).matches();
@@ -118,7 +115,7 @@ public final class StringMatchHelpers {
         // s -> System.out.println(s)
     }
 
-    public static OptionalMapper<String, Matcher> matcher(String regEx) {
+    public static OptionalMapper<String, Matcher> matcher(String regEx) throws NullPointerException {
         Objects.requireNonNull(regEx);
         final Pattern compiledPattern = Pattern.compile(regEx);
         return s -> {
@@ -130,7 +127,7 @@ public final class StringMatchHelpers {
     /**
      * Chars with special meaning in regular expressions
      */
-    private static final char[] specialChar = { '.', '$', '|', '(', ')', '[', '{', '^', '?', '*', '+', '\\' };
+    private static final char[] specialChar = {'.', '$', '|', '(', ')', '[', '{', '^', '?', '*', '+', '\\'};
 
     static {
         // sort special characters, so binary search can be used
@@ -149,16 +146,13 @@ public final class StringMatchHelpers {
      * This method <em>or</em> the returned method may throw an PatternSyntaxException if the regular expression's syntax is
      * invalid
      * </p>
-     * 
-     * @param regEx
-     *            the delimiting regular expression for splitting the input array
-     * @throws PatternSyntaxException
-     *             May be thrown if the expression's syntax is invalid
+     * @param regEx the delimiting regular expression for splitting the input array. Must not be {@code null}.
      * @return function splitting an input string according to parameter {@code regEx}
+     * @throws PatternSyntaxException May be thrown if the expression's syntax is invalid
+     * @throws NullPointerException thrown, if {@code regEx} is {@code null}.
      */
-    public static OptionalMapper<String, String[]> split(String regEx) throws PatternSyntaxException {
+    public static OptionalMapper<String, String[]> split(String regEx) throws PatternSyntaxException, NullPointerException {
         // TODO check if fast path is actually faster
-
         Objects.requireNonNull(regEx);
         // fast path if regEx is one char and not a special char
         if (isSingleCharNotSpecial(regEx)) {
@@ -179,16 +173,13 @@ public final class StringMatchHelpers {
      * This method <em>or</em> the returned method may throw an PatternSyntaxException if the regular expression's syntax is
      * invalid
      * </p>
-     * 
-     * @param regEx
-     *            the delimiting regular expression for splitting the input array
-     * @param limit
-     *            maximum amount of elements in result of split
-     * @throws PatternSyntaxException
-     *             May be thrown if the expression's syntax is invalid
+     * @param regEx the delimiting regular expression for splitting the input array
+     * @param limit maximum amount of elements in result of split
      * @return function splitting an input string according to parameter {@code regEx}
+     * @throws PatternSyntaxException May be thrown if the expression's syntax is invalid
+     * @throws NullPointerException thrown, if {@code regEx} is {@code null}.
      */
-    public static OptionalMapper<String, String[]> split(String regEx, int limit) {
+    public static OptionalMapper<String, String[]> split(String regEx, int limit) throws NullPointerException {
         // fast path if regEx is one char and not a special char
         Objects.requireNonNull(regEx);
         if (isSingleCharNotSpecial(regEx)) {
@@ -203,9 +194,8 @@ public final class StringMatchHelpers {
     /**
      * Provides a predicate checking if a string equals the given string {@code comp} ignoring the case of both input and
      * reference string. Both reference and input string are allowed to be {@code null}.
-     * 
-     * @param comp
-     *            reference string input strings are compared with, ignoring case
+     *
+     * @param comp reference string input strings are compared with, ignoring case
      * @return a predicate checking if an input string equals the string {@code comp}.
      */
     public static AdvPredicate<String> eqIgnoreCase(String comp) {
@@ -215,10 +205,9 @@ public final class StringMatchHelpers {
     /**
      * Provides a predicate checking if a string has at least the length {@code minLen}. The input parameter to the predicate
      * may be {@code null}. In this case the predicate will return false.
-     * 
-     * @param minLen
-     *            the input string to the returned predicate will be checked to have at least the length equal to this
-     *            parameter
+     *
+     * @param minLen the input string to the returned predicate will be checked to have at least the length equal to this
+     *               parameter
      * @return predicate checking input strings to have at least length {@code minLen}.
      */
     public static AdvPredicate<String> minLength(int minLen) {
@@ -228,13 +217,13 @@ public final class StringMatchHelpers {
     /**
      * Provides a predicate checking if a string has at least the length of the value provided by {@code minSupplier}. The
      * input parameter to the predicate may be {@code null}. In this case the predicate will return false.
-     * 
-     * @param minSupplier
-     *            the input string to the returned predicate will be checked to have at least the length equal to value
-     *            provided by this supplier.
+     *
+     * @param minSupplier the input string to the returned predicate will be checked to have at least the length equal to value
+     *                    provided by this supplier.
      * @return predicate checking input strings to have at least length equal to value provided by {@code minSupplier}.
+     * @throws NullPointerException thrown, if {@code minSupplier} is {@code null}.
      */
-    public static AdvPredicate<String> minLength(IntSupplier minSupplier) {
+    public static AdvPredicate<String> minLength(IntSupplier minSupplier) throws NullPointerException {
         Objects.requireNonNull(minSupplier);
         return s -> s == null ? false : s.length() >= minSupplier.getAsInt();
     }
@@ -242,10 +231,9 @@ public final class StringMatchHelpers {
     /**
      * Provides a predicate checking if a string has at most the length {@code maxLen}. The input parameter to the predicate
      * may be {@code null}. In this case the predicate will return false.
-     * 
-     * @param maxLen
-     *            the input string to the returned predicate will be checked to have at most the length equal to this
-     *            parameter
+     *
+     * @param maxLen the input string to the returned predicate will be checked to have at most the length equal to this
+     *               parameter
      * @return predicate checking input strings to have at most length {@code maxLen}.
      */
     public static AdvPredicate<String> maxLength(int maxLen) {
@@ -255,13 +243,13 @@ public final class StringMatchHelpers {
     /**
      * Provides a predicate checking if a string has at most the length of the value provided by {@code maxSupplier}. The
      * input parameter to the predicate may be {@code null}. In this case the predicate will return false.
-     * 
-     * @param maxSupplier
-     *            the input string to the returned predicate will be checked to have at most the length equal to value
-     *            provided by this supplier.
+     *
+     * @param maxSupplier the input string to the returned predicate will be checked to have at most the length equal to value
+     *                    provided by this supplier.
      * @return predicate checking input strings to have at most length equal to value provided by {@code maxSupplier}.
+     * @throws NullPointerException thrown, if {@code maxSupplier} is {@code null}.
      */
-    public static AdvPredicate<String> maxLength(IntSupplier maxSupplier) {
+    public static AdvPredicate<String> maxLength(IntSupplier maxSupplier) throws NullPointerException {
         Objects.requireNonNull(maxSupplier);
         return s -> s == null ? false : s.length() <= maxSupplier.getAsInt();
     }

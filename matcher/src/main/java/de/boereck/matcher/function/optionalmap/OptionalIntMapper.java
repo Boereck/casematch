@@ -18,7 +18,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
 
     default <V> OptionalMapper<I, V> map(IntFunction<? extends V> after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalInt thisResult = apply(i);
             if (thisResult.isPresent()) {
                 final V afterResult = after.apply(thisResult.getAsInt());
@@ -28,10 +28,10 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
             }
         };
     }
-    
+
     default OptionalIntMapper<I> mapI(IntUnaryOperator after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalInt thisResult = apply(i);
             if (thisResult.isPresent()) {
                 final int afterResult = after.applyAsInt(thisResult.getAsInt());
@@ -41,10 +41,10 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
             }
         };
     }
-    
+
     default OptionalLongMapper<I> mapL(IntToLongFunction after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalInt thisResult = apply(i);
             if (thisResult.isPresent()) {
                 final long afterResult = after.applyAsLong(thisResult.getAsInt());
@@ -54,11 +54,11 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
             }
         };
     }
-    
-    
+
+
     default OptionalDoubleMapper<I> mapD(IntToDoubleFunction after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalInt thisResult = apply(i);
             if (thisResult.isPresent()) {
                 final double afterResult = after.applyAsDouble(thisResult.getAsInt());
@@ -68,10 +68,10 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
             }
         };
     }
-    
+
     default <V> OptionalMapper<I, V> flatMap(IntFunction<Optional<V>> after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalInt thisResult = apply(i);
             if (thisResult.isPresent()) {
                 return after.apply(thisResult.getAsInt());
@@ -80,10 +80,10 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
             }
         };
     }
-    
+
     default OptionalIntMapper<I> flatMapI(IntFunction<OptionalInt> after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalInt thisResult = apply(i);
             if (thisResult.isPresent()) {
                 return after.apply(thisResult.getAsInt());
@@ -92,10 +92,10 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
             }
         };
     }
-    
+
     default OptionalLongMapper<I> flatMapL(IntFunction<OptionalLong> after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalInt thisResult = apply(i);
             if (thisResult.isPresent()) {
                 return after.apply(thisResult.getAsInt());
@@ -104,10 +104,10 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
             }
         };
     }
-    
+
     default OptionalDoubleMapper<I> flatMapD(IntFunction<OptionalDouble> after) {
         Objects.requireNonNull(after);
-        return (I i) -> { 
+        return (I i) -> {
             final OptionalInt thisResult = apply(i);
             if (thisResult.isPresent()) {
                 return after.apply(thisResult.getAsInt());
@@ -116,8 +116,8 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
             }
         };
     }
-    
-    default  OptionalIntMapper<I> filter(IntPredicate after) {
+
+    default OptionalIntMapper<I> filter(IntPredicate after) {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
@@ -128,13 +128,13 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
             }
         };
     }
-    
+
     default Predicate<I> hasResult() {
         return i -> this.apply(i).isPresent();
     }
-    
+
     default Predicate<I> hasResultAnd(IntPredicate test) {
-        return i ->  {
+        return i -> {
             final OptionalInt result = apply(i);
             return result.isPresent() && test.test(result.getAsInt());
         };

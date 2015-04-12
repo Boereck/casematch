@@ -1,4 +1,4 @@
-package de.boereck.matcher.de.boereck.test.matcher;
+package de.boereck.test.matcher;
 
 import static de.boereck.matcher.eager.EagerMatcher.*;
 import static de.boereck.matcher.helpers.MatchHelpers.*;
@@ -18,7 +18,7 @@ public class NoResultCaseMatcherTest {
 
     @Test
     public void testCaseOfClass() {
-        
+
         Object o = "Boo";
         AtomicBoolean success = new AtomicBoolean(false);
         match(o).caseOf(String.class, s -> success.set(true));
@@ -71,9 +71,9 @@ public class NoResultCaseMatcherTest {
         Object o = "Boo";
         AtomicBoolean success = new AtomicBoolean(false);
         match(o)
-        .caseOf(Object.class, s -> success.set(true))
-        .caseOf(Class.class, s -> fail());
-        
+                .caseOf(Object.class, s -> success.set(true))
+                .caseOf(Class.class, s -> fail());
+
         assertTrue(success.get());
     }
 
@@ -94,13 +94,13 @@ public class NoResultCaseMatcherTest {
         assertTrue(success.get());
     }
 
-    
+
     @Test
     public void testCaseOfFunction() {
         String o = "";
         AtomicBoolean success = new AtomicBoolean(false);
         match(o).caseObj(s -> Optional.ofNullable(s).map(String::toUpperCase), s -> success.set(true));
-        
+
         assertTrue(success.get());
     }
 }

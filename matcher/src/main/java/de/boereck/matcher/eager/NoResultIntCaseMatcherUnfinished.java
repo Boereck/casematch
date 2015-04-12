@@ -22,7 +22,7 @@ import de.boereck.matcher.NoResultIntCaseMatcher;
  * called (and in the order they were called). When a case does not match it will return itself, when case matches
  * {@link NoResultIntCaseMatcherFinished} will be returned. This will not evaluate further predicate on cases, since the
  * matching case was already found.
- * 
+ *
  * @author Max Bureck
  */
 final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
@@ -34,9 +34,8 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
 
     /**
      * Package private constructor. Should only be called from {@link EagerMatcher#match(int)}.
-     * 
-     * @param toCheck
-     *            int value cases are defined for.
+     *
+     * @param toCheck int value cases are defined for.
      */
     NoResultIntCaseMatcherUnfinished(int toCheck) {
         this.toCheck = toCheck;

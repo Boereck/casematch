@@ -86,10 +86,11 @@ public class CollectionMatchHelpers {
      * References a function that takes an instance of I and checks if the object is instance of {@link Collection}.
      * If so, the function will return an {@link Optional} with the input object casted to Collection. Otherwise
      * the function will return an empty Optional.
+     *
      * @param <I> Type I element is of that should be checked if it is instance of Collection.
      * @return Mapper function checking if an object, instance of I, is not {@code null} and instance of Collection. If so,
-     *  the mapper will return an Optional of the input object casted to Collection, otherwise it returns
-     *  an empty Optional.
+     * the mapper will return an Optional of the input object casted to Collection, otherwise it returns
+     * an empty Optional.
      */
     public static final <I> OptionalMapper<I, Collection<?>> castToCollection() {
         return o -> o != null && (o instanceof Collection) ? Optional.of((Collection<?>) o) : Optional.empty();
@@ -99,10 +100,11 @@ public class CollectionMatchHelpers {
      * References a function that takes an instance of I and checks if the object is instance of {@link List}.
      * If so, the function will return an {@link Optional} with the input object casted to List. Otherwise
      * the function will return an empty Optional.
+     *
      * @param <I> Type I element is of that should be checked if it is instance of List.
      * @return Mapper function checking if an object, instance of I, is not {@code null} and instance of List. If so,
-     *  the mapper will return an Optional of the input object casted to List, otherwise it returns
-     *  an empty Optional.
+     * the mapper will return an Optional of the input object casted to List, otherwise it returns
+     * an empty Optional.
      */
     public static final <I> OptionalMapper<I, List<?>> castToList() {
         return o -> o != null && (o instanceof List) ? Optional.of((List<?>) o) : Optional.empty();
@@ -112,10 +114,11 @@ public class CollectionMatchHelpers {
      * References a function that takes an instance of I and checks if the object is instance of {@link Map}.
      * If so, the function will return an {@link Optional} with the input object casted to Map. Otherwise
      * the function will return an empty Optional.
+     *
      * @param <I> Type I element is of that should be checked if it is instance of Map.
      * @return Mapper function checking if an object, instance of I, is not {@code null} and instance of Map. If so,
-     *  the mapper will return an Optional of the input object casted to Map, otherwise it returns
-     *  an empty Optional.
+     * the mapper will return an Optional of the input object casted to Map, otherwise it returns
+     * an empty Optional.
      */
     public static final <I> OptionalMapper<I, Map<?, ?>> castToMap() {
         return o -> o != null && (o instanceof Map) ? Optional.of((Map<?, ?>) o) : Optional.empty();
@@ -124,6 +127,7 @@ public class CollectionMatchHelpers {
     /**
      * Returns a Predicate checking if an input object of type I is not {@code null} and instance of
      * Collection.
+     *
      * @param <I> type of object to be checked if instance of Collection
      * @return predicate checking if input object is instance of Collection.
      */

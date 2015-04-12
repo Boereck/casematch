@@ -8,23 +8,24 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface AdvPredicate<I> extends Predicate<I> {
 
-    default <O> Function<I,Optional<O>> then(Function<? super I, ? extends O> f) {
+    default <O> Function<I, Optional<O>> then(Function<? super I, ? extends O> f) {
         Objects.requireNonNull(f);
         return i -> this.test(i) ? Optional.ofNullable(f.apply(i)) : Optional.empty();
     }
-    
+
     default AdvPredicate<I> xor(Predicate<? super I> that) {
         Objects.requireNonNull(that);
         return i -> this.test(i) ^ that.test(i);
     }
-    
+
     default AdvPredicate<I> nor(Predicate<? super I> that) {
         Objects.requireNonNull(that);
         return i -> !this.test(i) && !that.test(i);
     }
-    
+
     /**
      * Logical equality of two predicates
+     *
      * @param that
      * @return
      */
@@ -32,40 +33,42 @@ public interface AdvPredicate<I> extends Predicate<I> {
         Objects.requireNonNull(that);
         return i -> this.test(i) == that.test(i);
     }
-    
+
     default AdvPredicate<I> implies(Predicate<? super I> that) {
         Objects.requireNonNull(that);
         return i -> !this.test(i) || that.test(i);
     }
-    
+
     @Override
     default AdvPredicate<I> and(Predicate<? super I> that) {
         Objects.requireNonNull(that);
         return i -> test(i) && that.test(i);
     }
-    
+
     @Override
     default AdvPredicate<I> negate() {
         return i -> !test(i);
     }
-    
+
     /**
      * Shortcut for {@link de.boereck.matcher.function.predicate.AdvPredicate#negate()}
+     *
      * @return
      */
     default AdvPredicate<I> not() {
         return negate();
     }
-    
+
     @Override
     default AdvPredicate<I> or(Predicate<? super I> that) {
         Objects.requireNonNull(that);
         return i -> test(i) || that.test(i);
     }
-    
+
     /**
      * Defines precondition that has to hold before checking
      * this predicate.
+     *
      * @param that
      * @return
      */
