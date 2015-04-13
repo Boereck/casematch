@@ -11,6 +11,7 @@ import java.util.function.IntUnaryOperator;
 
 import de.boereck.matcher.function.optionalmap.OptionalIntMapper;
 import de.boereck.matcher.function.predicate.AdvIntPredicate;
+import de.boereck.matcher.function.predicate.AdvPredicate;
 
 /**
  * This class provides static methods and final fields holding references to methods that can be
@@ -124,6 +125,26 @@ public final class IntMatchHelpers {
      * Holds a predicate checking if an int value is negative.
      */
     public static final AdvIntPredicate negative = i -> i < 0;
+
+    /**
+     * Returns predicate that returns true if the input int is one of
+     * the given integers {@code el} or {@code more}.
+     * @param el one element predicate will check if input is equal to it
+     * @param more further elements the predicate will check if element
+     *             is one of them.
+     * @return predicate checking if the input int is either {@code el} or one of {@code more}.
+     */
+    public static AdvIntPredicate oneOf(int el, int... more) {
+        Objects.requireNonNull(more);
+        // make defensive copy
+        final int[] ts = Arrays.copyOf(more, more.length + 1);
+        ts[more.length] = el;
+        // sort copied array, so we can do lookup by binary search
+        Arrays.sort(ts);
+        // return predicate performing binary search on elements
+        // it returns ture if element is in array, false if it does not.
+        return input -> Arrays.binarySearch(ts,input) >= 0;
+    }
 
     /**
      * Holds a predicate checking if an int value is even (dividable by 2).

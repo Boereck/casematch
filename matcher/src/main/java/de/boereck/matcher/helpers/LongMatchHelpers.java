@@ -67,6 +67,26 @@ public final class LongMatchHelpers {
     }
 
     /**
+     * Returns predicate that returns true if the input long is one of
+     * the given longs {@code el} or {@code more}.
+     * @param el one element predicate will check if input is equal to it
+     * @param more further elements the predicate will check if element
+     *             is one of them.
+     * @return predicate checking if the input long is either {@code el} or one of {@code more}.
+     */
+    public static AdvLongPredicate oneOf(long el, long... more) {
+        Objects.requireNonNull(more);
+        // make defensive copy
+        final long[] ts = Arrays.copyOf(more, more.length + 1);
+        ts[more.length] = el;
+        // sort copied array, so we can do lookup by binary search
+        Arrays.sort(ts);
+        // return predicate performing binary search on elements
+        // it returns ture if element is in array, false if it does not.
+        return input -> Arrays.binarySearch(ts,input) >= 0;
+    }
+
+    /**
      * Holds a predicate checking if a long value is positive.
      */
     public static final AdvLongPredicate positive = l -> l > 0;
