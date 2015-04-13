@@ -98,7 +98,7 @@ public class Test {
         match(o)
         .caseOf(isNull.or(isString.andTest(strIsEmpty)), ignore)
         .caseOf(isString, sysout)
-        .caseObj(castToCollection.filter(notEmpty), c -> c.forEach(Test::print))
+        .caseObj(castToCollection, c -> c.forEach(Test::print))
         .otherwise(toString.thenDo(Test::print));
     }
 

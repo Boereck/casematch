@@ -134,4 +134,5 @@ public class CollectionMatchHelpers {
     public static final <I> TypeCheck<I, Collection<?>> isCollection() {
         return o -> o != null && (o instanceof Collection);
     }
+
 }

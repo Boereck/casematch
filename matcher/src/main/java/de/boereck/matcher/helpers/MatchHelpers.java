@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
+import java.util.stream.Stream;
 
 import de.boereck.matcher.function.optionalmap.OptionalDoubleMapper;
 import de.boereck.matcher.function.optionalmap.OptionalIntMapper;
@@ -472,6 +473,33 @@ public final class MatchHelpers {
      */
     public static <T> AdvPredicate<T> eq(T t) {
         return o -> Objects.equals(o, t);
+    }
+
+    /**
+     * Returns predicate that returns true if the input object is one of
+     * the given objects {@code t} or {@code more}. The function will use
+     * <em>referential</em> equality to check if the input is one of the
+     * give objects.
+     * @param t one element predicate will check if input is equal to it
+     * @param more further elements the predicate will check if element
+     *             is one of them.
+     * @return predicate checking if the input object is either {@code t} or one of {@code more}.
+     */
+    public static <T> AdvPredicate<T> oneOf(T t, T... more) {
+        Objects.requireNonNull(more);
+        // make defensive copy
+        final T[] ts = Arrays.copyOf(more, more.length + 1);
+        ts[more.length] = t;
+        return o -> contains(ts, o);
+    }
+
+    private static <T> boolean contains(T[] ts, T input) {
+        for(int i=0; i<ts.length; i++) {
+            if(ts[i] == input) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
