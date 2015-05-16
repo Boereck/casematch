@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 /**
  * This class provides factory methods for CaseMatchers that perform the retrieval of
- * objects to match asynchronously. Therefore the CaseMatcher implementation cannot work
+ * objects to found asynchronously. Therefore the CaseMatcher implementation cannot work
  * eager and evaluate the cases at the time they are defined, but are deferred until the
  * value is received. The cases are then checked in the order they were specified.
  */
@@ -31,12 +31,31 @@ public final class AsyncMatcher {
     
     public static <I> NoResultFutureCaseMatcher<Object> matchAnyAsync(Executor ex, Supplier<?>... supplier) {
         throw new UnsupportedOperationException("Not Implemented Yet");
-    } 
-    
+    }
+
+    /**
+     * This function will create a CompletableFuture and calls the consumer {@code action} asynchronously
+     * using the common ForkJoin pool. The consumer is expected to complete the given CompletableFuture either
+     * with a result value or exceptionally. The matching methods on the returned NoResultFutureCaseMatcher
+     * will evaluate on the provided result.
+     * @param action
+     * @param <I>
+     * @return
+     */
     public static <I> NoResultFutureCaseMatcher<I> matchAsync(Consumer<CompletableFuture<I>> action) {
         throw new UnsupportedOperationException("Not Implemented Yet");
     }
-    
+
+    /**
+     * This function will create a CompletableFuture and calls the consumer {@code action} asynchronously
+     * using the given Executor {@code ex}. The consumer is expected to complete the given CompletableFuture either
+     * with a result value or exceptionally. The matching methods on the returned NoResultFutureCaseMatcher
+     * will evaluate on the provided result.
+     * @param ex
+     * @param action
+     * @param <I>
+     * @return
+     */
     public static <I> NoResultFutureCaseMatcher<I> matchAsync(Executor ex, Consumer<CompletableFuture<I>> action) {
         throw new UnsupportedOperationException("Not Implemented Yet");
     }

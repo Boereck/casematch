@@ -92,7 +92,7 @@ public final class StringMatchHelpers {
     }
 
     /**
-     * Returns a predicate checking if tested strings match the given regular expression {@code regEx}.
+     * Returns a predicate checking if tested strings found the given regular expression {@code regEx}.
      *
      * @param regEx the regular expressions inputs to the returned predicate will be checked against.
      *              Must not be {@code null}.

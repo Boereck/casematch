@@ -24,7 +24,6 @@ import de.boereck.matcher.helpers.MatchHelpers;
  * @param <I> type of input to function
  * @param <O> type of optional output of function
  * @author Max Bureck
- * @see MatchHelpers#optional(java.util.function.Function)
  * @see MatchHelpers#cast(Class)
  */
 @FunctionalInterface

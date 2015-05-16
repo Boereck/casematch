@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class provides static methods that may help with defining consumers of cases in the match case library<br/>
+ * This class provides static methods that may help with defining consumers of cases in the found case library<br/>
  * This class is not intended to be instantiated or sub-classed.
  *
  * @author Max Bureck
@@ -28,7 +28,7 @@ public final class ConsumerHelpers {
 
     /**
      * This method creates a consumer that ignores the input and always throws an exception provided by the given supplier
-     * {@code exSupplier}. Since the case match API works on Consumers, which do not declare checked excheptions,
+     * {@code exSupplier}. Since the case found API works on Consumers, which do not declare checked excheptions,
      * an the methods woking with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
      * The supplier can be created from parameterless constructors of exception classes by reference to the constructor
      * like this: {@code ExceptionClass::new}.
@@ -47,7 +47,7 @@ public final class ConsumerHelpers {
 
     /**
      * This method creates an IntConsumer that ignores the input and always throws an exception provided by the given supplier
-     * {@code exSupplier}. Since the case match API works on Consumers, which do not declare checked excheptions,
+     * {@code exSupplier}. Since the case found API works on Consumers, which do not declare checked excheptions,
      * an the methods woking with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
      * The supplier can be created from parameterless constructors of exception classes by reference to the constructor
      * like this: {@code ExceptionClass::new}.
@@ -65,7 +65,7 @@ public final class ConsumerHelpers {
 
     /**
      * This method creates a LongConsumer that ignores the input and always throws an exception provided by the given supplier
-     * {@code exSupplier}. Since the case match API works on Consumers, which do not declare checked excheptions,
+     * {@code exSupplier}. Since the case found API works on Consumers, which do not declare checked excheptions,
      * an the methods woking with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
      * The supplier can be created from parameterless constructors of exception classes by reference to the constructor
      * like this: {@code ExceptionClass::new}.
@@ -83,7 +83,7 @@ public final class ConsumerHelpers {
 
     /**
      * This method creates a DoubleConsumer that ignores the input and always throws an exception provided by the given supplier
-     * {@code exSupplier}. Since the case match API works on Consumers, which do not declare checked excheptions,
+     * {@code exSupplier}. Since the case found API works on Consumers, which do not declare checked excheptions,
      * an the methods woking with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
      * The supplier can be created from parameterless constructors of exception classes by reference to the constructor
      * like this: {@code ExceptionClass::new}.
@@ -101,7 +101,7 @@ public final class ConsumerHelpers {
 
     /**
      * This method creates a Function that ignores the input and always throws an exception provided by the given supplier
-     * {@code exSupplier}. Since the case match API works on Consumers, which do not declare checked excheptions,
+     * {@code exSupplier}. Since the case found API works on Consumers, which do not declare checked excheptions,
      * an the methods woking with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
      * The supplier can be created from parameterless constructors of exception classes by reference to the constructor
      * like this: {@code ExceptionClass::new}.

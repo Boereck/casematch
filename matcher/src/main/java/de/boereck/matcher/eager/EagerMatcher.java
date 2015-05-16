@@ -14,7 +14,7 @@ import de.boereck.matcher.ResultLongCaseMatcher;
  * and perform an action if a check succeeds or when no check matched.
  * <p>
  * All de.boereck.matcher implementations provided by methods of this class work eager, so all cases are evaluated one after the other
- * (in the order they are specified) directly when the case methods are called. After a match, no further checks provided in
+ * (in the order they are specified) directly when the case methods are called. After a found, no further checks provided in
  * from of predicates or functions are evaluated anymore. It is not needed to call a closing method on the provided
  * CaseMatches, if no result is required.
  * </p>

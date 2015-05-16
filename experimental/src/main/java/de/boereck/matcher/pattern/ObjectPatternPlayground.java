@@ -102,19 +102,19 @@ public class ObjectPatternPlayground {
 
     private static void matchPerson(Person person) {
         
-        final Var<String> momName = var();
-        final IntVar momAge = intVar();
-        final Var<Person> child = var();
-        
-        // capturing pattern
-        ObjectPattern<?> momWithGrownUpSon = pattern(Person.class)
-                .check(Person::getSex, eq(Sex.FEMALE))
-                .readI(momAge, Person::getAge)
-                .read(momName, Person::getName)
-                .exists(child, Person::getChildren, pattern(Person.class)
-                        .check(Person::getSex, eq(Sex.MALE))
-                        .checkI(Person::getAge, ge(18))
-                 );
+final Var<String> momName = var();
+final IntVar momAge = intVar();
+final Var<Person> child = var();
+
+// capturing pattern
+ObjectPattern<?> momWithGrownUpSon = pattern(Person.class)
+        .check(Person::getSex, eq(Sex.FEMALE))
+        .readI(momAge, Person::getAge)
+        .read(momName, Person::getName)
+        .exists(child, Person::getChildren, pattern(Person.class)
+                .check(Person::getSex, eq(Sex.MALE))
+                .checkI(Person::getAge, ge(18))
+         );
         
         // non capturing pattern. could be singleton
         ObjectPattern<?> singleFather = pattern(Person.class)

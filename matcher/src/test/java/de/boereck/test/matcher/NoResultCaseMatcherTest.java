@@ -52,7 +52,9 @@ public class NoResultCaseMatcherTest {
     public void testCaseOfClassFirstNoMatch() {
         Object o = "Boo";
         AtomicBoolean success = new AtomicBoolean(false);
-        match(o).caseOf(Class.class, s -> fail()).caseOf(String.class, s -> success.set(true));
+        match(o)
+                .caseOf(Class.class, c -> fail())
+                .caseOf(String.class, s -> success.set(true));
 
         assertTrue(success.get());
     }
@@ -61,7 +63,9 @@ public class NoResultCaseMatcherTest {
     public void testCaseOfClassSecondAlsoMatch() {
         Object o = "Boo";
         AtomicBoolean success = new AtomicBoolean(false);
-        match(o).caseOf(Object.class, s -> success.set(true)).caseOf(String.class, s -> fail());
+        match(o)
+                .caseOf(Object.class, ob -> success.set(true))
+                .caseOf(String.class, s -> fail());
 
         assertTrue(success.get());
     }
@@ -71,8 +75,8 @@ public class NoResultCaseMatcherTest {
         Object o = "Boo";
         AtomicBoolean success = new AtomicBoolean(false);
         match(o)
-                .caseOf(Object.class, s -> success.set(true))
-                .caseOf(Class.class, s -> fail());
+                .caseOf(Object.class, ob -> success.set(true))
+                .caseOf(Class.class, c -> fail());
 
         assertTrue(success.get());
     }
@@ -81,7 +85,9 @@ public class NoResultCaseMatcherTest {
     public void testCaseOfClassNoMatch() {
         Object o = "Boo";
         AtomicBoolean success = new AtomicBoolean(false);
-        match(o).caseOf(Boolean.class, b -> fail()).caseOf(Class.class, c -> fail());
+        match(o)
+                .caseOf(Boolean.class, b -> fail())
+                .caseOf(Class.class, c -> fail());
 
         assertFalse(success.get());
     }
