@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" defaultCharsetForPropertiesFiles="$file.encoding$">
+    <file url="file://$PROJECT_DIR$/matcher/src/main/java/de/boereck/matcher/function/curry/CurryableBiFunction.java" charset="$file.encoding$" />
+    <file url="file://$PROJECT_DIR$/matcher/src/main/java/de/boereck/matcher/function/curry/CurryableFunction.java" charset="$file.encoding$" />
+    <file url="file://$PROJECT_DIR$/matcher/src/main/java/de/boereck/matcher/helpers/CollectionMatchHelpers.java" charset="$file.encoding$" />
+    <file url="file://$PROJECT_DIR$/matcher/src/test/java/de/boereck/test/matcher/example/MatchByClassExample.java" charset="$file.encoding$" />
+    <file url="PROJECT" charset="$file.encoding$" />
+  </component>
 </project>

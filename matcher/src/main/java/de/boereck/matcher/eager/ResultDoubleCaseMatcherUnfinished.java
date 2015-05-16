@@ -19,7 +19,7 @@ import de.boereck.matcher.ResultDoubleCaseMatcher;
 /**
  * Eager implementation of {@link ResultDoubleCaseMatcher}. To instantiate use static method
  * {@link EagerMatcher#resultMatch(double)}. This class holds the double value that is about to be checked for cases. It will
- * evaluate predicates as soon as case methods are called (and in the order they were called). When a case does not match it
+ * evaluate predicates as soon as case methods are called (and in the order they were called). When a case does not found it
  * will return itself, when case matches {@link NoResultDoubleCaseMatcherFinished} will be returned. This will not evaluate
  * further predicate on cases, since the matching case was already found.
  *

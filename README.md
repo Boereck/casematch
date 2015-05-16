@@ -80,7 +80,6 @@ TypeCheck
 import static de.boereck.matcher.eager.EagerMatcher.*;
 import static de.boereck.matcher.helpers.StringMatchHelpers.*;
 import static de.boereck.matcher.helpers.MatchHelpers.*;
-import static de.boereck.matcher.helpers.CollectionMatchHelpers.*;
 import static de.boereck.matcher.helpers.ConsumerHelpers.*;
 
 import java.util.Arrays;
@@ -89,17 +88,21 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) {
-        List<?> list = Arrays.asList("Foo", "", new StringBuilder("Bar"));
+        List<?> list = Arrays.asList(null, "Foo", "", new StringBuilder("Bar"));
         print(list);
         
     }
     
+    private static final Predicate<Object> isEmptyString = isString.andTest(strIsEmpty);
+    private static final Consumer<Object> toStringPrint = toString.thenDo(Test::print);
+
     public static void print(Object o) {
         match(o)
-        .caseOf(isNull.or(isString.andTest(strIsEmpty)), ignore)
-        .caseOf(isString, sysout)
-        .caseObj(castToCollection, c -> c.forEach(Test::print))
-        .otherwise(toString.thenDo(Test::print));
+                .caseOf(isNull, ignore)
+                .caseOf(isEmptyString, ignore)
+                .caseOf(isString, sysout)
+                .caseOf(Collection.class, c -> c.forEach(Test::print))
+                .otherwise(toStringPrint);
     }
 
 }

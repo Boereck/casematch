@@ -19,7 +19,7 @@ import de.boereck.matcher.NoResultIntCaseMatcher;
 /**
  * Eager implementation of {@link NoResultIntCaseMatcher}. To instantiate use static method {@link EagerMatcher#match(int)}.
  * This class holds the int value that is about to be checked for cases. It will evaluate predicates as soon as case methods are
- * called (and in the order they were called). When a case does not match it will return itself, when case matches
+ * called (and in the order they were called). When a case does not found it will return itself, when case matches
  * {@link NoResultIntCaseMatcherFinished} will be returned. This will not evaluate further predicate on cases, since the
  * matching case was already found.
  *

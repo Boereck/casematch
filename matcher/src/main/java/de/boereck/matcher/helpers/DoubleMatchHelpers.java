@@ -7,7 +7,7 @@ import java.util.function.DoubleSupplier;
 import de.boereck.matcher.function.predicate.AdvDoublePredicate;
 
 /**
- * This class provides static methods and fields that may help with defining consumers of cases in the match case library,
+ * This class provides static methods and fields that may help with defining consumers of cases in the found case library,
  * helping defining matches for double values.<br/>
  * This class is not intended to be instantiated or sub-classed.
  *

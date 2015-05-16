@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 /**
  * <p>
- * This interface is used to define cases that can be used to match a given double value and define associated actions that are
+ * This interface is used to define cases that can be used to found a given double value and define associated actions that are
  * executed when a case matches for the given value. The actions and therefore the whole matching will provide no result
  * value.<br>
  * The double value to be checked has to be provided during creation of the instance. Only the action of one of the given cases
@@ -25,7 +25,7 @@ import java.util.function.Supplier;
  * <p>
  * The case de.boereck.matcher interface does <em>not</em> give a guarantee if the cases are checked in the order they are specified. It
  * is also not guaranteed that remaining cases are evaluated when a matching case was found. Implementations may even execute
- * the match checks and actions asynchronously. This has to be clarified by the factory method providing the instance or by
+ * the found checks and actions asynchronously. This has to be clarified by the factory method providing the instance or by
  * sub-types providing a stricter API.
  * </p>
  * <p>
@@ -49,7 +49,7 @@ public interface NoResultDoubleCaseMatcher {
      * Defines a case that checks if the given predicate returns true when it is provided with the input value. If the case
      * is determined to be the matching case, the provided consumer method will be called with the input value.
      *
-     * @param p        Checking predicate that defines if the case is a match, when provided with.
+     * @param p        Checking predicate that defines if the case is a found, when provided with.
      * @param consumer Function that will be called with the input object if the case is determined to be the matching one.
      * @return instance of OfNoResultDoubleCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
@@ -81,7 +81,7 @@ public interface NoResultDoubleCaseMatcher {
      * runtime cost of the check is little this method, however, can produce more readable code.
      * </p>
      *
-     * @param test     boolean value that determines if this case is a match and if the consumer should be invoked.
+     * @param test     boolean value that determines if this case is a found and if the consumer should be invoked.
      * @param consumer will be invoked with the object to be matched if the test parameter is true.
      * @return instance of NoResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
@@ -93,7 +93,7 @@ public interface NoResultDoubleCaseMatcher {
      * value. If the case is determined to be the matching case, the provided consumer function will be called with the the
      * value that is wrapped in the optional returned by function {@code p}.
      *
-     * @param p        function that returns an optional that indicates if the case is a match, when the optional is not empty.
+     * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
      * @param consumer will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
      *                 matching case. The consumer will be called with the object wrapped in the optional object.
      * @return instance of NoResultDoubleCaseMatcher (which might the same as this object) to define further cases.
@@ -106,7 +106,7 @@ public interface NoResultDoubleCaseMatcher {
      * input value. If the case is determined to be the matching case, the provided consumer function will be called with the
      * the double value that is wrapped in the optional returned by function {@code p}.
      *
-     * @param p        function that returns an optional that indicates if the case is a match, when the optional is not empty.
+     * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
      * @param consumer will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
      *                 matching case. The consumer will be called with the value wrapped in the OptionalInt object.
      * @return instance of NoResultDoubleCaseMatcher (which might the same as this object) to define further cases.
@@ -119,7 +119,7 @@ public interface NoResultDoubleCaseMatcher {
      * input value. If the case is determined to be the matching case, the provided consumer function will be called with the
      * the long value that is wrapped in the optional returned by function {@code p}.
      *
-     * @param p        function that returns an optional that indicates if the case is a match, when the optional is not empty.
+     * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
      * @param consumer will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
      *                 matching case. The consumer will be called with the value wrapped in the OptionaLong object.
      * @return instance of NoResultDoubleCaseMatcher (which might the same as this object) to define further cases.
@@ -132,7 +132,7 @@ public interface NoResultDoubleCaseMatcher {
      * input value. If the case is determined to be the matching case, the provided consumer function will be called with the
      * the double value that is wrapped in the optional returned by function {@code p}.
      *
-     * @param p        function that returns an optional that indicates if the case is a match, when the optional is not empty.
+     * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
      * @param consumer will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
      *                 matching case. The consumer will be called with the value wrapped in the OptionaDouble object.
      * @return instance of NoResultDoubleCaseMatcher (which might the same as this object) to define further cases.
@@ -143,7 +143,7 @@ public interface NoResultDoubleCaseMatcher {
     /**
      * The given consumer will be called if all cases were checked and none of them matched. This is a closing method, some
      * implementations of the interface may require an closing method to be called after a sequence of case definitions. The
-     * consumer will be called with the input value of the case match.
+     * consumer will be called with the input value of the case found.
      *
      * @param consumer will be called with the input object if there was no matching case
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
@@ -151,9 +151,9 @@ public interface NoResultDoubleCaseMatcher {
     public abstract void otherwise(DoubleConsumer consumer) throws NullPointerException;
 
     /**
-     * If all cases were checked and there was no match so far, the given supplier will be called and the given throwable
+     * If all cases were checked and there was no found so far, the given supplier will be called and the given throwable
      * will be thrown. This is a closing method, some implementations of the interface may require an closing method to be
-     * called after a sequence of case definitions. The consumer will be called with the input object of the case match.
+     * called after a sequence of case definitions. The consumer will be called with the input object of the case found.
      *
      * @param exSupplier supplier of the exception to be thrown. For exceptions with parameterless constructors a method reference
      *                   can be used. E.g. {@code MyException::new}.

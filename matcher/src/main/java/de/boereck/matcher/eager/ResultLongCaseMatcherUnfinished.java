@@ -19,7 +19,7 @@ import de.boereck.matcher.ResultLongCaseMatcher;
 /**
  * Eager implementation of {@link ResultLongCaseMatcher}. To instantiate use static method
  * {@link EagerMatcher#resultMatch(long)}. This class holds the long value that is about to be checked for cases. It will
- * evaluate predicates as soon as case methods are called (and in the order they were called). When a case does not match it
+ * evaluate predicates as soon as case methods are called (and in the order they were called). When a case does not found it
  * will return itself, when case matches {@link NoResultLongCaseMatcherFinished} will be returned. This will not evaluate
  * further predicate on cases, since the matching case was already found.
  *

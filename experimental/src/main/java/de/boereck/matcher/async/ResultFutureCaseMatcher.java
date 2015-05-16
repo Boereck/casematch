@@ -82,6 +82,12 @@ public interface ResultFutureCaseMatcher<I, O> extends ResultCaseMatcher<I, O> {
 
     CompletableFuture<Optional<O>> resultAsync();
 
+    CompletableFuture<O> orElseAsync(O alternative);
+
+    CompletableFuture<O> orElseAsync(Supplier<O> elseSupply);
+
+    <X extends Throwable> CompletableFuture<O> otherwiseThrowAsync(Supplier<X> exSupplier);
+
     /**
      * Result will contain {@link java.util.concurrent.TimeoutException} and runnable will be executed.
      * <p>
@@ -107,7 +113,7 @@ public interface ResultFutureCaseMatcher<I, O> extends ResultCaseMatcher<I, O> {
      * 
      * @param time
      * @param unit
-     * @param onTimeOutSupply
+     * @param onTimeOutException
      * @return
      */
     <X extends Throwable> CompletableFuture<O> caseTimeoutException(long time, TimeUnit unit, Supplier<X> onTimeOutException);
