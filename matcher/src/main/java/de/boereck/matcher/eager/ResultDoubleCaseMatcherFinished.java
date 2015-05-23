@@ -123,6 +123,20 @@ final class ResultDoubleCaseMatcherFinished<O> implements ResultDoubleCaseMatche
      * {@inheritDoc}
      */
     @Override
+    public void then(Consumer<? super O> onResult, Runnable onAbsent) throws NullPointerException {
+        Objects.requireNonNull(onResult);
+        Objects.requireNonNull(onAbsent);
+        if(result.isPresent()) {
+            onResult.accept(result.get());
+        } else {
+            onAbsent.run();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public O otherwise(O o) {
         // we do have a result. if it is null, return null
         return result.orElse(null);

@@ -204,6 +204,15 @@ public interface ResultCaseMatcher<I, O> {
     public abstract void ifResult(Consumer<? super O> consumer) throws NullPointerException;
 
     /**
+     * If there was a case found and the result of the found is not {@code null} the given callback {@code onResult} is called with
+     * the result value. If no result was found or the result is {@code null}, the callback {@code onAbsent} is called.
+     * @param onResult will be called with the result of the case found if the result was not {@code null}.
+     * @param onAbsent will be called if no case matched or the match returned {@code null}.
+     * @throws NullPointerException  might be thrown if parameter {@code onResult} or {@code onAbsent} is {@code null}.
+     */
+    public abstract void then(Consumer<? super O> onResult, Runnable onAbsent) throws NullPointerException;
+
+    /**
      * If there was no prior found, the method will return the provided value. Attention: This method will return
      * {@code null} if the result of the matching caseOf was null! The given
      *

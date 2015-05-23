@@ -122,6 +122,13 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
         return (I i) -> apply(i).filter(after);
     }
 
+    @SuppressWarnings("unchecked") // we know that Optional can only contain instance of R or be empty.
+    default <R> OptionalMapper<I, R> filter(Class<R> clazz) {
+        Objects.requireNonNull(clazz);
+        return (I i) -> (Optional<R>) apply(i).filter(o -> clazz.isInstance(o));
+
+    }
+
     default Predicate<I> hasResult() {
         return i -> this.apply(i).isPresent();
     }

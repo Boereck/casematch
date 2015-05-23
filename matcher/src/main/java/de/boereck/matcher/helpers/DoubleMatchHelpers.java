@@ -50,28 +50,53 @@ public class DoubleMatchHelpers {
     public static final AdvDoublePredicate notNaN = isNaN.negate();
 
     /**
-     * Returns a predicate checking if an input double value is equal to the given value
-     *
-     * @param val
-     * @param eps
-     * @return
+     * Returns a predicate checking if an input double value is equal to the given value {@code val}.
+     * Since calculations with double values have a limited precision, the check for equality
+     * should be done by checking if the two values are smaller than a given difference. In this
+     * case it is checked if the difference between {@code val} and an input value is smaller than
+     * {@code eps}.
+     * @param val value that input values will be compared with.
+     * @param eps epsilon value by which the two compared values may differ and still be
+     *            considered equal.
+     * @return function checking if an input double value is equal to value {@code val} (by checking
+     *         if the difference is smaller than {@code eps}).
      */
     public static AdvDoublePredicate eq(double val, double eps) {
         return d -> Math.abs(d - val) < eps;
     }
 
+    /**
+     * Returns a predicate checking if an input double value is lower than the given value {@code compareTo}.
+     * @param compareTo value that input values will be compared with.
+     * @return function checking if an input double value is lower than the given value {@code compareTo}.
+     */
     public static AdvDoublePredicate lt(double compareTo) {
         return d -> d < compareTo;
     }
 
+    /**
+     * Returns a predicate checking if an input double value is lower than the value provided by {@code compareTo}.
+     * @param compareTo supplier, that's provided value that will be compared with the input value.
+     * @return function checking if an input double value is lower than the value provided by supplier {@code compareTo}.
+     */
     public static AdvDoublePredicate lt(DoubleSupplier compareTo) {
         return d -> d < compareTo.getAsDouble();
     }
 
+    /**
+     * Returns a predicate checking if an input double value is greater than the given value {@code compareTo}.
+     * @param compareTo value that input values will be compared with.
+     * @return function checking if an input double value is greater than the given value {@code compareTo}.
+     */
     public static AdvDoublePredicate gt(double compareTo) {
         return d -> d > compareTo;
     }
 
+    /**
+     * Returns a predicate checking if an input double value is greater than the value provided by {@code compareTo}.
+     * @param compareTo supplier, that's provided value that will be compared with the input value.
+     * @return function checking if an input double value is greater than the value provided by supplier {@code compareTo}.
+     */
     public static AdvDoublePredicate gt(DoubleSupplier compareTo) {
         return d -> d > compareTo.getAsDouble();
     }
@@ -87,7 +112,8 @@ public class DoubleMatchHelpers {
         return filterNaN.apply(Math.sqrt(d));
     }
 
-    public static DoubleFunction<OptionalDouble> validSqrt() {
-        return DoubleMatchHelpers::validSqrt;
-    }
+    /**
+     * Reference to {@link DoubleMatchHelpers#validSqrt(double)}.
+     */
+    public static final DoubleFunction<OptionalDouble> validSqrt = DoubleMatchHelpers::validSqrt;
 }

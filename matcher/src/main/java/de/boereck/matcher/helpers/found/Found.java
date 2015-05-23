@@ -30,6 +30,7 @@ public abstract class Found {
      *
      * @param count must be > 0
      * @return
+     * @throws IllegalArgumentException
      */
     public static FoundSome some(long count) {
         if(count <= 0) {
@@ -42,6 +43,7 @@ public abstract class Found {
      *
      * @param count must be > 0
      * @return
+     * @throws IllegalArgumentException
      */
     public static FoundAll all(long count) {
         if(count <= 0) {
@@ -50,8 +52,19 @@ public abstract class Found {
         return new FoundAll(count);
     }
 
+    /**
+     * Enumeration of the find type. This type must match the
+     * class of the Found instance. E.g. if this method returns
+     * {@link FindType#some}, this instance must be instance of
+     * {@link FoundSome}.
+     * @return find type of this find.
+     */
     public abstract FindType type();
 
+    /**
+     * Returns the amount of found elements.
+     * @return amount of found elements.
+     */
     public abstract long count();
 
     // TODO public static Predicate<Found> atLeast(count n) ...

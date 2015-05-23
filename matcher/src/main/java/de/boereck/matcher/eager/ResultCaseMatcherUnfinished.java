@@ -218,6 +218,15 @@ final class ResultCaseMatcherUnfinished<I, O> implements ResultCaseMatcher<I, O>
      * {@inheritDoc}
      */
     @Override
+    public void then(Consumer<? super O> onResult, Runnable onAbsent) throws NullPointerException {
+        Objects.requireNonNull(onAbsent);
+        onAbsent.run();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public O otherwise(O o) {
         // we don't have a result, so we return the alternative value
         return o;

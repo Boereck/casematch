@@ -1,7 +1,8 @@
 package de.boereck.matcher.helpers.found;
 
 /**
- * Created by mbu on 03.05.2015.
+ *  This class represents a result of searching for elements, e.g. in a collection, where
+ *  all elements match a given criterion.
  */
 public final class FoundAll extends Found {
 

@@ -23,7 +23,7 @@ import de.boereck.matcher.ResultIntCaseMatcher;
  * will return itself, when case matches {@link NoResultIntCaseMatcherFinished} will be returned. This will not evaluate
  * further predicate on cases, since the matching case was already found.
  *
- * @param <I> type of the input object
+ * @param <O> type of the output object
  * @author Max Bureck
  */
 final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O> {
@@ -177,6 +177,15 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
     @Override
     public void ifResult(Consumer<? super O> consumer) {
         // No result present. Nothing to do
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void then(Consumer<? super O> onResult, Runnable onAbsent) throws NullPointerException {
+        Objects.requireNonNull(onAbsent);
+        onAbsent.run();
     }
 
     /**
