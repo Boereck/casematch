@@ -68,7 +68,7 @@ public interface ResultIntCaseMatcher<O> {
      * is determined to be the matching case, the provided consumer method will be called with the input value.
      *
      * @param p        Checking predicate that defines if the case is a found, when provided with the input value.
-     * @param consumer Function that will be called with the input value if the case is determined to be the matching one. The
+     * @param f Function that will be called with the input value if the case is determined to be the matching one. The
      *                 result of this function will be the result of the case found.
      * @return instance of ResultIntCaseMatcher (maybe same as same object as this) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
@@ -116,7 +116,7 @@ public interface ResultIntCaseMatcher<O> {
      * function will be the overall result of the case found.
      *
      * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
-     * @param consumer will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
+     * @param f will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
      *                 matching case. The consumer will be called with the value wrapped in the optional object. The result of the
      *                 function will be the result of the case found.
      * @return instance of ResultIntCaseMatcher (which might the same as this object) to define further cases.
@@ -131,7 +131,7 @@ public interface ResultIntCaseMatcher<O> {
      * will be the overall result of the case found.
      *
      * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
-     * @param consumer will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
+     * @param f will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
      *                 matching case. The consumer will be called with the value wrapped in the Optionalnt object. The result of
      *                 the function will be the result of the case found.
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
@@ -146,7 +146,7 @@ public interface ResultIntCaseMatcher<O> {
      * will be the overall result of the case found.
      *
      * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
-     * @param consumer will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
+     * @param f will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
      *                 matching case. The consumer will be called with the value wrapped in the OptionaLong object. The result of
      *                 the function will be the result of the case found.
      * @return instance of ResultIntCaseMatcher (which might the same as this object) to define further cases.
@@ -161,7 +161,7 @@ public interface ResultIntCaseMatcher<O> {
      * function will be the overall result of the case found.
      *
      * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
-     * @param consumer will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
+     * @param f will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
      *                 matching case. The consumer will be called with the value wrapped in the OptionaDouble object. The result
      *                 of the function will be the result of the case found.
      * @return instance of ResultIntCaseMatcher (which might the same as this object) to define further cases.
@@ -186,6 +186,15 @@ public interface ResultIntCaseMatcher<O> {
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
      */
     public abstract void ifResult(Consumer<? super O> consumer) throws NullPointerException;
+
+    /**
+     * If there was a case found and the result of the found is not {@code null} the given callback {@code onResult} is called with
+     * the result value. If no result was found or the result is {@code null}, the callback {@code onAbsent} is called.
+     * @param onResult will be called with the result of the case found if the result was not {@code null}.
+     * @param onAbsent will be called if no case matched or the match returned {@code null}.
+     * @throws NullPointerException  might be thrown if parameter {@code onResult} or {@code onAbsent} is {@code null}.
+     */
+    public abstract void then(Consumer<? super O> onResult, Runnable onAbsent) throws NullPointerException;
 
     /**
      * If there was no prior found, the method will return the provided value. Attention: This method will return

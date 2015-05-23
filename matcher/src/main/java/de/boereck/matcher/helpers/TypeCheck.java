@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import de.boereck.matcher.function.optionalmap.OptionalMapper;
 import de.boereck.matcher.function.predicate.AdvPredicate;
 
 /**
@@ -67,9 +68,40 @@ public interface TypeCheck<I, O> extends AdvPredicate<I> {
         return i -> !this.test(i) || otherTest.test((O) i);
     }
 
+    /**
+     * Returns a function that performs a map operation after this type check, if this type check
+     * succeeds in the first place. If the type checks succeeds the returned Optional will hold the
+     * result of the call of mapping function {@code f}, otherwise the function will return an empty
+     * Optional.
+     * @param f mapping function that will take the casted output of this TypeCheck and called with
+     *          the result of the cast. The result of this mapping function will be returned in an
+     *          Optional object from the function returned by this method.
+     * @param <R> target type of the mapping operation.
+     * @return function that performs a map operation after this type check, if this type check
+     * succeeds in the first place.
+     * @throws NullPointerException if mapping function {@code f} is {@code null}.
+     */
     @SuppressWarnings("unchecked") // we checked type before cast, so cast is safe
-    default <R> Function<I, Optional<R>> thenMap(Function<? super O, ? extends R> f) {
+    default <R> OptionalMapper<I, R> thenMap(Function<? super O, ? extends R> f) throws NullPointerException {
         Objects.requireNonNull(f);
         return i -> this.test(i) ? Optional.ofNullable(f.apply((O) i)) : Optional.empty();
+    }
+
+    /**
+     * Returns a function that performs a map operation after this type check, if this type check
+     * succeeds in the first place. If the type checks succeeds the returned Optional will be the
+     * result of the call of mapping function {@code f}, otherwise the function will return an empty
+     * Optional.
+     * @param f mapping function that will take the casted output of this TypeCheck and called with
+     *          the result of the cast. The result of this mapping function will be returned as the result
+     *          of the function returned by this method.
+     * @param <R> target type of the mapping operation.
+     * @return function that performs a map operation after this type check, if this type check
+     * succeeds in the first place.
+     * @throws NullPointerException if mapping function {@code f} is {@code null}.
+     */
+    default <R> OptionalMapper<I,R> thenFlatMap(Function<? super O, Optional<R>> f) throws NullPointerException {
+        Objects.requireNonNull(f);
+        return i -> this.test(i) ? f.apply((O) i) : Optional.empty();
     }
 }

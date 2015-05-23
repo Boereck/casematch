@@ -1,13 +1,13 @@
 package de.boereck.test.matcher.example;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static de.boereck.matcher.eager.EagerMatcher.*;
 import static de.boereck.matcher.helpers.ConsumerHelpers.*;
+import static de.boereck.matcher.helpers.CollectionMatchHelpers.*;
 import static de.boereck.matcher.helpers.MatchHelpers.*;
 import static de.boereck.matcher.helpers.StringMatchHelpers.*;
 
@@ -23,10 +23,9 @@ public class SimpleMatchExample {
 
     public static void print(Object o) {
         match(o)
-            .caseOf(isNull, ignore)
-            .caseOf(isEmptyString, ignore)
+            .caseOf(isNull.or(isEmptyString), ignore)
             .caseOf(isString, sysout)
-            .caseOf(Collection.class, c -> c.forEach(e -> print(e)))
+            .caseObj(castToCollection, c -> c.forEach(e -> print(e)))
             .otherwise(printObject);
 
     }

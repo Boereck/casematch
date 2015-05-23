@@ -39,5 +39,12 @@ public interface TestableFunction<I, O> extends Function<I, O> {
         };
     }
 
+    default <R> OptionalMapper<I, R> filter(Class<R> clazz) {
+        Objects.requireNonNull(clazz);
+        return i -> {
+            final O result = this.apply(i);
+            return (clazz.isInstance(result)) ? Optional.of((R)result) : Optional.empty();
+        };
+    }
 
 }

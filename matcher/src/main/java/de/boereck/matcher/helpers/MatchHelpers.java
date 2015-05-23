@@ -443,6 +443,7 @@ public final class MatchHelpers {
     /**
      * This predicate checks if an object is exactly of the given type. This is <em>not</em> an <code>instanceof</code>
      * check, since this would also return true if the object was of a subtype of the class in question.
+     *
      * @param clazz Class the predicate checks input objects are type of.
      * @return Predicate testing if an object is exactly of the given type.
      * @throws NullPointerException will be thrown if {@code clazz} is {@code null}.
@@ -479,7 +480,8 @@ public final class MatchHelpers {
      * Returns predicate that returns true if the input object is one of
      * the given objects {@code t} or {@code more}. The function will use
      * <em>referential</em> equality to check if the input is one of the
-     * give objects.
+     * give objects. Be aware that changes to the given elements {@code more}
+     * will have no effect on the returned predicate.
      * @param t one element predicate will check if input is equal to it
      * @param more further elements the predicate will check if element
      *             is one of them.

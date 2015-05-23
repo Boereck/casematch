@@ -2,6 +2,7 @@ package de.boereck.matcher.helpers;
 
 import de.boereck.matcher.function.predicate.AdvPredicate;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -40,7 +41,7 @@ public class ComparableMatchHelpers {
      */
     public static <T> AdvPredicate<Comparable<? super T>> greaterThan(T t) throws NullPointerException {
         Objects.requireNonNull(t);
-        return c -> c.compareTo(t) > -1;
+        return c -> c.compareTo(t) > 0;
     }
 
     /**
