@@ -73,8 +73,9 @@ public final class LongMatchHelpers {
      * @param more further elements the predicate will check if element
      *             is one of them.
      * @return predicate checking if the input long is either {@code el} or one of {@code more}.
+     * @throws NullPointerException will be thrown if {@code more} is {@code null}.
      */
-    public static AdvLongPredicate oneOf(long el, long... more) {
+    public static AdvLongPredicate oneOf(long el, long... more) throws NullPointerException {
         Objects.requireNonNull(more);
         // make defensive copy
         final long[] ts = Arrays.copyOf(more, more.length + 1);
@@ -139,7 +140,7 @@ public final class LongMatchHelpers {
      * {@code endIncluding}.
      * @throws IllegalArgumentException if {@code startIncluding > endIncluding}.
      */
-    public static AdvLongPredicate inClosedRange(long startIncluding, long endIncluding) {
+    public static AdvLongPredicate inClosedRange(long startIncluding, long endIncluding) throws IllegalArgumentException {
         if (startIncluding > endIncluding) {
             throw new IllegalArgumentException("startIncluding must be <= endIncluding");
         }

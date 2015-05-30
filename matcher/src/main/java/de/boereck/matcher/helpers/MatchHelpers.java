@@ -461,7 +461,7 @@ public final class MatchHelpers {
      * @return predicate checking input objects if they are instance of class {@code clazz}.
      * @throws NullPointerException will be thrown if {@code clazz} is {@code null}.
      */
-    public static <I, O> TypeCheck<I, O> instanceOf(Class<O> clazz) {
+    public static <I, O> TypeCheck<I, O> instanceOf(Class<O> clazz) throws NullPointerException {
         Objects.requireNonNull(clazz);
         return t -> t != null && clazz.isInstance(t);
     }
@@ -486,8 +486,9 @@ public final class MatchHelpers {
      * @param more further elements the predicate will check if element
      *             is one of them.
      * @return predicate checking if the input object is either {@code t} or one of {@code more}.
+     * @throws NullPointerException will be thrown if {@code more} is {@code null}.
      */
-    public static <T> AdvPredicate<T> oneOf(T t, T... more) {
+    public static <T> AdvPredicate<T> oneOf(T t, T... more) throws NullPointerException {
         Objects.requireNonNull(more);
         // make defensive copy
         final T[] ts = Arrays.copyOf(more, more.length + 1);

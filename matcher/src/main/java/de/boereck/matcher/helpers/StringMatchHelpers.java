@@ -98,14 +98,26 @@ public final class StringMatchHelpers {
      *              Must not be {@code null}.
      * @return predicate checking if tested strings are matching the given regular expression {@code regEx}
      * @throws NullPointerException thrown, if {@code regEx} is {@code null}.
+     * @throws PatternSyntaxException if expression syntax of {@code regEx} is invalid.
      */
-    public static AdvPredicate<String> matches(String regEx) throws NullPointerException {
+    public static AdvPredicate<String> matches(String regEx) throws NullPointerException, PatternSyntaxException {
         Objects.requireNonNull(regEx);
         final Pattern compiledPattern = Pattern.compile(regEx);
         return str -> compiledPattern.matcher(str).matches();
     }
 
-    public static OptionalMapper<String, String> matching(String regEx) {
+    /**
+     * Returns a function mapping from {@code String} to {@code Optional&lt;String&gt;}, based on the given
+     * regular expression {@code regEx}. The returned function will return an empty optional if the input string
+     * to the function does not match the given regular expression. If the regular expression does match, the
+     * returned optional will contain the input string.
+     * @param regEx regular expression that is being checked in the returned function. Must not be {@code null}.
+     * @return function mapping from {@code String} to {@code Optional&lt;String&gt;}, based on the given
+     *         regular expression {@code regEx}.
+     * @throws NullPointerException thrown, if {@code regEx} is {@code null}.
+     * @throws PatternSyntaxException if expression syntax of {@code regEx} is invalid.
+     */
+    public static OptionalMapper<String, String> matching(String regEx) throws NullPointerException, PatternSyntaxException  {
         Objects.requireNonNull(regEx);
         final Pattern compiledPattern = Pattern.compile(regEx);
         return s -> {
@@ -115,7 +127,19 @@ public final class StringMatchHelpers {
         // s -> System.out.println(s)
     }
 
-    public static OptionalMapper<String, Matcher> matcher(String regEx) throws NullPointerException {
+    /**
+     * Returns a function mapping from {@code String} to {@code Optional&lt;Matcher&gt;}, based on the given
+     * regular expression {@code regEx}. The returned function will return an empty optional if the input string
+     * to the function does not match the given regular expression. If the regular expression does match, the
+     * returned optional will contain the Matcher that is the result of the input string matching against regular
+     * expression {@code regEx}.
+     * @param regEx regular expression that is being checked in the returned function. Must not be {@code null}.
+     * @return function mapping from {@code String} to {@code Optional&lt;Matcher&gt;}, based on the given
+     *         regular expression {@code regEx}.
+     * @throws NullPointerException thrown, if {@code regEx} is {@code null}.
+     * @throws PatternSyntaxException if expression syntax of {@code regEx} is invalid.
+     */
+    public static OptionalMapper<String, Matcher> matcher(String regEx) throws NullPointerException, PatternSyntaxException {
         Objects.requireNonNull(regEx);
         final Pattern compiledPattern = Pattern.compile(regEx);
         return s -> {
@@ -148,7 +172,7 @@ public final class StringMatchHelpers {
      * </p>
      * @param regEx the delimiting regular expression for splitting the input array. Must not be {@code null}.
      * @return function splitting an input string according to parameter {@code regEx}
-     * @throws PatternSyntaxException May be thrown if the expression's syntax is invalid
+     * @throws PatternSyntaxException May be thrown if {@code regEx}' syntax is invalid.
      * @throws NullPointerException thrown, if {@code regEx} is {@code null}.
      */
     public static OptionalMapper<String, String[]> split(String regEx) throws PatternSyntaxException, NullPointerException {
@@ -179,7 +203,7 @@ public final class StringMatchHelpers {
      * @throws PatternSyntaxException May be thrown if the expression's syntax is invalid
      * @throws NullPointerException thrown, if {@code regEx} is {@code null}.
      */
-    public static OptionalMapper<String, String[]> split(String regEx, int limit) throws NullPointerException {
+    public static OptionalMapper<String, String[]> split(String regEx, int limit) throws NullPointerException, PatternSyntaxException {
         // fast path if regEx is one char and not a special char
         Objects.requireNonNull(regEx);
         if (isSingleCharNotSpecial(regEx)) {
