@@ -71,8 +71,9 @@ public class ArrayMatchHelpers {
      * @param p   Predicate, every element from {@code arr} is checked with. Must not be {@code null}.
      * @param <T> Type of elements of {@code arr}.
      * @return Found instance, based on how many elements in {@code arr} pass predicate {@code p}.
+     * @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
-    public static <T> Found findCount(T[] arr, Predicate<? super T> p) {
+    public static <T> Found findCount(T[] arr, Predicate<? super T> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return $(arr).collect(CollectionMatchHelpers.findCollector(p));
     }
@@ -84,8 +85,9 @@ public class ArrayMatchHelpers {
      * @param <I> Type of elements in the input collection
      * @return function that counts how many elements of an input collection are tested positive with the given
      * predicate {@code p}. If the input collection is {@code null}, the returned count will be 0.
+     * @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
-    public static <I> TestableToLongFunction<I[]> countInArray(Predicate<? super I> p) {
+    public static <I> TestableToLongFunction<I[]> countInArray(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return arr -> arr == null ? 0 : $(arr).filter(p).count();
     }
@@ -99,7 +101,7 @@ public class ArrayMatchHelpers {
      * positive with the given predicate {@code p}.
      * @throws NullPointerException if {@code p} is {@code null}
      */
-    public static <I> TestableFunction<I[], Found> findCountInArray(Predicate<? super I> p) {
+    public static <I> TestableFunction<I[], Found> findCountInArray(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return c -> findCount(c, p);
     }
@@ -143,7 +145,7 @@ public class ArrayMatchHelpers {
      * @return Predicate that checks if an array is not {@code null} and contains an element matching the predicate {@code p}.
      * @throws NullPointerException if {@code p} is {@code null}
      */
-    public static <I> AdvPredicate<I[]> forAllInArray(Predicate<? super I> p) {
+    public static <I> AdvPredicate<I[]> forAllInArray(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return c -> c != null && $(c).allMatch(p);
     }

@@ -129,12 +129,14 @@ public final class IntMatchHelpers {
     /**
      * Returns predicate that returns true if the input int is one of
      * the given integers {@code el} or {@code more}.
-     * @param el one element predicate will check if input is equal to it
+     *
+     * @param el   one element predicate will check if input is equal to it
      * @param more further elements the predicate will check if element
      *             is one of them.
      * @return predicate checking if the input int is either {@code el} or one of {@code more}.
+     * @throws NullPointerException is thrown if {@code more} is {@code null}.
      */
-    public static AdvIntPredicate oneOf(int el, int... more) {
+    public static AdvIntPredicate oneOf(int el, int... more) throws NullPointerException {
         Objects.requireNonNull(more);
         // make defensive copy
         final int[] ts = Arrays.copyOf(more, more.length + 1);
@@ -143,7 +145,7 @@ public final class IntMatchHelpers {
         Arrays.sort(ts);
         // return predicate performing binary search on elements
         // it returns ture if element is in array, false if it does not.
-        return input -> Arrays.binarySearch(ts,input) >= 0;
+        return input -> Arrays.binarySearch(ts, input) >= 0;
     }
 
     /**
@@ -186,8 +188,9 @@ public final class IntMatchHelpers {
      * @param divisor is used in the returned predicate to check if a value is dividable by the
      *                value provided by {@code divisor} without leaving a rest. This parameter must not be {@code null}.
      * @return predicate checking if an input int value is not dividable by {@code divisor} (integer division leaves a rest).
+     * @throws NullPointerException will be thrown if {@code divisor} is {@code null}
      */
-    public static AdvIntPredicate dividableBy(IntSupplier divisor) {
+    public static AdvIntPredicate dividableBy(IntSupplier divisor) throws NullPointerException {
         Objects.requireNonNull(divisor);
         return i -> (i % divisor.getAsInt()) == 0;
     }
@@ -218,7 +221,7 @@ public final class IntMatchHelpers {
      * input int.
      * @throws NullPointerException will be thrown if {@code test} is {@code null}
      */
-    public static IntFunction<OptionalInt> selectInt(IntPredicate test) {
+    public static IntFunction<OptionalInt> selectInt(IntPredicate test) throws NullPointerException {
         Objects.requireNonNull(test);
         return i -> test.test(i) ? OptionalInt.of(i) : OptionalInt.empty();
     }
@@ -242,7 +245,7 @@ public final class IntMatchHelpers {
         Objects.requireNonNull(p);
         return (int i) -> {
             OptionalInt aResult = orig.apply(i);
-            if (aResult.isPresent()) {
+            if (aResult != null && aResult.isPresent()) {
                 final int val = aResult.getAsInt();
                 if (p.test(val)) {
                     return aResult;
@@ -256,21 +259,24 @@ public final class IntMatchHelpers {
     }
 
     /**
-     * Returns a function mapping from int to OptionalInt. This method will take the input int and use
-     * function {@code a} on this. If the resulting optional is empty, it will be returned. If the resulting
+     * Returns {@code f} function mapping from int to OptionalInt. The returned function will take the input int and use
+     * function {@code f} on this. If the resulting optional is empty, it will be returned. If the resulting
      * optional is not empty, operation {@code toApply} will be called in the int in the returned optional and the
      * result will be wrapped into an OptionalInt and returned.
      *
-     * @param a
-     * @param toApply
-     * @return
+     * @param f function, that will be composed with operator {@code toApply}. Must not be {@code null}.
+     * @param toApply operator that will be used on the output of function {@code f}, if the optional holds a result.
+     *                Must not be {@code null}.
+     * @return function combining function {@code f} with operation {@code toApply} on the result of {@code f}, if the
+     *         result is a non-empty {@code Optional}.
+     * @throws NullPointerException will be thrown if {@code f} or {@code toApply} is {@code null}
      */
-    public static IntFunction<OptionalInt> compose(IntFunction<OptionalInt> a, IntUnaryOperator toApply) {
-        Objects.requireNonNull(a);
+    public static IntFunction<OptionalInt> compose(IntFunction<OptionalInt> f, IntUnaryOperator toApply) throws NullPointerException {
+        Objects.requireNonNull(f);
         Objects.requireNonNull(toApply);
         return (int i) -> {
-            OptionalInt aResult = a.apply(i);
-            if (aResult.isPresent()) {
+            OptionalInt aResult = f.apply(i);
+            if (aResult != null && aResult.isPresent()) {
                 final int val = aResult.getAsInt();
                 return OptionalInt.of(toApply.applyAsInt(val));
             } else {

@@ -1,6 +1,4 @@
-/**
- * @author Max Bureck
- */
+
 /**
  * @author Max Bureck
  *

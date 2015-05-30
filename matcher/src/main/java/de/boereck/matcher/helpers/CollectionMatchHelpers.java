@@ -92,8 +92,9 @@ public class CollectionMatchHelpers {
      * @param p   Predicate, every element from {@code c} is checked with. Must not be {@code null}.
      * @param <T> Type of elements of {@code c}.
      * @return Found instance, based on how many elements in {@code c} pass predicate {@code p}.
+     * @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
-    public static <T> Found findCount(Collection<T> c, Predicate<? super T> p) {
+    public static <T> Found findCount(Collection<T> c, Predicate<? super T> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return $(c).collect(findCollector(p));
     }
@@ -191,8 +192,9 @@ public class CollectionMatchHelpers {
      * @param <I> Type of elements in the input collection
      * @return function that counts how many elements of an input collection are tested positive with the given
      * predicate {@code p}. If the input collection is {@code null}, the returned count will be 0.
+     * @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
-    public static <I> TestableToLongFunction<Collection<I>> count(Predicate<? super I> p) {
+    public static <I> TestableToLongFunction<Collection<I>> count(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return c -> c == null ? 0 : c.stream().filter(p).count();
     }
@@ -206,7 +208,7 @@ public class CollectionMatchHelpers {
      * positive with the given predicate {@code p}.
      * @throws NullPointerException if {@code p} is {@code null}
      */
-    public static <I> TestableFunction<Collection<I>, Found> findCount(Predicate<? super I> p) {
+    public static <I> TestableFunction<Collection<I>, Found> findCount(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return c -> findCount(c, p);
     }
@@ -235,7 +237,7 @@ public class CollectionMatchHelpers {
      * @return Predicate that checks if a collection is not {@code null} and contains an element matching the predicate {@code p}.
      * @throws NullPointerException if {@code p} is {@code null}
      */
-    public static <I> AdvPredicate<Collection<I>> exists(Predicate<? super I> p) {
+    public static <I> AdvPredicate<Collection<I>> exists(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return c -> c != null && c.stream().anyMatch(p);
     }
@@ -260,8 +262,9 @@ public class CollectionMatchHelpers {
      * @param <I> type of elements in input collection
      * @return function filtering element of input collection by predicate {@code p} returning an optional
      *  that holds the filtered elements, if such elements exist.
+     *  @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
-    public static <I> OptionalMapper<Collection<I>, List<I>> filterExists(Predicate<? super I> p) {
+    public static <I> OptionalMapper<Collection<I>, List<I>> filterExists(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return c -> c == null ? Optional.empty() : c.stream().filter(p).collect(toNonEmptyList());
     }
@@ -276,7 +279,7 @@ public class CollectionMatchHelpers {
      * @return Predicate that checks if a collection is not {@code null} and contains an element matching the predicate {@code p}.
      * @throws NullPointerException if {@code p} is {@code null}
      */
-    public static <I> AdvPredicate<Collection<I>> forAll(Predicate<? super I> p) {
+    public static <I> AdvPredicate<Collection<I>> forAll(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return c -> c != null && c.stream().allMatch(p);
     }
@@ -290,7 +293,7 @@ public class CollectionMatchHelpers {
      * @return Predicate that checks if a collection is not {@code null} and contains an element matching the predicate {@code p}.
      * @throws NullPointerException if {@code p} is {@code null}
      */
-    public static <I> AdvPredicate<Collection<I>> Ɐ(Predicate<? super I> p) {
+    public static <I> AdvPredicate<Collection<I>> Ɐ(Predicate<? super I> p) throws NullPointerException {
         return forAll(p);
     }
 

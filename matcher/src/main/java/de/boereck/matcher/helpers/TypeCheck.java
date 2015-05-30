@@ -39,7 +39,7 @@ public interface TypeCheck<I, O> extends AdvPredicate<I> {
      */
     @SuppressWarnings("unchecked")
     // we checked the type, so cast is safe
-    default TypeCheck<I, O> andTest(Predicate<O> otherTest) {
+    default TypeCheck<I, O> andTest(Predicate<O> otherTest) throws NullPointerException {
         Objects.requireNonNull(otherTest);
         return (t) -> test(t) && otherTest.test((O) t);
     }
@@ -63,7 +63,7 @@ public interface TypeCheck<I, O> extends AdvPredicate<I> {
      * {@code otherTest} predicate.
      */
     @SuppressWarnings("unchecked") // cast is only performed if type check was successful, so cast is safe
-    default AdvPredicate<I> impliesTest(Predicate<? super O> otherTest) {
+    default AdvPredicate<I> impliesTest(Predicate<? super O> otherTest) throws NullPointerException {
         Objects.requireNonNull(otherTest);
         return i -> !this.test(i) || otherTest.test((O) i);
     }

@@ -13,6 +13,11 @@ public interface AdvPredicate<I> extends Predicate<I> {
         return i -> this.test(i) ? Optional.ofNullable(f.apply(i)) : Optional.empty();
     }
 
+    default <O> Function<I, Optional<O>> thenFlat(Function<? super I, Optional<O>> f) {
+        Objects.requireNonNull(f);
+        return i -> this.test(i) ? f.apply(i) : Optional.empty();
+    }
+
     default AdvPredicate<I> xor(Predicate<? super I> that) {
         Objects.requireNonNull(that);
         return i -> this.test(i) ^ that.test(i);
