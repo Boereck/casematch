@@ -9,6 +9,8 @@ import java.util.function.Predicate;
 /**
  * This class provides static methods that can be used in defining matches for case matches on {@link Comparable}
  * instances. This class is not intended to be instantiated or sub-classed.
+ *
+ * @author Max Bureck
  */
 public class ComparableMatchHelpers {
 

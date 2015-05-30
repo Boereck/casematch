@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
 
-    default <V> OptionalMapper<I, V> map(IntFunction<? extends V> after) {
+    default <V> OptionalMapper<I, V> map(IntFunction<? extends V> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
@@ -29,7 +29,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         };
     }
 
-    default OptionalIntMapper<I> mapI(IntUnaryOperator after) {
+    default OptionalIntMapper<I> mapI(IntUnaryOperator after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
@@ -42,7 +42,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         };
     }
 
-    default OptionalLongMapper<I> mapL(IntToLongFunction after) {
+    default OptionalLongMapper<I> mapL(IntToLongFunction after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
@@ -56,7 +56,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
     }
 
 
-    default OptionalDoubleMapper<I> mapD(IntToDoubleFunction after) {
+    default OptionalDoubleMapper<I> mapD(IntToDoubleFunction after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
@@ -69,7 +69,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         };
     }
 
-    default <V> OptionalMapper<I, V> flatMap(IntFunction<Optional<V>> after) {
+    default <V> OptionalMapper<I, V> flatMap(IntFunction<Optional<V>> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
@@ -81,7 +81,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         };
     }
 
-    default OptionalIntMapper<I> flatMapI(IntFunction<OptionalInt> after) {
+    default OptionalIntMapper<I> flatMapI(IntFunction<OptionalInt> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
@@ -93,7 +93,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         };
     }
 
-    default OptionalLongMapper<I> flatMapL(IntFunction<OptionalLong> after) {
+    default OptionalLongMapper<I> flatMapL(IntFunction<OptionalLong> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
@@ -105,7 +105,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         };
     }
 
-    default OptionalDoubleMapper<I> flatMapD(IntFunction<OptionalDouble> after) {
+    default OptionalDoubleMapper<I> flatMapD(IntFunction<OptionalDouble> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
@@ -117,7 +117,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         };
     }
 
-    default OptionalIntMapper<I> filter(IntPredicate after) {
+    default OptionalIntMapper<I> filter(IntPredicate after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);

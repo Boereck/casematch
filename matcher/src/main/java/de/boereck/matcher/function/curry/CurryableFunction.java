@@ -15,7 +15,7 @@ public interface CurryableFunction<I,O> extends TestableFunction<I,O> {
         return () -> apply(i);
     }
 
-    default Supplier<O> _1(Supplier<I> inputSupplier) {
+    default Supplier<O> _1(Supplier<I> inputSupplier) throws NullPointerException {
         Objects.requireNonNull(inputSupplier);
         return () -> apply(inputSupplier.get());
     }

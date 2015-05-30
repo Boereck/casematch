@@ -32,6 +32,13 @@ public class ArrayMatchHelpers {
 
     public static final Predicate<Object> isArray = o -> (o == null) ? false : o.getClass().isArray();
 
+    /**
+     * Shortcut for {@link Arrays#stream(Object[])}. This method will return an empty stream
+     * if parameter {@code arr} is {@code null}.
+     * @param arr Array a stream is created from.
+     * @param <T> Type of array elements
+     * @return Stream created from input array.
+     */
     public static <T> Stream<T> $(T[] arr) {
         if(arr == null) {
             return Stream.empty();
@@ -39,6 +46,12 @@ public class ArrayMatchHelpers {
         return Arrays.stream(arr);
     }
 
+    /**
+     * Shortcut for {@link Arrays#stream(int[])}. This method will return an empty stream
+     * if parameter {@code arr} is {@code null}.
+     * @param arr Array a stream is created from.
+     * @return Stream created from input array.
+     */
     public static IntStream $(int[] arr) {
         if(arr == null) {
             return IntStream.empty();
@@ -46,6 +59,12 @@ public class ArrayMatchHelpers {
         return Arrays.stream(arr);
     }
 
+    /**
+     * Shortcut for {@link Arrays#stream(long[])}. This method will return an empty stream
+     * if parameter {@code arr} is {@code null}.
+     * @param arr Array a stream is created from.
+     * @return Stream created from input array.
+     */
     public static LongStream $(long[] arr) {
         if(arr == null) {
             return LongStream.empty();
@@ -53,6 +72,12 @@ public class ArrayMatchHelpers {
         return Arrays.stream(arr);
     }
 
+    /**
+     * Shortcut for {@link Arrays#stream(double[])}. This method will return an empty stream
+     * if parameter {@code arr} is {@code null}.
+     * @param arr Array a stream is created from.
+     * @return Stream created from input array.
+     */
     public static DoubleStream $(double[] arr) {
         if(arr == null) {
             return DoubleStream.empty();

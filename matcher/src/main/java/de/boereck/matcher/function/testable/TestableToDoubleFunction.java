@@ -10,7 +10,7 @@ import java.util.function.ToDoubleFunction;
 import de.boereck.matcher.function.optionalmap.OptionalDoubleMapper;
 import de.boereck.matcher.function.predicate.AdvPredicate;
 
-
+@FunctionalInterface
 public interface TestableToDoubleFunction<I> extends ToDoubleFunction<I> {
 
     default AdvPredicate<I> thenTest(DoublePredicate test) {

@@ -10,7 +10,7 @@ import java.util.function.ToIntFunction;
 import de.boereck.matcher.function.optionalmap.OptionalIntMapper;
 import de.boereck.matcher.function.predicate.AdvPredicate;
 
-
+@FunctionalInterface
 public interface TestableToIntFunction<I> extends ToIntFunction<I> {
 
     default AdvPredicate<I> thenTest(IntPredicate test) {

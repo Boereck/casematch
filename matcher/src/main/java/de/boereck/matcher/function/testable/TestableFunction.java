@@ -16,22 +16,22 @@ public interface TestableFunction<I, O> extends Function<I, O> {
         return i -> Optional.ofNullable(apply(i));
     }
 
-    default <V> TestableFunction<I, V> andThen(Function<? super O, ? extends V> after) {
+    default <V> TestableFunction<I, V> andThen(Function<? super O, ? extends V> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> after.apply(apply(i));
     }
 
-    default AdvPredicate<I> thenTest(Predicate<? super O> test) {
+    default AdvPredicate<I> thenTest(Predicate<? super O> test) throws NullPointerException {
         Objects.requireNonNull(test);
         return i -> test.test(apply(i));
     }
 
-    default Consumer<I> thenDo(Consumer<? super O> consumer) {
+    default Consumer<I> thenDo(Consumer<? super O> consumer) throws NullPointerException {
         Objects.requireNonNull(consumer);
         return i -> consumer.accept(this.apply(i));
     }
 
-    default OptionalMapper<I, O> filter(Predicate<? super O> test) {
+    default OptionalMapper<I, O> filter(Predicate<? super O> test) throws NullPointerException {
         Objects.requireNonNull(test);
         return i -> {
             final O result = this.apply(i);
@@ -39,7 +39,7 @@ public interface TestableFunction<I, O> extends Function<I, O> {
         };
     }
 
-    default <R> OptionalMapper<I, R> filter(Class<R> clazz) {
+    default <R> OptionalMapper<I, R> filter(Class<R> clazz) throws NullPointerException {
         Objects.requireNonNull(clazz);
         return i -> {
             final O result = this.apply(i);
