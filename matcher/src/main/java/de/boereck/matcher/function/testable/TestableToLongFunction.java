@@ -10,7 +10,7 @@ import java.util.function.ToLongFunction;
 import de.boereck.matcher.function.optionalmap.OptionalLongMapper;
 import de.boereck.matcher.function.predicate.AdvPredicate;
 
-
+@FunctionalInterface
 public interface TestableToLongFunction<I> extends ToLongFunction<I> {
 
     default AdvPredicate<I> thenTest(LongPredicate test) {

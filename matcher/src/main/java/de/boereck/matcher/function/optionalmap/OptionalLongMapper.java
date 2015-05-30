@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
 
-    default <V> OptionalMapper<I, V> map(LongFunction<? extends V> after) {
+    default <V> OptionalMapper<I, V> map(LongFunction<? extends V> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalLong thisResult = apply(i);
@@ -29,7 +29,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
-    default OptionalIntMapper<I> mapI(LongToIntFunction after) {
+    default OptionalIntMapper<I> mapI(LongToIntFunction after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalLong thisResult = apply(i);
@@ -42,7 +42,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
-    default OptionalLongMapper<I> mapL(LongUnaryOperator after) {
+    default OptionalLongMapper<I> mapL(LongUnaryOperator after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalLong thisResult = apply(i);
@@ -55,7 +55,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
-    default OptionalDoubleMapper<I> mapD(LongToDoubleFunction after) {
+    default OptionalDoubleMapper<I> mapD(LongToDoubleFunction after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalLong thisResult = apply(i);
@@ -68,7 +68,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
-    default <V> OptionalMapper<I, V> flatMap(LongFunction<Optional<V>> after) {
+    default <V> OptionalMapper<I, V> flatMap(LongFunction<Optional<V>> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalLong thisResult = apply(i);
@@ -80,7 +80,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
-    default OptionalIntMapper<I> flatMapI(LongFunction<OptionalInt> after) {
+    default OptionalIntMapper<I> flatMapI(LongFunction<OptionalInt> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalLong thisResult = apply(i);
@@ -92,7 +92,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
-    default OptionalLongMapper<I> flatMapL(LongFunction<OptionalLong> after) {
+    default OptionalLongMapper<I> flatMapL(LongFunction<OptionalLong> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalLong thisResult = apply(i);
@@ -104,7 +104,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
-    default OptionalDoubleMapper<I> flatMapD(LongFunction<OptionalDouble> after) {
+    default OptionalDoubleMapper<I> flatMapD(LongFunction<OptionalDouble> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalLong thisResult = apply(i);
@@ -116,7 +116,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
-    default OptionalLongMapper<I> filter(LongPredicate after) {
+    default OptionalLongMapper<I> filter(LongPredicate after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalLong thisResult = apply(i);

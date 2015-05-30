@@ -13,6 +13,8 @@ import java.util.function.LongSupplier;
  * This class provides static methods and final fields holding references to methods that can be
  * used as predicates in case definitions of matchers for long values. This class is not intended to be
  * instantiated or sub-classed.
+ *
+ * @author Max Bureck
  */
 public final class LongMatchHelpers {
 

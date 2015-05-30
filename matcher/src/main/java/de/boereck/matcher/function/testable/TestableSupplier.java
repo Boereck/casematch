@@ -10,9 +10,10 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+@FunctionalInterface
 public interface TestableSupplier<O> extends Supplier<O> {
 
-    default BooleanSupplier thenTest(Predicate<O> test) {
+    default BooleanSupplier thenTest(Predicate<O> test) throws NullPointerException {
         Objects.requireNonNull(test);
         return () -> test.test(get());
     }
@@ -21,12 +22,12 @@ public interface TestableSupplier<O> extends Supplier<O> {
         return () -> Optional.ofNullable(get());
     }
 
-    default Runnable thenDo(Consumer<O> consumer) {
+    default Runnable thenDo(Consumer<O> consumer) throws NullPointerException {
         Objects.requireNonNull(consumer);
         return () -> consumer.accept(get());
     }
 
-    default TestableSupplier<Optional<O>> filter(Predicate<O> test) {
+    default TestableSupplier<Optional<O>> filter(Predicate<O> test) throws NullPointerException {
         Objects.requireNonNull(test);
         return () -> {
             final O result = get();

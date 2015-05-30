@@ -16,11 +16,11 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
 
-    default <V> OptionalMapper<I, V> map(DoubleFunction<? extends V> after) {
+    default <V> OptionalMapper<I, V> map(DoubleFunction<? extends V> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalDouble thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 final V afterResult = after.apply(thisResult.getAsDouble());
                 return Optional.ofNullable(afterResult);
             } else {
@@ -29,11 +29,11 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
         };
     }
 
-    default OptionalIntMapper<I> mapI(DoubleToIntFunction after) {
+    default OptionalIntMapper<I> mapI(DoubleToIntFunction after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalDouble thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 final int afterResult = after.applyAsInt(thisResult.getAsDouble());
                 return OptionalInt.of(afterResult);
             } else {
@@ -42,11 +42,11 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
         };
     }
 
-    default OptionalLongMapper<I> mapL(DoubleToLongFunction after) {
+    default OptionalLongMapper<I> mapL(DoubleToLongFunction after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalDouble thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 final long afterResult = after.applyAsLong(thisResult.getAsDouble());
                 return OptionalLong.of(afterResult);
             } else {
@@ -55,11 +55,11 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
         };
     }
 
-    default OptionalDoubleMapper<I> mapD(DoubleUnaryOperator after) {
+    default OptionalDoubleMapper<I> mapD(DoubleUnaryOperator after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalDouble thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 final double afterResult = after.applyAsDouble(thisResult.getAsDouble());
                 return OptionalDouble.of(afterResult);
             } else {
@@ -69,11 +69,11 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
     }
 
 
-    default <V> OptionalMapper<I, V> flatMap(DoubleFunction<Optional<V>> after) {
+    default <V> OptionalMapper<I, V> flatMap(DoubleFunction<Optional<V>> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalDouble thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 return after.apply(thisResult.getAsDouble());
             } else {
                 return Optional.empty();
@@ -81,11 +81,11 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
         };
     }
 
-    default OptionalIntMapper<I> flatMapI(DoubleFunction<OptionalInt> after) {
+    default OptionalIntMapper<I> flatMapI(DoubleFunction<OptionalInt> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalDouble thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 return after.apply(thisResult.getAsDouble());
             } else {
                 return OptionalInt.empty();
@@ -93,11 +93,11 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
         };
     }
 
-    default OptionalLongMapper<I> flatMapL(DoubleFunction<OptionalLong> after) {
+    default OptionalLongMapper<I> flatMapL(DoubleFunction<OptionalLong> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalDouble thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 return after.apply(thisResult.getAsDouble());
             } else {
                 return OptionalLong.empty();
@@ -105,11 +105,11 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
         };
     }
 
-    default OptionalDoubleMapper<I> flatMapD(DoubleFunction<OptionalDouble> after) {
+    default OptionalDoubleMapper<I> flatMapD(DoubleFunction<OptionalDouble> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalDouble thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 return after.apply(thisResult.getAsDouble());
             } else {
                 return thisResult;
@@ -117,11 +117,11 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
         };
     }
 
-    default OptionalDoubleMapper<I> filter(DoublePredicate after) {
+    default OptionalDoubleMapper<I> filter(DoublePredicate after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalDouble thisResult = apply(i);
-            if (thisResult.isPresent() && after.test(thisResult.getAsDouble())) {
+            if (thisResult != null && thisResult.isPresent() && after.test(thisResult.getAsDouble())) {
                 return thisResult;
             } else {
                 return OptionalDouble.empty();

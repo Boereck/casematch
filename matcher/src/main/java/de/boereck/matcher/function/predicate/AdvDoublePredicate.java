@@ -236,6 +236,7 @@ public interface AdvDoublePredicate extends DoublePredicate {
      *         <td class="true"/>
      *     </tr>
      * </table>
+     * @throws NullPointerException if {@code that} is {@code null}.
      */
     @Override
     default AdvDoublePredicate and(DoublePredicate that) throws NullPointerException {
@@ -289,19 +290,21 @@ public interface AdvDoublePredicate extends DoublePredicate {
      *     </tr>
      * </table>
      * @see DoublePredicate#or(DoublePredicate)
+     * @throws NullPointerException if {@code that} is {@code null}.
      */
     @Override
-    default AdvDoublePredicate or(DoublePredicate that) {
+    default AdvDoublePredicate or(DoublePredicate that) throws NullPointerException {
         Objects.requireNonNull(that);
         return i -> test(i) || that.test(i);
     }
 
     /**
      * Defines precondition that has to hold before checking
-     * this predicate.
+     * this predicate. The returned predicate is the result of
+     * {@code that.and(this)}.
      *
-     * @param that
-     * @return
+     * @param that precondition for this predicate.
+     * @return result of {@code that.and(this)}.
      */
     default DoublePredicate requires(DoublePredicate that) {
         return that.and(this)::test;
