@@ -13,7 +13,8 @@ import de.boereck.matcher.function.testable.TestableFunction;
 import de.boereck.matcher.helpers.MatchHelpers;
 
 /**
- * {@link Function} mapping an input of type I to an Optional&lt;O&gt;.
+ * {@link Function} mapping an input of type I to an Optional&lt;O&gt;. The result of this function should never
+ * be {@code null}, even though most combinator methods of this interface are prepared for this.
  * This interface is especially useful when working with {@link NoResultCaseMatcher#caseObj(java.util.function.Function, java.util.function.Consumer)}
  * or {@link ResultCaseMatcher#caseOf(java.util.function.BooleanSupplier, java.util.function.Function)}.
  *
@@ -282,7 +283,7 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      * This method returns a predicate checking if the optional returned by this OptionalMapper
      * is not {@code null} and holds a value.
      *
-     * @return predicate checking if optional returned by this OptionalMapper
+     * @return predicate checking if optional returned by this OptionalMapper holds a value.
      * is not {@code null} and holds a value.
      */
     default Predicate<I> hasResult() {
@@ -388,6 +389,126 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
                 return result.orElseGet(supplier);
             } else {
                 return supplier.get();
+            }
+        };
+    }
+
+    /**
+     * The returned function will execute this OptionalMapper and if it executes without any problem, the result
+     * will be returned. If the execution throws an {@link Exception Exception}, this will be caught and swallowed(!);
+     * the function will return an empty Optional in this case. It is recommended to handle the exception, e.g. by using  method
+     * {@link OptionalMapper#withCatch(Class, Consumer) &lt;E extends Throwable&gt; withCatch(Class&lt;E&gt;, Consumer&lt;E&gt;)}
+     * or
+     * {@link OptionalMapper#withCatch(Consumer) withCatch(Consumer&lt;Exception&gt;)} instead.
+     *
+     * @return function that will execute this OptionalMapper and if it executes without any problem, the result
+     * will be returned. If the execution throws an {@link Exception Exception}, this will be caught and swallowed(!);
+     * the function will return an empty Optional in this case.
+     */
+    default OptionalMapper<I, O> withCatch() {
+        return i -> {
+            try {
+                return this.apply(i);
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        };
+    }
+
+    /**
+     * The returned function will execute this OptionalMapper and if it executes without any problem, the result
+     * will be returned. If the execution throws an throwable of type {@code clazz}, it will be caught and the consumer
+     * {@code handler} will be called with the Exception; the function will return an empty Optional in this case.
+     * Throwables of other types will be re-thrown.
+     * If the handler itself will throw an exception, it will not be caught and propagated to the caller of the function.
+     *
+     * @param clazz   type of throwable to be caught
+     * @param handler consumer handling the throwable
+     * @param <E>     type of throwable to be caught
+     * @return function that will execute this OptionalMapper and potentially handling exceptions of type {@code clazz}
+     * with {@code handler}. After handling exceptions, the function will return an empty Optional.
+     */
+    default <E extends Throwable> OptionalMapper<I, O> withCatch(Class<E> clazz, Consumer<E> handler) {
+        return i -> {
+            try {
+                return this.apply(i);
+            } catch (Throwable t) {
+                if (clazz.isInstance(t)) {
+                    handler.accept((E) t);
+                    return Optional.empty();
+                } else {
+                    throw t;
+                }
+            }
+        };
+    }
+
+    /**
+     * The returned function will execute this OptionalMapper and if it executes without any problem, the result
+     * will be returned. If the execution throws an exception, it will be caught and the consumer
+     * {@code handler} will be called with the exception; the function will return an empty Optional in this case.
+     * If the handler itself will throw an exception, it will not be caught and propagated to the caller of the function.
+     *
+     * @param handler will handle exceptions being thrown during the execution of this OptionalMapper
+     * @return function execution this OptionalMapper and if execution performs without any problem, the result
+     * will be returned. If the execution throws an exception of type {@code clazz}, it will be caught and the consumer
+     * {@code handler} will be called with the exception; the function will return an empty Optional in this case.
+     */
+    default OptionalMapper<I, O> withCatch(Consumer<Exception> handler) {
+        return i -> {
+            try {
+                return this.apply(i);
+            } catch (Exception e) {
+                handler.accept(e);
+                return Optional.empty();
+            }
+        };
+    }
+
+    /**
+     * Returns a function executing this OptionalMapper and if a throwable is thrown during the execution, the
+     * given {@code recovery} function is used to provide a value to be returned. If an empty Optional should be
+     * returned, consider using method {@link OptionalMapper#withCatch() withCatch()} instead.
+     * If the recovery method itself will throw an exception, it will not be caught and propagated to the caller of the function.
+     *
+     * @param recovery method providing a regular result value if the OptionalMapper throws an exception.
+     * @return function executing this OptionalMapper and if a throwable is thrown during the execution, the
+     * given {@code recovery} function is used to provide a value to be returned. If an empty Optional should be
+     * returned, consider using method {@link OptionalMapper#withCatch() withCatch()} instead.
+     */
+    default OptionalMapper<I, O> recoverWith(Function<? super Throwable, Optional<O>> recovery) {
+        return i -> {
+            try {
+                return this.apply(i);
+            } catch (Throwable t) {
+                return recovery.apply(t);
+            }
+        };
+    }
+
+    /**
+     * Returns a function executing this OptionalMapper and if a an exception of type {@code E} is thrown during the execution,
+     * the given {@code recovery} function is used to provide a value to be returned. Exceptions of other types will be
+     * re-thrown to the caller.
+     * If the recovery method itself will throw an exception, it will not be caught and propagated to the caller of the function.
+     *
+     * @param clazz class of exceptions to be caught and recovered from.
+     * @param recovery function recovering from an exception providing a regular value to return from the returned function.
+     * @param <E> Type of exceptions to be caught and recovered from.
+     * @return function executing this OptionalMapper and if a an exception of type {@code E} is thrown during the execution,
+     * the given {@code recovery} function is used to provide a value to be returned. Exceptions of other types will be
+     * re-thrown to the caller.
+     */
+    default <E extends Throwable> OptionalMapper<I, O> recoverWith(Class<E> clazz, Function<? super E, Optional<O>> recovery) {
+        return i -> {
+            try {
+                return this.apply(i);
+            } catch (Throwable t) {
+                if (clazz.isInstance(t)) {
+                    return recovery.apply((E) t);
+                } else {
+                    throw t;
+                }
             }
         };
     }

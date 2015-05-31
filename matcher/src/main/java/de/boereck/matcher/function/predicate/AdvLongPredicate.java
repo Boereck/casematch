@@ -8,17 +8,17 @@ import java.util.function.LongPredicate;
 @FunctionalInterface
 public interface AdvLongPredicate extends LongPredicate {
 
-    default <O> LongFunction<Optional<O>> preOf(LongFunction<? extends O> f) {
+    default <O> LongFunction<Optional<O>> preOf(LongFunction<? extends O> f) throws NullPointerException {
         Objects.requireNonNull(f);
         return i -> this.test(i) ? Optional.ofNullable(f.apply(i)) : Optional.empty();
     }
 
-    default AdvLongPredicate xor(LongPredicate that) {
+    default AdvLongPredicate xor(LongPredicate that) throws NullPointerException {
         Objects.requireNonNull(that);
         return i -> this.test(i) ^ that.test(i);
     }
 
-    default AdvLongPredicate nor(LongPredicate that) {
+    default AdvLongPredicate nor(LongPredicate that) throws NullPointerException {
         Objects.requireNonNull(that);
         return i -> !this.test(i) && !that.test(i);
     }
@@ -29,18 +29,18 @@ public interface AdvLongPredicate extends LongPredicate {
      * @param that
      * @return
      */
-    default AdvLongPredicate xnor(LongPredicate that) {
+    default AdvLongPredicate xnor(LongPredicate that) throws NullPointerException {
         Objects.requireNonNull(that);
         return i -> this.test(i) == that.test(i);
     }
 
-    default AdvLongPredicate implies(LongPredicate that) {
+    default AdvLongPredicate implies(LongPredicate that) throws NullPointerException {
         Objects.requireNonNull(that);
         return i -> !this.test(i) || that.test(i);
     }
 
     @Override
-    default AdvLongPredicate and(LongPredicate that) {
+    default AdvLongPredicate and(LongPredicate that) throws NullPointerException {
         Objects.requireNonNull(that);
         return i -> test(i) && that.test(i);
     }
@@ -60,7 +60,7 @@ public interface AdvLongPredicate extends LongPredicate {
     }
 
     @Override
-    default AdvLongPredicate or(LongPredicate that) {
+    default AdvLongPredicate or(LongPredicate that) throws NullPointerException {
         Objects.requireNonNull(that);
         return i -> test(i) || that.test(i);
     }
