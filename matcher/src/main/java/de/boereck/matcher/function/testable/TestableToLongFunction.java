@@ -70,8 +70,11 @@ public interface TestableToLongFunction<I> extends ToLongFunction<I> {
      * @param <E>     type of throwable to be caught
      * @return function that will execute this TestableToLongFunction and potentially handling exceptions of type {@code clazz}
      * with {@code handler}. After handling exceptions, the function will return an empty OptionalLong.
+     * @throws NullPointerException if {@code clazz} or {@code handler} is {@code null}.
      */
-    default <E extends Throwable> OptionalLongMapper<I> withCatch(Class<E> clazz, Consumer<E> handler) {
+    default <E extends Throwable> OptionalLongMapper<I> withCatch(Class<E> clazz, Consumer<E> handler) throws NullPointerException {
+        Objects.requireNonNull(clazz);
+        Objects.requireNonNull(handler);
         return i -> {
             try {
                 return OptionalLong.of(this.applyAsLong(i));
@@ -96,8 +99,10 @@ public interface TestableToLongFunction<I> extends ToLongFunction<I> {
      * @return function execution this TestableToLongFunction and if execution performs without any problem, the result
      * will be returned. If the execution throws an exception of type {@code clazz}, it will be caught and the consumer
      * {@code handler} will be called with the exception; the function will return an empty OptionalLong in this case.
+     * @throws NullPointerException if {@code handler} is {@code null}.
      */
-    default OptionalLongMapper<I> withCatch(Consumer<Exception> handler) {
+    default OptionalLongMapper<I> withCatch(Consumer<Exception> handler) throws NullPointerException {
+        Objects.requireNonNull(handler);
         return i -> {
             try {
                 return OptionalLong.of(this.applyAsLong(i));
@@ -118,8 +123,10 @@ public interface TestableToLongFunction<I> extends ToLongFunction<I> {
      * @return function executing this TestableToLongFunction and if a throwable is thrown during the execution, the
      * given {@code recovery} function is used to provide a value to be returned. If an empty OptionalLong should be
      * returned, consider using method {@link TestableToLongFunction#withCatch() withCatch()} instead.
+     * @throws NullPointerException if {@code recovery} is {@code null}.
      */
-    default OptionalLongMapper<I> recoverWith(Function<? super Throwable, OptionalLong> recovery) {
+    default OptionalLongMapper<I> recoverWith(Function<? super Throwable, OptionalLong> recovery) throws NullPointerException {
+        Objects.requireNonNull(recovery);
         return i -> {
             try {
                 return OptionalLong.of(this.applyAsLong(i));
@@ -141,8 +148,11 @@ public interface TestableToLongFunction<I> extends ToLongFunction<I> {
      * @return function executing this TestableToLongFunction and if a an exception of type {@code E} is thrown during the execution,
      * the given {@code recovery} function is used to provide a value to be returned. Exceptions of other types will be
      * re-thrown to the caller.
+     * @throws NullPointerException if {@code clazz} or {@code recovery} is {@code null}.
      */
-    default <E extends Throwable> OptionalLongMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalLong> recovery) {
+    default <E extends Throwable> OptionalLongMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalLong> recovery) throws NullPointerException {
+        Objects.requireNonNull(clazz);
+        Objects.requireNonNull(recovery);
         return i -> {
             try {
                 return OptionalLong.of(this.applyAsLong(i));

@@ -92,8 +92,11 @@ public interface TestableFunction<I, O> extends Function<I, O> {
      * @param <E>     type of throwable to be caught
      * @return function that will execute this TestableFunction and potentially handling exceptions of type {@code clazz}
      * with {@code handler}. After handling exceptions, the function will return an empty Optional.
+     * @throws NullPointerException if {@code handler} or {@code handler} is {@code null}.
      */
     default <E extends Throwable> OptionalMapper<I, O> withCatch(Class<E> clazz, Consumer<E> handler) {
+        Objects.requireNonNull(clazz);
+        Objects.requireNonNull(handler);
         return i -> {
             try {
                 return Optional.ofNullable(this.apply(i));
@@ -118,8 +121,10 @@ public interface TestableFunction<I, O> extends Function<I, O> {
      * @return function execution this TestableFunction and if execution performs without any problem, the result
      * will be returned. If the execution throws an exception of type {@code clazz}, it will be caught and the consumer
      * {@code handler} will be called with the exception; the function will return an empty Optional in this case.
+     * @throws NullPointerException if {@code handler} is {@code null}.
      */
     default OptionalMapper<I, O> withCatch(Consumer<Exception> handler) {
+        Objects.requireNonNull(handler);
         return i -> {
             try {
                 return Optional.ofNullable(this.apply(i));
@@ -140,8 +145,10 @@ public interface TestableFunction<I, O> extends Function<I, O> {
      * @return function executing this TestableFunction and if a throwable is thrown during the execution, the
      * given {@code recovery} function is used to provide a value to be returned. If an empty Optional should be
      * returned, consider using method {@link TestableFunction#withCatch() withCatch()} instead.
+     * @throws NullPointerException if {@code recovery} is {@code null}.
      */
     default OptionalMapper<I, O> recoverWith(Function<? super Throwable, Optional<O>> recovery) {
+        Objects.requireNonNull(recovery);
         return i -> {
             try {
                 return Optional.ofNullable(this.apply(i));
@@ -163,8 +170,11 @@ public interface TestableFunction<I, O> extends Function<I, O> {
      * @return function executing this TestableFunction and if a an exception of type {@code E} is thrown during the execution,
      * the given {@code recovery} function is used to provide a value to be returned. Exceptions of other types will be
      * re-thrown to the caller.
+     * @throws NullPointerException if {@code clazz} or {@code recovery} is {@code null}.
      */
     default <E extends Throwable> OptionalMapper<I, O> recoverWith(Class<E> clazz, Function<? super E, Optional<O>> recovery) {
+        Objects.requireNonNull(clazz);
+        Objects.requireNonNull(recovery);
         return i -> {
             try {
                 return Optional.ofNullable(this.apply(i));
