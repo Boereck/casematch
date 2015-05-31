@@ -70,8 +70,11 @@ public interface TestableToIntFunction<I> extends ToIntFunction<I> {
      * @param <E>     type of throwable to be caught
      * @return function that will execute this TestableToIntFunction and potentially handling exceptions of type {@code clazz}
      * with {@code handler}. After handling exceptions, the function will return an empty OptionalInt.
+     * @throws NullPointerException if {@code clazz} or {@code handler} is {@code null}.
      */
-    default <E extends Throwable> OptionalIntMapper<I> withCatch(Class<E> clazz, Consumer<E> handler) {
+    default <E extends Throwable> OptionalIntMapper<I> withCatch(Class<E> clazz, Consumer<E> handler) throws NullPointerException {
+        Objects.requireNonNull(clazz);
+        Objects.requireNonNull(handler);
         return i -> {
             try {
                 return OptionalInt.of(this.applyAsInt(i));
@@ -96,8 +99,10 @@ public interface TestableToIntFunction<I> extends ToIntFunction<I> {
      * @return function execution this TestableToIntFunction and if execution performs without any problem, the result
      * will be returned. If the execution throws an exception of type {@code clazz}, it will be caught and the consumer
      * {@code handler} will be called with the exception; the function will return an empty OptionalInt in this case.
+     * @throws NullPointerException if {@code handler} is {@code null}.
      */
-    default OptionalIntMapper<I> withCatch(Consumer<Exception> handler) {
+    default OptionalIntMapper<I> withCatch(Consumer<Exception> handler) throws NullPointerException {
+        Objects.requireNonNull(handler);
         return i -> {
             try {
                 return OptionalInt.of(this.applyAsInt(i));
@@ -118,8 +123,10 @@ public interface TestableToIntFunction<I> extends ToIntFunction<I> {
      * @return function executing this TestableToIntFunction and if a throwable is thrown during the execution, the
      * given {@code recovery} function is used to provide a value to be returned. If an empty OptionalInt should be
      * returned, consider using method {@link TestableToIntFunction#withCatch() withCatch()} instead.
+     * @throws NullPointerException if {@code recovery} is {@code null}.
      */
-    default OptionalIntMapper<I> recoverWith(Function<? super Throwable, OptionalInt> recovery) {
+    default OptionalIntMapper<I> recoverWith(Function<? super Throwable, OptionalInt> recovery) throws NullPointerException {
+        Objects.requireNonNull(recovery);
         return i -> {
             try {
                 return OptionalInt.of(this.applyAsInt(i));
@@ -141,8 +148,11 @@ public interface TestableToIntFunction<I> extends ToIntFunction<I> {
      * @return function executing this TestableToIntFunction and if a an exception of type {@code E} is thrown during the execution,
      * the given {@code recovery} function is used to provide a value to be returned. Exceptions of other types will be
      * re-thrown to the caller.
+     * @throws NullPointerException if {@code clazz} or {@code recovery} is {@code null}.
      */
-    default <E extends Throwable> OptionalIntMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalInt> recovery) {
+    default <E extends Throwable> OptionalIntMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalInt> recovery) throws NullPointerException {
+        Objects.requireNonNull(clazz);
+        Objects.requireNonNull(recovery);
         return i -> {
             try {
                 return OptionalInt.of(this.applyAsInt(i));
