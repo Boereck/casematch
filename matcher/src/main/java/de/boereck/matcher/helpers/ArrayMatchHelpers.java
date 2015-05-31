@@ -30,6 +30,9 @@ public class ArrayMatchHelpers {
         throw new IllegalStateException();
     }
 
+    /**
+     * Predicate checking if an object is an of an array type.
+     */
     public static final Predicate<Object> isArray = o -> (o == null) ? false : o.getClass().isArray();
 
     /**
