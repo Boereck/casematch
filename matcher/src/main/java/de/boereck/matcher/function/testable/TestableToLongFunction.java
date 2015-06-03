@@ -36,6 +36,25 @@ public interface TestableToLongFunction<I> extends ToLongFunction<I> {
     }
 
     /**
+     * This method will return a function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this TestableToLongFunction and wrap the result in an OptionalInt.
+     * Exceptions being thrown during the execution of this TestableToLongFunction will also be thrown at the caller of the
+     * returned function.
+     *
+     * @return function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this TestableToLongFunction and wrap the result in an OptionalLong.
+     */
+    default OptionalLongMapper<I> nullAware() {
+        return i -> {
+            // check if input is null
+            if (i == null) {
+                return OptionalLong.empty();
+            }
+            return OptionalLong.of(this.applyAsLong(i));
+        };
+    }
+
+    /**
      * The returned function will execute this TestableToLongFunction and if it executes without any problem, the result
      * will be returned as an OptionalLong. If the execution throws an {@link Exception Exception}, this will be caught and swallowed(!);
      * the function will return an empty OptionalLong in this case. It is recommended to handle the exception, e.g. by using  method

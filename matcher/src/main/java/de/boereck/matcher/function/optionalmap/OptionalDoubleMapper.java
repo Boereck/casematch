@@ -1,5 +1,8 @@
 package de.boereck.matcher.function.optionalmap;
 
+import de.boereck.matcher.function.testable.TestableToDoubleFunction;
+import de.boereck.matcher.function.testable.TestableToIntFunction;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -132,6 +135,116 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
         return i -> {
             final OptionalDouble result = apply(i);
             return result.isPresent() && test.test(result.getAsDouble());
+        };
+    }
+
+    /**
+     * Returns a consumer that takes an input value, calls this OptionalDoubleMapper with it, and feeds the result to
+     * the given {@code consumer}.
+     *
+     * @param consumer consumes the result of this OptionalDoubleMapper, when the returned Consumer is invoked.
+     * @return consumer that takes an input value, calls this OptionalDoubleMapper with it, and feeds the result to
+     * the parameter {@code consumer}.
+     * @throws NullPointerException if {@code consumer} is {@code null}.
+     */
+    default Consumer<I> thenDo(Consumer<OptionalDouble> consumer) throws NullPointerException {
+        Objects.requireNonNull(consumer);
+        return i -> consumer.accept(this.apply(i));
+    }
+
+    /**
+     * Returns a consumer that takes an input value, calls this OptionalDoubleMapper with it, if the returned {@code Optional}
+     * holds a value, feeds this value to the given {@code consumer}.
+     *
+     * @param consumer consumes the result value of the Optional returned by this OptionalDoubleMapper (if value is present),
+     *                 when the returned Consumer is invoked.
+     * @return consumer that takes an input value, calls this OptionalDoubleMapper with it, and feeds the content of the
+     * resulting Optional to the parameter {@code consumer} (if value exists).
+     * @throws NullPointerException if {@code consumer} is {@code null}.
+     */
+    default Consumer<I> thenIfPresent(DoubleConsumer consumer) throws NullPointerException {
+        Objects.requireNonNull(consumer);
+        return i -> {
+            final OptionalDouble result = this.apply(i);
+            if (result != null && result != null) {
+                result.ifPresent(consumer);
+            }
+        };
+    }
+
+    /**
+     * Returns a function that takes an input value, calls this OptionalDoubleMapper with it, and calls
+     * {@link Optional#orElse(Object) orElse} on the returned Optional with the given value {@code o}. If
+     * the Optional returned by this OptionalDoubleMapper is {@code null}, the function will return value {@code o}.
+     *
+     * @param o value that will be returned from the function returned by this method if either this OptionalDoubleMapper
+     *          returns {@code null}, or an empty OptionalDouble.
+     * @return function that takes an input value, calls this OptionalDoubleMapper with it, and calls
+     * {@link OptionalDouble#orElse(double) orElse} on the returned OptionalDouble with the given value {@code o}. If
+     * the OptionalDouble returned by this OptionalDoubleMapper is {@code null}, the function will return value {@code o}.
+     * @throws NullPointerException if {@code consumer} is {@code null}.
+     */
+    default TestableToDoubleFunction<I> orElse(double o) {
+        return i -> {
+            final OptionalDouble result = this.apply(i);
+            if (result != null) {
+                return result.orElse(o);
+            } else {
+                return o;
+            }
+        };
+    }
+
+    /**
+     * Returns a function that takes an input value, calls this OptionalDoubleMapper with it, and calls
+     * {@link OptionalDouble#orElseGet(DoubleSupplier) orElseGet} on the returned OptionalDouble with the given value {@code supplier}. If
+     * the Optional returned by this OptionalDoubleMapper is {@code null}, the function will return the value provided
+     * by {@code supplier}.
+     *
+     * @param supplier supplies value that will be returned from the function returned by this method if either this
+     *                 OptionalDoubleMapper returns {@code null}, or an empty OptionalDouble.
+     * @return function taking an input value, calls this OptionalDoubleMapper with it, and calls
+     * {@link OptionalDouble#orElseGet(DoubleSupplier) orElseGet} on the returned OptionalDouble with the given value {@code supplier}. If
+     * the OptionalDouble returned by this OptionalDoubleMapper is {@code null}, the function will return the value provided
+     * by {@code supplier}.
+     * @throws NullPointerException if {@code consumer} is {@code null}.
+     */
+    default TestableToDoubleFunction<I> orElseGet(DoubleSupplier supplier) throws NullPointerException {
+        Objects.requireNonNull(supplier);
+        return i -> {
+            final OptionalDouble result = this.apply(i);
+            if (result != null) {
+                return result.orElseGet(supplier);
+            } else {
+                return supplier.getAsDouble();
+            }
+        };
+    }
+
+    /**
+     * This method will return a function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this OptionalDoubleMapper and if the result is not {@code null}, returns it.
+     * If the result is {@code null}, an empty OptionalDouble will be returned. So effectively {@code null} checks will be
+     * performed on input and output of the function. Exceptions being thrown during the execution of this
+     * OptionalDoubleMapper will also be thrown at the caller of the returned function.
+     *
+     * @return function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this OptionalDoubleMapper and if the result is not {@code null}, returns it.
+     * If the result is {@code null}, an empty OptionalDouble will be returned.
+     */
+    default OptionalDoubleMapper<I> nullAware() {
+        return i -> {
+            // check if input is null
+            if (i == null) {
+                return OptionalDouble.empty();
+            }
+            final OptionalDouble result = this.apply(i);
+            // check if output is null
+            if (result != null) {
+                return result;
+            } else {
+                return OptionalDouble.empty();
+            }
         };
     }
 

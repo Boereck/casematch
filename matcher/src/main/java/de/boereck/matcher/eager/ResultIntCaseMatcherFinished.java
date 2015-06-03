@@ -76,6 +76,18 @@ final class ResultIntCaseMatcherFinished<O> implements ResultIntCaseMatcher<O> {
         return this;
     }
 
+    @Override
+    public ResultIntCaseMatcher<O> caseIs(IntPredicate p, Supplier<? extends O> supplier) throws NullPointerException {
+        // we already have the result and don't need to check case
+        return this;
+    }
+
+    @Override
+    public ResultIntCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
+        // we already have the result and don't need to check case
+        return this;
+    }
+
     /**
      * {@inheritDoc}
      */

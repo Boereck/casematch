@@ -282,15 +282,15 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
 
     /**
      * Returns a function that takes an input value, calls this OptionalLongMapper with it, and calls
-     * {@link Optional#orElseGet(Supplier) orElseGet} on the returned Optional with the given value {@code supplier}. If
-     * the Optional returned by this OptionalLongMapper is {@code null}, the function will return the value provided
+     * {@link OptionalLong#orElseGet(LongSupplier) orElseGet}  on the returned OptionalLong with the given value {@code supplier}. If
+     * the OptionalLong returned by this OptionalLongMapper is {@code null}, the function will return the value provided
      * by {@code supplier}.
      *
      * @param supplier supplies value that will be returned from the function returned by this method if either this
-     *                 OptionalLongMapper returns {@code null}, or an empty Optional.
+     *                 OptionalLongMapper returns {@code null}, or an empty OptionalLong.
      * @return function taking an input value, calls this OptionalLongMapper with it, and calls
-     * {@link Optional#orElseGet(Supplier) orElseGet} on the returned Optional with the given value {@code supplier}. If
-     * the Optional returned by this OptionalLongMapper is {@code null}, the function will return the value provided
+     * {@link OptionalLong#orElseGet(LongSupplier) orElseGet} on the returned OptionalLong with the given value {@code supplier}. If
+     * the OptionalLong returned by this OptionalLongMapper is {@code null}, the function will return the value provided
      * by {@code supplier}.
      * @throws NullPointerException if {@code consumer} is {@code null}.
      */
@@ -298,10 +298,37 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         Objects.requireNonNull(supplier);
         return i -> {
             final OptionalLong result = this.apply(i);
-            if (result != null && result != null) {
+            if (result != null) {
                 return result.orElseGet(supplier);
             } else {
                 return supplier.getAsLong();
+            }
+        };
+    }
+
+    /**
+     * This method will return a function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this OptionalLongMapper and if the result is not {@code null}, returns it.
+     * If the result is {@code null}, an empty OptionalLong will be returned. So effectively {@code null} checks will be
+     * performed on input and output of the function. Exceptions being thrown during the execution of this
+     * OptionalLongMapper will also be thrown at the caller of the returned function.
+     *
+     * @return function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this OptionalLongMapper and if the result is not {@code null}, returns it.
+     * If the result is {@code null}, an empty OptionalLong will be returned.
+     */
+    default OptionalLongMapper<I> nullAware() {
+        return i -> {
+            // check if input is null
+            if (i == null) {
+                return OptionalLong.empty();
+            }
+            final OptionalLong result = this.apply(i);
+            // check if output is null
+            if (result != null) {
+                return result;
+            } else {
+                return OptionalLong.empty();
             }
         };
     }

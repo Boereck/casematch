@@ -99,6 +99,23 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
         return completeOrSelf(test, consumer);
     }
 
+    @Override
+    public ResultIntCaseMatcher<O> caseIs(IntPredicate p, Supplier<? extends O> supplier) throws NullPointerException {
+        Objects.requireNonNull(p);
+        return caseIs(p.test(toCheck), supplier);
+    }
+
+    @Override
+    public ResultIntCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
+        Objects.requireNonNull(supplier);
+        if (test) {
+            final O result = supplier.get();
+            return new ResultIntCaseMatcherFinished<>(result);
+        } else {
+            return this;
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -4,14 +4,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.DoubleFunction;
-import java.util.function.DoublePredicate;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 /**
  * <p>
@@ -87,6 +80,28 @@ public interface NoResultDoubleCaseMatcher {
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
      */
     public abstract NoResultDoubleCaseMatcher caseOf(boolean test, DoubleConsumer consumer) throws NullPointerException;
+
+    /**
+     * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
+     * match. If the case is determined to be the matching case, the provided runnable will be called.
+     *
+     * @param p predicate that defines if the case is a found, when provided with the input object.
+     * @param then Will be called if the case was determined to be the matching case.
+     * @return instance of NoResultCaseMatcher to define further cases.
+     * @throws NullPointerException might be thrown if either parameter {@code p} or {@code then} is {@code null}.
+     */
+    public abstract NoResultDoubleCaseMatcher caseIs(DoublePredicate p, Runnable then) throws NullPointerException;
+
+    /**
+     * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
+     * match. If the case is determined to be the matching case, the provided runnable will be called.
+     *
+     * @param test boolean that defines if the case is a found, when provided with the input object.
+     * @param then Will be called if the case was determined to be the matching case.
+     * @return instance of NoResultCaseMatcher to define further cases.
+     * @throws NullPointerException might be thrown if either parameter {@code p} or {@code then} is {@code null}.
+     */
+    public abstract NoResultDoubleCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.Optional} when called with the input

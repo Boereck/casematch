@@ -76,6 +76,18 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
         return this;
     }
 
+    @Override
+    public NoResultCaseMatcher<I> caseIs(Predicate<? super I> p, Runnable then) throws NullPointerException {
+        // we already have a result, so nothing to check
+        return this;
+    }
+
+    @Override
+    public NoResultCaseMatcher<I> caseIs(boolean test, Runnable then) throws NullPointerException {
+        // we already have a result, so nothing to check
+        return this;
+    }
+
     /**
      * {@inheritDoc}
      */

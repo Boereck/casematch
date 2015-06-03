@@ -36,6 +36,25 @@ public interface TestableToIntFunction<I> extends ToIntFunction<I> {
     }
 
     /**
+     * This method will return a function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this TestableToIntFunction and wrap the result in an OptionalInt.
+     * Exceptions being thrown during the execution of this TestableToIntFunction will also be thrown at the caller of the
+     * returned function.
+     *
+     * @return function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this TestableToIntFunction and wrap the result in an OptionalInt.
+     */
+    default OptionalIntMapper<I> nullAware() {
+        return i -> {
+            // check if input is null
+            if (i == null) {
+                return OptionalInt.empty();
+            }
+            return OptionalInt.of(this.applyAsInt(i));
+        };
+    }
+
+    /**
      * The returned function will execute this TestableToIntFunction and if it executes without any problem, the result
      * will be returned as an OptionalInt. If the execution throws an {@link Exception Exception}, this will be caught and swallowed(!);
      * the function will return an empty OptionalInt in this case. It is recommended to handle the exception, e.g. by using  method

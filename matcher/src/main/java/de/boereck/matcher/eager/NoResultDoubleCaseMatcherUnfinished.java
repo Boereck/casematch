@@ -89,6 +89,30 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
         }
     }
 
+    @Override
+    public NoResultDoubleCaseMatcher caseIs(DoublePredicate p, Runnable then) throws NullPointerException {
+        Objects.requireNonNull(p);
+        Objects.requireNonNull(then);
+        final double toCheck = this.toCheck;
+        if (p.test(toCheck)) {
+            then.run();
+            return NoResultDoubleCaseMatcherFinished.instance();
+        } else {
+            return this;
+        }
+    }
+
+    @Override
+    public NoResultDoubleCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
+        Objects.requireNonNull(then);
+        if (test) {
+            then.run();
+            return NoResultDoubleCaseMatcherFinished.instance();
+        } else {
+            return this;
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

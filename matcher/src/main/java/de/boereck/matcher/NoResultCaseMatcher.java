@@ -45,6 +45,8 @@ import java.util.function.Supplier;
  */
 public interface NoResultCaseMatcher<I> {
 
+    //TODO caseIs(Predicate<I>, Runnable)
+
     /**
      * Defines a case that checks if the input object is instance of the given class. If the case is determined to be the
      * matching case, the provided consumer method will be called with the input object casted to the type the case is
@@ -83,6 +85,30 @@ public interface NoResultCaseMatcher<I> {
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
     public abstract NoResultCaseMatcher<I> caseOf(Predicate<? super I> p, Consumer<? super I> consumer) throws NullPointerException;
+
+    /**
+     * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
+     * match. If the case is determined to be the matching case, the provided runnable will be called.
+     *
+     * @param p predicate that defines if the case is a found, when provided with the input object.
+     * @param then Will be called if the case was determined to be the matching case.
+     * @return instance of NoResultCaseMatcher to define further cases.
+     * @throws NullPointerException might be thrown if either parameter {@code p} or {@code then} is {@code null}.
+     */
+    public abstract NoResultCaseMatcher<I> caseIs(Predicate<? super I> p, Runnable then) throws NullPointerException;
+
+    /**
+     * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
+     * match. If the case is determined to be the matching case, the provided runnable will be called.
+     *
+     * @param test boolean that defines if the case is a found, when provided with the input object.
+     * @param then Will be called if the case was determined to be the matching case.
+     * @return instance of NoResultCaseMatcher to define further cases.
+     * @throws NullPointerException might be thrown if either parameter {@code p} or {@code then} is {@code null}.
+     */
+    public abstract NoResultCaseMatcher<I> caseIs(boolean test, Runnable then) throws NullPointerException;
+
+    // TODO caseIs for primitives and result matchers
 
     /**
      * Defines a case that checks if the given supplier returns true. If the case is determined to be the matching case, the

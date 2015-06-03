@@ -14,6 +14,7 @@ import java.util.function.LongFunction;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import de.boereck.matcher.NoResultCaseMatcher;
 import de.boereck.matcher.ResultCaseMatcher;
 
 /**
@@ -82,6 +83,18 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      */
     @Override
     public ResultCaseMatcher<I, O> caseOf(boolean test, Function<? super I, ? extends O> consumer) {
+        // we already have the result and don't need to check case
+        return this;
+    }
+
+    @Override
+    public ResultCaseMatcher<I, O> caseIs(Predicate<? super I> p, Supplier<? extends O> supplier) throws NullPointerException {
+        // we already have the result and don't need to check case
+        return this;
+    }
+
+    @Override
+    public ResultCaseMatcher<I,O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
         // we already have the result and don't need to check case
         return this;
     }

@@ -33,7 +33,7 @@ public class ArrayMatchHelpers {
     /**
      * Predicate checking if an object is an of an array type.
      */
-    public static final Predicate<Object> isArray = o -> (o == null) ? false : o.getClass().isArray();
+    public static final Predicate<Object> isArray = o -> (o != null) && o.getClass().isArray();
 
     /**
      * Shortcut for {@link Arrays#stream(Object[])}. This method will return an empty stream
@@ -264,4 +264,9 @@ public class ArrayMatchHelpers {
             return false;
         };
     }
+
+    /**
+     * Predicate checking if an array is not {@code null} and has a length bigger than 0
+     */
+    public static final Predicate<Object[]> arrayNotEmpty = o -> o != null && o.length > 0;
 }

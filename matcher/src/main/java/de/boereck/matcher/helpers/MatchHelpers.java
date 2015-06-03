@@ -1,14 +1,7 @@
 package de.boereck.matcher.helpers;
 
 import java.util.*;
-import java.util.function.DoublePredicate;
-import java.util.function.Function;
-import java.util.function.IntPredicate;
-import java.util.function.LongPredicate;
-import java.util.function.Predicate;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import java.util.function.*;
 import java.util.stream.Stream;
 
 import de.boereck.matcher.function.optionalmap.OptionalDoubleMapper;
@@ -23,6 +16,7 @@ import de.boereck.matcher.function.testable.TestableFunction;
 import de.boereck.matcher.function.testable.TestableToDoubleFunction;
 import de.boereck.matcher.function.testable.TestableToIntFunction;
 import de.boereck.matcher.function.testable.TestableToLongFunction;
+import de.boereck.matcher.function.throwing.ThrowingFunction;
 
 /**
  * This class provides static methods and fields that help with defining matches with CaseMatchers.
@@ -41,6 +35,7 @@ public final class MatchHelpers {
     /**
      * This is basically an alias for {@link java.util.Optional#ofNullable(Object)}, providing the additional features of
      * {@link OptionalMapper}.
+     *
      * @return mapper that is reference to static method {@link java.util.Optional#ofNullable(Object)}
      */
     private static final <I> OptionalMapper<I, I> toOptional() {
@@ -69,6 +64,172 @@ public final class MatchHelpers {
     }
 
     /**
+     * Returns a mapper that will try to perform the given function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty Optional instead.
+     *
+     * @param function mapping function that is tried to executed.
+     * @param <I>      Type of input of {@code function}
+     * @param <O>      Type of output of {@code function}
+     * @return function that will try to perform the given function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty Optional instead.
+     */
+    public static <I, O> OptionalMapper<I, O> tryMap(Function<I, O> function) {
+        return i -> {
+            try {
+                return Optional.ofNullable(function.apply(i));
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        };
+    }
+
+    /**
+     * Returns a mapper that will try to perform the given to-int-function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty OptionalInt instead.
+     *
+     * @param function mapping function that is tried to executed.
+     * @param <I>      Type of input of {@code function}
+     * @return function that will try to perform the given to-int-function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty OptionalInt instead.
+     */
+    public static <I, O> OptionalIntMapper<I> tryMapI(ToIntFunction<I> function) {
+        return i -> {
+            try {
+                return OptionalInt.of(function.applyAsInt(i));
+            } catch (Exception e) {
+                return OptionalInt.empty();
+            }
+        };
+    }
+
+    /**
+     * Returns a mapper that will try to perform the given to-double-function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty OptionalDouble instead.
+     *
+     * @param function mapping function that is tried to executed.
+     * @param <I>      Type of input of {@code function}
+     * @return function that will try to perform the given to-double-function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty OptionalDouble instead.
+     */
+    public static <I> OptionalDoubleMapper<I> tryMapD(ToDoubleFunction<I> function) {
+        return i -> {
+            try {
+                return OptionalDouble.of(function.applyAsDouble(i));
+            } catch (Exception e) {
+                return OptionalDouble.empty();
+            }
+        };
+    }
+
+    /**
+     * Returns a mapper that will try to perform the given to-long-function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty OptionalLong instead.
+     *
+     * @param function mapping function that is tried to executed.
+     * @param <I>      Type of input of {@code function}
+     * @return function that will try to perform the given to-long-function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty OptionalLong instead.
+     */
+    public static <I> OptionalLongMapper<I> tryMapL(ToLongFunction<I> function) {
+        return i -> {
+            try {
+                return OptionalLong.of(function.applyAsLong(i));
+            } catch (Exception e) {
+                return OptionalLong.empty();
+            }
+        };
+    }
+
+    /**
+     * Returns a mapper that will try to perform the given function, if an exception is thrown during the
+     * execution, the exception is passed to {@code handler} and empty Optional will be returned instead.
+     * If the handler throws an exception it will be thrown to the caller of the returned mapper.
+     *
+     * @param function mapping function that is tried to executed.
+     * @param handler  consumer that is handling the exception that was thrown.
+     * @param <I>      Type of input of {@code function}
+     * @param <O>      Type of output of {@code function}
+     * @return function that will try to perform the given function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty Optional instead.
+     */
+    public static <I, O> OptionalMapper<I, O> tryMap(Function<I, O> function, Consumer<Exception> handler) {
+        return i -> {
+            try {
+                return Optional.ofNullable(function.apply(i));
+            } catch (Exception e) {
+                handler.accept(e);
+                return Optional.empty();
+            }
+        };
+    }
+
+    /**
+     * Returns a mapper that will try to perform the given to-int-function, if an exception is thrown during the
+     * execution, the exception is passed to {@code handler} and empty OptionalInt will be returned instead.
+     * If the handler throws an exception it will be thrown to the caller of the returned mapper.
+     *
+     * @param function mapping function that is tried to executed.
+     * @param handler  consumer that is handling the exception that was thrown.
+     * @param <I>      Type of input of {@code function}
+     * @return function that will try to perform the given to-int-function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty OptionalInt instead.
+     */
+    public static <I, O> OptionalIntMapper<I> tryMapI(ToIntFunction<I> function, Consumer<Exception> handler) {
+        return i -> {
+            try {
+                return OptionalInt.of(function.applyAsInt(i));
+            } catch (Exception e) {
+                handler.accept(e);
+                return OptionalInt.empty();
+            }
+        };
+    }
+
+    /**
+     * Returns a mapper that will try to perform the given to-double-function, if an exception is thrown during the
+     * execution, the exception is passed to {@code handler} and empty OptionalDouble will be returned instead.
+     * If the handler throws an exception it will be thrown to the caller of the returned mapper.
+     *
+     * @param function mapping function that is tried to executed.
+     * @param handler  consumer that is handling the exception that was thrown.
+     * @param <I>      Type of input of {@code function}
+     * @return function that will try to perform the given to-double-function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty OptionalDouble instead.
+     */
+    public static <I> OptionalDoubleMapper<I> tryMapD(ToDoubleFunction<I> function, Consumer<Exception> handler) {
+        return i -> {
+            try {
+                return OptionalDouble.of(function.applyAsDouble(i));
+            } catch (Exception e) {
+                handler.accept(e);
+                return OptionalDouble.empty();
+            }
+        };
+    }
+
+    /**
+     * Returns a mapper that will try to perform the given to-long-function, if an exception is thrown during the
+     * execution, the exception is passed to {@code handler} and empty OptionalLong will be returned instead.
+     * If the handler throws an exception it will be thrown to the caller of the returned mapper.
+     *
+     * @param function mapping function that is tried to executed.
+     * @param handler  consumer that is handling the exception that was thrown.
+     * @param <I>      Type of input of {@code function}
+     * @return function that will try to perform the given to-long-function, if an exception is thrown during the
+     * execution, the mapper will swallow the exception and return an empty OptionalLong instead.
+     */
+    public static <I> OptionalLongMapper<I> tryMapL(ToLongFunction<I> function, Consumer<Exception> handler) {
+        return i -> {
+            try {
+                return OptionalLong.of(function.applyAsLong(i));
+            } catch (Exception e) {
+                handler.accept(e);
+                return OptionalLong.empty();
+            }
+        };
+    }
+
+    /**
      * Shortcut for Objects::notNull as {@link AdvPredicate}.
      */
     public static final AdvPredicate<Object> notNull = Objects::nonNull;
@@ -81,6 +242,7 @@ public final class MatchHelpers {
     /**
      * Returns {@link java.util.Objects#nonNull(Object)} as predicate. This can be useful for using concatenation functions
      * {@link java.util.function.Predicate#and(java.util.function.Predicate)} or {@link java.util.function.Predicate#or(java.util.function.Predicate)}.
+     *
      * @return {@link java.util.Objects#nonNull(Object)} as Predicate
      */
     public static <T> AdvPredicate<T> notNull() {
@@ -102,6 +264,7 @@ public final class MatchHelpers {
      * The returned function will return an empty {@link java.util.Optional} if the input object is null. Otherwise the function
      * {@code f} will be called and the returned object will be wrapped in an Optional. So there will never be null passed to
      * function {@code f}.
+     *
      * @param f function that's output will be wrapped into an optional. If the input value is null, the function will not
      *          be called.
      * @return Function, either returning an Optional containing the output of function {@code f}, or an empty Optional if
@@ -178,6 +341,7 @@ public final class MatchHelpers {
      *   test(String::isEmpty).not()
      * </pre>
      * </code>
+     *
      * @param p predicate that should be made available as an AdvPredicate
      * @return AdvPredicate representation of predicate {@code p}
      * @throws NullPointerException will be thrown if {@code p} is {@code null}.
@@ -196,6 +360,7 @@ public final class MatchHelpers {
      *   testI(i -> i < 0).implies(i -> i % 2 == 0) // negative values must be even
      * </pre>
      * </code>
+     *
      * @param p predicate that should be made available as an AdvIntPredicate
      * @return AdvIntPredicate representation of predicate {@code p}
      * @throws NullPointerException will be thrown if {@code p} is {@code null}.
@@ -249,9 +414,9 @@ public final class MatchHelpers {
      * @return negated predicate
      * @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
-    public static <T> Predicate<T> not(Predicate<T> p) {
+    public static <T> AdvPredicate<T> not(Predicate<T> p) {
         Objects.requireNonNull(p);
-        return p.negate();
+        return p.negate()::test;
     }
 
     /**
@@ -262,33 +427,35 @@ public final class MatchHelpers {
      * @return negated predicate
      * @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
-    public static IntPredicate notI(IntPredicate p) {
+    public static AdvIntPredicate notI(IntPredicate p) {
         Objects.requireNonNull(p);
-        return p.negate();
+        return p.negate()::test;
     }
 
     /**
      * Simple shortcut for {@code p.negate()}. This can e.g. used to negate
      * a method reference. Exmaple: <br/>{@code notL(LongMatchHelpers.inClosedRange(0,10)) // <= 0} <br/>
+     *
      * @param p predicate to be negated
      * @return negated predicate
      * @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
-    public static LongPredicate notL(LongPredicate p) {
+    public static AdvLongPredicate notL(LongPredicate p) {
         Objects.requireNonNull(p);
-        return p.negate();
+        return p.negate()::test;
     }
 
     /**
      * Simple shortcut for {@code p.negate()}. This can e.g. used to negate
      * a method reference. Exmaple: <br/>{@code notD(DoubleMatchHelpers.finite)} <br/>
+     *
      * @param p predicate to be negated
      * @return negated predicate
      * @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
-    public static DoublePredicate notD(DoublePredicate p) {
+    public static AdvDoublePredicate notD(DoublePredicate p) {
         Objects.requireNonNull(p);
-        return p.negate();
+        return p.negate()::test;
     }
 
     /**
@@ -431,6 +598,7 @@ public final class MatchHelpers {
     /**
      * Creates a function that can receive a value and returns an Optional, either containing an object, casted to the given
      * class or being empty if the input to the function was null or the input object is not instance of the given class.
+     *
      * @param clazz Class to cast to
      * @return function that does cast or returns empty Optional
      * @throws NullPointerException will be thrown if {@code clazz} is {@code null}.
@@ -469,6 +637,7 @@ public final class MatchHelpers {
     /**
      * Returns predicate checking if input objects are equal to the given object {@code t}. Equality check is performed
      * using {@link Objects#equals(Object, Object)}.
+     *
      * @param t object to check for equality
      * @return predicate, checking input objects for equality to {@code t}.
      */
@@ -482,7 +651,8 @@ public final class MatchHelpers {
      * <em>referential</em> equality to check if the input is one of the
      * give objects. Be aware that changes to the given elements {@code more}
      * will have no effect on the returned predicate.
-     * @param t one element predicate will check if input is equal to it
+     *
+     * @param t    one element predicate will check if input is equal to it
      * @param more further elements the predicate will check if element
      *             is one of them.
      * @return predicate checking if the input object is either {@code t} or one of {@code more}.
@@ -497,8 +667,8 @@ public final class MatchHelpers {
     }
 
     private static <T> boolean contains(T[] ts, T input) {
-        for(int i=0; i<ts.length; i++) {
-            if(ts[i] == input) {
+        for (int i = 0; i < ts.length; i++) {
+            if (ts[i] == input) {
                 return true;
             }
         }

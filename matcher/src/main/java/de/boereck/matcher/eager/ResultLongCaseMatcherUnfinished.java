@@ -99,6 +99,23 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
         return completeOrSelf(test, consumer);
     }
 
+    @Override
+    public ResultLongCaseMatcher<O> caseIs(LongPredicate p, Supplier<? extends O> supplier) throws NullPointerException {
+        Objects.requireNonNull(p);
+        return caseIs(p.test(toCheck), supplier);
+    }
+
+    @Override
+    public ResultLongCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
+        Objects.requireNonNull(supplier);
+        if (test) {
+            final O result = supplier.get();
+            return new ResultLongCaseMatcherFinished<>(result);
+        } else {
+            return this;
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -109,7 +126,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
         final Optional<T> opt = p.apply(toCheck);
         if (opt.isPresent()) {
             final O result = consumer.apply(opt.get());
-            return new ResultLongCaseMatcherFinished<O>(result);
+            return new ResultLongCaseMatcherFinished<>(result);
         } else {
             return this;
         }
@@ -125,7 +142,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
         final OptionalInt opt = p.apply(toCheck);
         if (opt.isPresent()) {
             final O result = consumer.apply(opt.getAsInt());
-            return new ResultLongCaseMatcherFinished<O>(result);
+            return new ResultLongCaseMatcherFinished<>(result);
         } else {
             return this;
         }
@@ -141,7 +158,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
         final OptionalLong opt = p.apply(toCheck);
         if (opt.isPresent()) {
             final O result = consumer.apply(opt.getAsLong());
-            return new ResultLongCaseMatcherFinished<O>(result);
+            return new ResultLongCaseMatcherFinished<>(result);
         } else {
             return this;
         }

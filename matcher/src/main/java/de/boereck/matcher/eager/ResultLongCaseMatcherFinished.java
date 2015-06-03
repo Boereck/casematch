@@ -76,6 +76,18 @@ final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O>
         return this;
     }
 
+    @Override
+    public ResultLongCaseMatcher<O> caseIs(LongPredicate p, Supplier<? extends O> supplier) throws NullPointerException {
+        // we already have the result and don't need to check case
+        return this;
+    }
+
+    @Override
+    public ResultLongCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
+        // we already have the result and don't need to check case
+        return this;
+    }
+
     /**
      * {@inheritDoc}
      */
