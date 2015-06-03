@@ -3,6 +3,10 @@ package de.boereck.matcher.function.throwing;
 import de.boereck.matcher.function.testable.TestableFunction;
 
 /**
+ * This function is a special version of a {@link java.util.function.Function}, where the apply method is already implemented
+ * and calling the method {@link ThrowingFunction#applyThrowing(Object) applyThrowing} (which may throw a checked  exception
+ * of type {@code E}) and if the checked exception is thrown, re-throws the  {@link RuntimeException}.
+ *
  * It is <em>not</em> recommended overriding the default apply method. It is responsible to call
  * the {@link ThrowingFunction#applyThrowing(Object) applyThrowing} method and disguising
  * the possibly thrown exception as a {@link RuntimeException}.
@@ -10,7 +14,32 @@ import de.boereck.matcher.function.testable.TestableFunction;
 @FunctionalInterface
 public interface ThrowingFunction<I,O,E extends Exception> extends TestableFunction<I,O> {
 
+    /**
+     * Cloaks a {@link ThrowingFunction} as a {@link TestableFunction}. Since ThrowingFunction extends
+     * TestableFunction, this method is actually an identity function, such as
+     * {@link ThrowingFunction#throwing(ThrowingFunction) throwing}, but it makes clear, that it is used to turn
+     * a checked exception into a runtime exception and not be visible in the method declaration.
+     *
+     * @param f
+     * @param <I>
+     * @param <O>
+     * @param <E>
+     * @return
+     */
     static <I,O,E extends Exception> TestableFunction<I,O> cloak(ThrowingFunction<I, O, E> f) {
+        return f;
+    }
+
+    /**
+     * Function that can be used to make a {@link ThrowingFunction} from a method reference. This is basically an
+     * identity function.
+     * @param f function that will be returned as result of this method.
+     * @param <I> type of input to the ThrowingFunction
+     * @param <O> type of output of the ThrowingFunction
+     * @param <E> exception being thrown from the ThrowingFunction
+     * @return same object being passed to the method as parameter {@code f}.
+     */
+    static <I,O,E extends Exception> ThrowingFunction<I,O,E> throwing(ThrowingFunction<I, O, E> f) {
         return f;
     }
 
@@ -26,6 +55,9 @@ public interface ThrowingFunction<I,O,E extends Exception> extends TestableFunct
        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default O apply(I i) {
         try {

@@ -10,6 +10,8 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface AdvPredicate<I> extends Predicate<I> {
 
+    // TODO maybe impl nullToFalse and nullToTrue
+
     default <O> OptionalMapper<I,O> then(Function<? super I, ? extends O> f) throws NullPointerException {
         Objects.requireNonNull(f);
         return i -> this.test(i) ? Optional.ofNullable(f.apply(i)) : Optional.empty();

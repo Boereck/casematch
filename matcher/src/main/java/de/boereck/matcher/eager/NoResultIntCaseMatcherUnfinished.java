@@ -104,6 +104,30 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
         }
     }
 
+    @Override
+    public NoResultIntCaseMatcher caseIs(IntPredicate p, Runnable then) throws NullPointerException {
+        Objects.requireNonNull(p);
+        Objects.requireNonNull(then);
+        final int toCheck = this.toCheck;
+        if (p.test(toCheck)) {
+            then.run();
+            return NoResultIntCaseMatcherFinished.instance();
+        } else {
+            return this;
+        }
+    }
+
+    @Override
+    public NoResultIntCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
+        Objects.requireNonNull(then);
+        if (test) {
+            then.run();
+            return NoResultIntCaseMatcherFinished.instance();
+        } else {
+            return this;
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

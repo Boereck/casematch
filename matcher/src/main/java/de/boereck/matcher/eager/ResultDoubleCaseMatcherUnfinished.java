@@ -90,6 +90,23 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
         return completeOrSelf(test, consumer);
     }
 
+    @Override
+    public ResultDoubleCaseMatcher<O> caseIs(DoublePredicate p, Supplier<? extends O> supplier) throws NullPointerException {
+        Objects.requireNonNull(p);
+        return caseIs(p.test(toCheck), supplier);
+    }
+
+    @Override
+    public ResultDoubleCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
+        Objects.requireNonNull(supplier);
+        if (test) {
+            final O result = supplier.get();
+            return new ResultDoubleCaseMatcherFinished<>(result);
+        } else {
+            return this;
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -100,7 +117,7 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
         final Optional<T> opt = p.apply(toCheck);
         if (opt.isPresent()) {
             final O result = consumer.apply(opt.get());
-            return new ResultDoubleCaseMatcherFinished<O>(result);
+            return new ResultDoubleCaseMatcherFinished<>(result);
         } else {
             return this;
         }

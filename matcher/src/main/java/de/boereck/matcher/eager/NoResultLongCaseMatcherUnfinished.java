@@ -104,6 +104,30 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
         }
     }
 
+    @Override
+    public NoResultLongCaseMatcher caseIs(LongPredicate p, Runnable then) throws NullPointerException {
+        Objects.requireNonNull(p);
+        Objects.requireNonNull(then);
+        final long toCheck = this.toCheck;
+        if (p.test(toCheck)) {
+            then.run();
+            return NoResultLongCaseMatcherFinished.instance();
+        } else {
+            return this;
+        }
+    }
+
+    @Override
+    public NoResultLongCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
+        Objects.requireNonNull(then);
+        if (test) {
+            then.run();
+            return NoResultLongCaseMatcherFinished.instance();
+        } else {
+            return this;
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

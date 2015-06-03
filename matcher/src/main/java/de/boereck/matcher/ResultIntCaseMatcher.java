@@ -110,6 +110,29 @@ public interface ResultIntCaseMatcher<O> {
     public abstract ResultIntCaseMatcher<O> caseOf(boolean test, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
+     * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
+     * match. If the case is determined to be the matching case, the provided runnable will be called.
+     *
+     * @param p predicate that defines if the case is a found, when provided with the input object.
+     * @param supplier Will be called if the case was determined to be the matching case to return the result for the match.
+     * @return instance of ResultIntCaseMatcher to define further cases.
+     * @throws NullPointerException might be thrown if either parameter {@code p} or {@code supplier} is {@code null}.
+     */
+    public abstract ResultIntCaseMatcher<O> caseIs(IntPredicate p, Supplier<? extends O> supplier) throws NullPointerException;
+
+    /**
+     * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
+     * match. If the case is determined to be the matching case, the provided runnable will be called.
+     *
+     * @param test boolean that defines if the case is a found, when provided with the input object.
+     * @param supplier Will be called if the case was determined to be the matching case to return the result for the match.
+     * @return instance of ResultIntCaseMatcher to define further cases.
+     * @throws NullPointerException might be thrown if either parameter {@code p} or {@code supplier} is {@code null}.
+     */
+    public abstract ResultIntCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException;
+
+
+    /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.Optional} when called with the input
      * int value. If the case is determined to be the matching case, the provided function {@code consumer} will be called
      * with the the object that is wrapped in the optional returned by function {@code p}. The result of the consumer

@@ -82,6 +82,18 @@ final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
         return this;
     }
 
+    @Override
+    public NoResultIntCaseMatcher caseIs(IntPredicate p, Runnable then) throws NullPointerException {
+        // do nothing, we already had a matching case
+        return this;
+    }
+
+    @Override
+    public NoResultIntCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
+        // do nothing, we already had a matching case
+        return this;
+    }
+
     /**
      * {@inheritDoc}
      */

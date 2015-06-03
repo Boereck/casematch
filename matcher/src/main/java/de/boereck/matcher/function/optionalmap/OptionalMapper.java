@@ -394,6 +394,33 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
     }
 
     /**
+     * This method will return a function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this OptionalMapper and if the result is not {@code null}, returns it.
+     * If the result is {@code null}, an empty Optional will be returned. So effectively {@code null} checks will be
+     * performed on input and output of the function. Exceptions being thrown during the execution of this
+     * OptionalMapper will also be thrown at the caller of the returned function.
+     *
+     * @return function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this OptionalMapper and if the result is not {@code null}, returns it.
+     * If the result is {@code null}, an empty Optional will be returned.
+     */
+    default OptionalMapper<I, O> nullAware() {
+        return i -> {
+            // check if input is null
+            if (i == null) {
+                return Optional.empty();
+            }
+            final Optional<O> result = this.apply(i);
+            // check if output is null
+            if (result != null) {
+                return result;
+            } else {
+                return Optional.empty();
+            }
+        };
+    }
+
+    /**
      * The returned function will execute this OptionalMapper and if it executes without any problem, the result
      * will be returned. If the execution throws an {@link Exception Exception}, this will be caught and swallowed(!);
      * the function will return an empty Optional in this case. It is recommended to handle the exception, e.g. by using  method
@@ -499,9 +526,9 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      * re-thrown to the caller.
      * If the recovery method itself will throw an exception, it will not be caught and propagated to the caller of the function.
      *
-     * @param clazz class of exceptions to be caught and recovered from.
+     * @param clazz    class of exceptions to be caught and recovered from.
      * @param recovery function recovering from an exception providing a regular value to return from the returned function.
-     * @param <E> Type of exceptions to be caught and recovered from.
+     * @param <E>      Type of exceptions to be caught and recovered from.
      * @return function executing this OptionalMapper and if a an exception of type {@code E} is thrown during the execution,
      * the given {@code recovery} function is used to provide a value to be returned. Exceptions of other types will be
      * re-thrown to the caller.

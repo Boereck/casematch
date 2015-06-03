@@ -82,6 +82,18 @@ final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
         return this;
     }
 
+    @Override
+    public NoResultLongCaseMatcher caseIs(LongPredicate p, Runnable then) throws NullPointerException {
+        // do nothing, we already had a matching case
+        return this;
+    }
+
+    @Override
+    public NoResultLongCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
+        // do nothing, we already had a matching case
+        return this;
+    }
+
     /**
      * {@inheritDoc}
      */

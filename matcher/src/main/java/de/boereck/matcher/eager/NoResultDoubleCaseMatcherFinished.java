@@ -73,6 +73,16 @@ final class NoResultDoubleCaseMatcherFinished implements NoResultDoubleCaseMatch
         return this;
     }
 
+    @Override
+    public NoResultDoubleCaseMatcher caseIs(DoublePredicate p, Runnable then) throws NullPointerException {
+        return this;
+    }
+
+    @Override
+    public NoResultDoubleCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
+        return this;
+    }
+
     /**
      * {@inheritDoc}
      */

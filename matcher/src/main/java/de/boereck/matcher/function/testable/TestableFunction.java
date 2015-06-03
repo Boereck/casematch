@@ -55,6 +55,27 @@ public interface TestableFunction<I, O> extends Function<I, O> {
     }
 
     /**
+     * This method will return a function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this TestableFunction and if the result is not {@code null}, returns it.
+     * If the result is {@code null}, an empty Optional will be returned. So effectively {@code null} checks will be
+     * performed on input and output of the function. Exceptions being thrown during the execution of this
+     * TestableFunction will also be thrown at the caller of the returned function.
+     *
+     * @return function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this TestableFunction and if the result is not {@code null}, returns it.
+     * If the result is {@code null}, an empty Optional will be returned.
+     */
+    default OptionalMapper<I, O> nullAware() {
+        return i -> {
+            // check if input is null
+            if (i == null) {
+                return Optional.empty();
+            }
+            return Optional.ofNullable(this.apply(i));
+        };
+    }
+
+    /**
      * The returned function will execute this TestableFunction and if it executes without any problem, the result
      * will be returned as an Optional. If the execution throws an {@link Exception Exception}, this will be caught and swallowed(!);
      * the function will return an empty Optional in this case. It is recommended to handle the exception, e.g. by using  method

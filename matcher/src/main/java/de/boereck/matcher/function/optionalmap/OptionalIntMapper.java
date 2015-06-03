@@ -1,5 +1,8 @@
 package de.boereck.matcher.function.optionalmap;
 
+import de.boereck.matcher.function.testable.TestableToIntFunction;
+import de.boereck.matcher.function.testable.TestableToLongFunction;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -132,6 +135,116 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         return i -> {
             final OptionalInt result = apply(i);
             return result.isPresent() && test.test(result.getAsInt());
+        };
+    }
+
+    /**
+     * Returns a consumer that takes an input value, calls this OptionalIntMapper with it, and feeds the result to
+     * the given {@code consumer}.
+     *
+     * @param consumer consumes the result of this OptionalIntMapper, when the returned Consumer is invoked.
+     * @return consumer that takes an input value, calls this OptionalIntMapper with it, and feeds the result to
+     * the parameter {@code consumer}.
+     * @throws NullPointerException if {@code consumer} is {@code null}.
+     */
+    default Consumer<I> thenDo(Consumer<OptionalInt> consumer) throws NullPointerException {
+        Objects.requireNonNull(consumer);
+        return i -> consumer.accept(this.apply(i));
+    }
+
+    /**
+     * Returns a consumer that takes an input value, calls this OptionalIntMapper with it, if the returned {@code Optional}
+     * holds a value, feeds this value to the given {@code consumer}.
+     *
+     * @param consumer consumes the result value of the Optional returned by this OptionalIntMapper (if value is present),
+     *                 when the returned Consumer is invoked.
+     * @return consumer that takes an input value, calls this OptionalIntMapper with it, and feeds the content of the
+     * resulting Optional to the parameter {@code consumer} (if value exists).
+     * @throws NullPointerException if {@code consumer} is {@code null}.
+     */
+    default Consumer<I> thenIfPresent(IntConsumer consumer) throws NullPointerException {
+        Objects.requireNonNull(consumer);
+        return i -> {
+            final OptionalInt result = this.apply(i);
+            if (result != null && result != null) {
+                result.ifPresent(consumer);
+            }
+        };
+    }
+
+    /**
+     * Returns a function that takes an input value, calls this OptionalIntMapper with it, and calls
+     * {@link Optional#orElse(Object) orElse} on the returned Optional with the given value {@code o}. If
+     * the Optional returned by this OptionalIntMapper is {@code null}, the function will return value {@code o}.
+     *
+     * @param o value that will be returned from the function returned by this method if either this OptionalIntMapper
+     *          returns {@code null}, or an empty Optional.
+     * @return function that takes an input value, calls this OptionalIntMapper with it, and calls
+     * {@link OptionalInt#orElse(int) orElse} on the returned OptionalInt with the given value {@code o}. If
+     * the OptionalInt returned by this OptionalIntMapper is {@code null}, the function will return value {@code o}.
+     * @throws NullPointerException if {@code consumer} is {@code null}.
+     */
+    default TestableToIntFunction<I> orElse(int o) {
+        return i -> {
+            final OptionalInt result = this.apply(i);
+            if (result != null && result != null) {
+                return result.orElse(o);
+            } else {
+                return o;
+            }
+        };
+    }
+
+    /**
+     * Returns a function that takes an input value, calls this OptionalIntMapper with it, and calls
+     * {@link OptionalInt#orElseGet(IntSupplier) orElseGet} on the returned OptionalInt with the given value {@code supplier}. If
+     * the Optional returned by this OptionalIntMapper is {@code null}, the function will return the value provided
+     * by {@code supplier}.
+     *
+     * @param supplier supplies value that will be returned from the function returned by this method if either this
+     *                 OptionalIntMapper returns {@code null}, or an empty OptionalInt.
+     * @return function taking an input value, calls this OptionalIntMapper with it, and calls
+     * {@link OptionalInt#orElseGet(IntSupplier) orElseGet} on the returned OptionalInt with the given value {@code supplier}. If
+     * the OptionalInt returned by this OptionalIntMapper is {@code null}, the function will return the value provided
+     * by {@code supplier}.
+     * @throws NullPointerException if {@code consumer} is {@code null}.
+     */
+    default TestableToIntFunction<I> orElseGet(IntSupplier supplier) throws NullPointerException {
+        Objects.requireNonNull(supplier);
+        return i -> {
+            final OptionalInt result = this.apply(i);
+            if (result != null) {
+                return result.orElseGet(supplier);
+            } else {
+                return supplier.getAsInt();
+            }
+        };
+    }
+
+    /**
+     * This method will return a function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this OptionalIntMapper and if the result is not {@code null}, returns it.
+     * If the result is {@code null}, an empty OptionalInt will be returned. So effectively {@code null} checks will be
+     * performed on input and output of the function. Exceptions being thrown during the execution of this
+     * OptionalIntMapper will also be thrown at the caller of the returned function.
+     *
+     * @return function that checks if the input is {@code null} and if so returns an empty
+     * optional. Otherwise it will call this OptionalIntMapper and if the result is not {@code null}, returns it.
+     * If the result is {@code null}, an empty OptionalInt will be returned.
+     */
+    default OptionalIntMapper<I> nullAware() {
+        return i -> {
+            // check if input is null
+            if (i == null) {
+                return OptionalInt.empty();
+            }
+            final OptionalInt result = this.apply(i);
+            // check if output is null
+            if (result != null) {
+                return result;
+            } else {
+                return OptionalInt.empty();
+            }
         };
     }
 
