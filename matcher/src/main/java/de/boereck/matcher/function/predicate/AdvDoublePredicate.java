@@ -37,9 +37,10 @@ public interface AdvDoublePredicate extends DoublePredicate {
      * @param f wrapped mapping function. It will only be called if the predicate returns {@code true} for a given input.
      * @param <O> Type of output object of the wrapped function.
      * @return Function that will either return an empty optional (if this predicate returns {@code false} for an input),
-     *  or an optional holding the output of function {@code f} (if this predicate rutnrs {@code true} for an input).
+     *  or an optional holding the output of function {@code f} (if this predicate returns {@code true} for an input).
+     * @throws NullPointerException if {@code f} is {@code null}.
      */
-    default <O> DoubleFunction<Optional<O>> preOf(DoubleFunction<O> f) {
+    default <O> DoubleFunction<Optional<O>> preFor(DoubleFunction<O> f) throws NullPointerException {
         Objects.requireNonNull(f);
         return i -> this.test(i) ? Optional.ofNullable(f.apply(i)) : Optional.empty();
     }
@@ -75,10 +76,13 @@ public interface AdvDoublePredicate extends DoublePredicate {
      *         <td class="false"/>
      *     </tr>
      * </table>
-     * @param that
-     * @return
+     * @param that other predicate that returns that second argument of the logical XOR operation performed by the
+     *             returned predicate.
+     * @return predicate performing a logical XOR operation with the result of {@code this} predicate and {@code that}
+     *  predicate.
+     * @throws NullPointerException if {@code that} is {@code null}.
      */
-    default AdvDoublePredicate xor(DoublePredicate that) {
+    default AdvDoublePredicate xor(DoublePredicate that) throws NullPointerException {
         Objects.requireNonNull(that);
         return i -> this.test(i) ^ that.test(i);
     }
@@ -115,10 +119,13 @@ public interface AdvDoublePredicate extends DoublePredicate {
      *     </tr>
      * </table>
      *
-     * @param that
-     * @return
+     * @param that other predicate that returns that second argument of the logical NOR operation performed by the
+     *             returned predicate.
+     * @return predicate performing a logical NOR operation with the result of {@code this} predicate and {@code that}
+     *  predicate.
+     * @throws NullPointerException if {@code that} is {@code null}.
      */
-    default AdvDoublePredicate nor(DoublePredicate that) {
+    default AdvDoublePredicate nor(DoublePredicate that) throws NullPointerException {
         Objects.requireNonNull(that);
         return i -> !this.test(i) && !that.test(i);
     }
@@ -157,8 +164,10 @@ public interface AdvDoublePredicate extends DoublePredicate {
      *         <td class="true"/>
      *     </tr>
      * </table>
-     * @param that the
-     * @return predicate returning
+     * @param that other predicate that returns that second argument of the logical XNOR operation performed by the
+     *             returned predicate.
+     * @return predicate performing a logical NOR operation with the result of {@code this} predicate and {@code that}
+     *  predicate.
      * @throws NullPointerException if {@code that} is {@code null}.
      */
     default AdvDoublePredicate xnor(DoublePredicate that) throws NullPointerException {
@@ -197,10 +206,13 @@ public interface AdvDoublePredicate extends DoublePredicate {
      *         <td class="true"/>
      *     </tr>
      * </table>
-     * @param that
-     * @return
+     * @param that other predicate that returns that second argument of the logical implication performed by the
+     *             returned predicate.
+     * @return predicate performing a logical implication with the result of {@code this} predicate and {@code that}
+     *  predicate.
+     * @throws NullPointerException if {@code that} is {@code null}.
      */
-    default AdvDoublePredicate implies(DoublePredicate that) {
+    default AdvDoublePredicate implies(DoublePredicate that) throws NullPointerException {
         Objects.requireNonNull(that);
         return i -> !this.test(i) || that.test(i);
     }
@@ -236,6 +248,10 @@ public interface AdvDoublePredicate extends DoublePredicate {
      *         <td class="true"/>
      *     </tr>
      * </table>
+     * @param that other predicate that returns that second argument of the logical AND operation performed by the
+     *             returned predicate.
+     * @return  predicate performing a logical AND operation with the result of {@code this} predicate and {@code that}
+     *  predicate.
      * @throws NullPointerException if {@code that} is {@code null}.
      */
     @Override
@@ -244,6 +260,9 @@ public interface AdvDoublePredicate extends DoublePredicate {
         return i -> test(i) && that.test(i);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default AdvDoublePredicate negate() {
         return i -> !test(i);
@@ -252,7 +271,7 @@ public interface AdvDoublePredicate extends DoublePredicate {
     /**
      * Shortcut for {@link de.boereck.matcher.function.predicate.AdvDoublePredicate#negate()}
      *
-     * @return
+     * @return result of {@link AdvDoublePredicate#negate() negate()}.
      */
     default AdvDoublePredicate not() {
         return negate();
@@ -290,6 +309,8 @@ public interface AdvDoublePredicate extends DoublePredicate {
      *     </tr>
      * </table>
      * @see DoublePredicate#or(DoublePredicate)
+     * @return predicate performing a logical OR operation with the result of {@code this} predicate and {@code that}
+     *  predicate
      * @throws NullPointerException if {@code that} is {@code null}.
      */
     @Override
@@ -305,8 +326,10 @@ public interface AdvDoublePredicate extends DoublePredicate {
      *
      * @param that precondition for this predicate.
      * @return result of {@code that.and(this)}.
+     * @throws NullPointerException if {@code that} is {@code null}.
      */
-    default DoublePredicate requires(DoublePredicate that) {
+    default DoublePredicate requires(DoublePredicate that) throws NullPointerException {
+        Objects.requireNonNull(that);
         return that.and(this)::test;
     }
 }

@@ -8,7 +8,7 @@ import java.util.function.LongPredicate;
 @FunctionalInterface
 public interface AdvLongPredicate extends LongPredicate {
 
-    default <O> LongFunction<Optional<O>> preOf(LongFunction<? extends O> f) throws NullPointerException {
+    default <O> LongFunction<Optional<O>> preFor(LongFunction<? extends O> f) throws NullPointerException {
         Objects.requireNonNull(f);
         return i -> this.test(i) ? Optional.ofNullable(f.apply(i)) : Optional.empty();
     }
