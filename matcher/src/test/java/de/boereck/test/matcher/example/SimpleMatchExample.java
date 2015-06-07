@@ -4,6 +4,7 @@ import de.boereck.matcher.function.optionalmap.OptionalIntMapper;
 import de.boereck.matcher.function.optionalmap.OptionalMapper;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -14,11 +15,12 @@ import static de.boereck.matcher.helpers.ConsumerHelpers.*;
 import static de.boereck.matcher.helpers.MatchHelpers.*;
 import static de.boereck.matcher.helpers.StringMatchHelpers.*;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 public class SimpleMatchExample {
 
     public static void main(String[] args) {
-        List<Object> l = asList("", "foo", null, asList("bar"));
+        List<Object> l = asList("", "foo", null, singletonList("bar"));
         print(l);
     }
 

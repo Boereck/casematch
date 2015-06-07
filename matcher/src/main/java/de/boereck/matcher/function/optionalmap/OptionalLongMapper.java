@@ -15,7 +15,8 @@ import java.util.function.*;
 /**
  * {@link Function} mapping an input of type I to an {@link OptionalLong}. The result of this function should never
  * be {@code null}, even though most combinator methods of this interface are prepared for this.
- * This interface is especially useful when working with {@link NoResultCaseMatcher#caseLong(Function, LongConsumer)}.
+ * This interface is especially useful when working with {@link NoResultCaseMatcher#caseLong(Function, LongConsumer)}, or
+ * {@link ResultCaseMatcher#caseLong(Function, LongFunction)}.
  *
  * @param <I> Type of input to the function
  * @author Max Bureck
@@ -24,8 +25,8 @@ import java.util.function.*;
 public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
 
     /**
-     * Returns a function that will first call this OptionalLongMapper and afterwards calls
-     * the checks if the OptionalLong contains a value. If so, the value in the optional will be used as an input to
+     * Returns a function that will first call this OptionalLongMapper and afterwards
+     * checks if the OptionalLong contains a value. If so, the value in the optional will be used as an input to
      * the given mapping function {@code after} and returned in an optional, otherwise an empty optional will be returned.
      * If the result of this OptionalLongMapper is {@code null}, an empty {@code Optional} will be returned.
      *
@@ -121,7 +122,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
     }
 
     /**
-     * Returns a function that will call this OptionalLongMapper and afterwards, if the returned Optional contains a
+     * Returns a function that will call this OptionalLongMapper and afterwards, if the returned OptionalLong contains a
      * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
      * optional returned by this OptionalLongMapper is {@code null} or empty, the resulting function will return an
      * empty optional.
@@ -129,9 +130,9 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
      * @param after mapping function that will be called with the value of the {@code OptionalLong} returned by
      *              this OptionalLongMapper. Must not be {@code null}.
      * @param <V>   result type of optional returned by {@after} mapper function.
-     * @return function that will call this OptionalLongMapper and afterwards, if the returned Optional contains a
+     * @return function that will call this OptionalLongMapper and afterwards, if the returned OptionalLong contains a
      * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
-     * optional returned by this OptionalLongMapper is empty or {@code null} is returned, the resulting function will
+     * optional returned by this OptionalLongMapper is empty or {@code null}, the resulting function will
      * return an empty optional.
      * @throws NullPointerException will the thrown if {@code after} is {@code null}.
      */
@@ -147,6 +148,20 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
+    /**
+     * Returns a function that will call this OptionalLongMapper and afterwards, if the returned OptionalLong contains a
+     * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
+     * optional returned by this OptionalLongMapper is {@code null} or empty, the resulting function will return an
+     * empty optional.
+     *
+     * @param after mapping function that will be called with the value of the {@code OptionalLong} returned by
+     *              this OptionalLongMapper. Must not be {@code null}.
+     * @return function that will call this OptionalLongMapper and afterwards, if the returned OptionalLong contains a
+     * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
+     * optional returned by this OptionalLongMapper is empty or {@code null}, the resulting function will
+     * return an empty optional.
+     * @throws NullPointerException will the thrown if {@code after} is {@code null}.
+     */
     default OptionalIntMapper<I> flatMapI(LongFunction<OptionalInt> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
@@ -159,6 +174,20 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
+    /**
+     * Returns a function that will call this OptionalLongMapper and afterwards, if the returned OptionalLong contains a
+     * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
+     * optional returned by this OptionalLongMapper is {@code null} or empty, the resulting function will return an
+     * empty optional.
+     *
+     * @param after mapping function that will be called with the value of the {@code OptionalLong} returned by
+     *              this OptionalLongMapper. Must not be {@code null}.
+     * @return function that will call this OptionalLongMapper and afterwards, if the returned OptionalLong contains a
+     * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
+     * optional returned by this OptionalLongMapper is empty or {@code null}, the resulting function will
+     * return an empty optional.
+     * @throws NullPointerException will the thrown if {@code after} is {@code null}.
+     */
     default OptionalLongMapper<I> flatMapL(LongFunction<OptionalLong> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
@@ -171,6 +200,20 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
+    /**
+     * Returns a function that will call this OptionalLongMapper and afterwards, if the returned OptionalLong contains a
+     * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
+     * optional returned by this OptionalLongMapper is {@code null} or empty, the resulting function will return an
+     * empty optional.
+     *
+     * @param after mapping function that will be called with the value of the {@code OptionalLong} returned by
+     *              this OptionalLongMapper. Must not be {@code null}.
+     * @return function that will call this OptionalLongMapper and afterwards, if the returned OptionalLong contains a
+     * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
+     * optional returned by this OptionalLongMapper is empty or {@code null}, the resulting function will
+     * return an empty optional.
+     * @throws NullPointerException will the thrown if {@code after} is {@code null}.
+     */
     default OptionalDoubleMapper<I> flatMapD(LongFunction<OptionalDouble> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
@@ -183,6 +226,20 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         };
     }
 
+    /**
+     * Returns an optional mapper filtering the {@code OptionalLong} returned by this OptionalLongMapper
+     * with the given predicate {@code after}. This means that function returns an empty OptionalLong
+     * if either this OptionalLongMapper returns {@code null}, or an empty {@code OptionalLong}, or if the
+     * OptionalLong returned from this OptionalLongMapper holds a value, but the predicate {@code after} returns
+     * {@code false} for the value held in the OptionalLong. If the predicate returns {@code true}, the function
+     * will return the OptionalLong returned from this OptionalLongMapper.
+     *
+     * @param after function being used to filter on the OptionalLong returned
+     *              from this OptionalLongMapper. This parameter must not be {@code null}.
+     * @return optional mapper filtering the {@code OptionalLong} returned by this OptionalLongMapper
+     * with the given predicate {@code after}.
+     * @throws NullPointerException will be thrown if {@code after} is {@code null}.
+     */
     default OptionalLongMapper<I> filter(LongPredicate after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
@@ -203,7 +260,10 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
      * is not {@code null} and holds a value.
      */
     default Predicate<I> hasResult() {
-        return i -> this.apply(i).isPresent();
+        return i -> {
+            final OptionalLong result = this.apply(i);
+            return result != null && result.isPresent();
+        };
     }
 
     /**

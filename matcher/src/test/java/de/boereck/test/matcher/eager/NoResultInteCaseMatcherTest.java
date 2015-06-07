@@ -1,4 +1,4 @@
-package de.boereck.test.matcher;
+package de.boereck.test.matcher.eager;
 
 import static de.boereck.matcher.eager.EagerMatcher.match;
 import static org.junit.Assert.*;

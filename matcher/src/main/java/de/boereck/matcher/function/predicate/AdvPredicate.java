@@ -10,8 +10,6 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface AdvPredicate<I> extends Predicate<I> {
 
-    // TODO maybe impl nullToFalse and nullToTrue
-
     default <O> OptionalMapper<I,O> then(Function<? super I, ? extends O> f) throws NullPointerException {
         Objects.requireNonNull(f);
         return i -> this.test(i) ? Optional.ofNullable(f.apply(i)) : Optional.empty();
@@ -83,5 +81,25 @@ public interface AdvPredicate<I> extends Predicate<I> {
      */
     default AdvPredicate<I> requires(Predicate<? super I> that) {
         return i -> that.test(i) && this.test(i);
+    }
+
+    /**
+     * The returned predicate will check if the input is {@code null} and return {@code false}, if so. Otherwise it
+     * will call this AdvPredicate and return the result.
+     * @return predicate returning {@code false} if the input is {@code null}, otherwise the result of this predicate
+     *  with the same input.
+     */
+    default AdvPredicate<I> nullToFalse() {
+        return i -> i != null && this.test(i);
+    }
+
+    /**
+     * The returned predicate will check if the input is {@code null} and return {@code true}, if so. Otherwise it
+     * will call this AdvPredicate and return the result.
+     * @return predicate returning {@code true} if the input is {@code null}, otherwise the result of this predicate
+     *  with the same input.
+     */
+    default AdvPredicate<I> nullToTrue() {
+        return i -> i == null || this.test(i);
     }
 }
