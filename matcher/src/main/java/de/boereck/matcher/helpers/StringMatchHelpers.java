@@ -41,7 +41,7 @@ public final class StringMatchHelpers {
      * @return true if {@code s} is {@code null} or an empty String.
      */
     private static boolean isEmpty(String s) {
-        return s == null ? true : s.isEmpty();
+        return s == null || s.isEmpty();
     }
 
     /**
@@ -50,7 +50,7 @@ public final class StringMatchHelpers {
      * @return false if {@code s} is {@code null} or empty. True otherwise.
      */
     private static boolean notEmpty(String s) {
-        return s == null ? false : !s.isEmpty();
+        return s != null && !s.isEmpty();
     }
 
     /**
@@ -72,7 +72,7 @@ public final class StringMatchHelpers {
      */
     public static AdvPredicate<String> startsWith(String other) throws NullPointerException {
         Objects.requireNonNull(other);
-        return str -> str == null ? false : str.startsWith(other);
+        return str -> str != null && str.startsWith(other);
     }
 
     /**
@@ -88,7 +88,7 @@ public final class StringMatchHelpers {
      */
     public static Predicate<String> startsWith(String other, int toffset) throws NullPointerException {
         Objects.requireNonNull(other);
-        return str -> str == null ? false : str.startsWith(other, toffset);
+        return str -> str != null && str.startsWith(other, toffset);
     }
 
     /**
@@ -235,7 +235,7 @@ public final class StringMatchHelpers {
      * @return predicate checking input strings to have at least length {@code minLen}.
      */
     public static AdvPredicate<String> minLength(int minLen) {
-        return s -> s == null ? false : s.length() >= minLen;
+        return s -> s != null && s.length() >= minLen;
     }
 
     /**
@@ -249,7 +249,7 @@ public final class StringMatchHelpers {
      */
     public static AdvPredicate<String> minLength(IntSupplier minSupplier) throws NullPointerException {
         Objects.requireNonNull(minSupplier);
-        return s -> s == null ? false : s.length() >= minSupplier.getAsInt();
+        return s -> s != null && s.length() >= minSupplier.getAsInt();
     }
 
     /**
@@ -261,7 +261,7 @@ public final class StringMatchHelpers {
      * @return predicate checking input strings to have at most length {@code maxLen}.
      */
     public static AdvPredicate<String> maxLength(int maxLen) {
-        return s -> s == null ? false : s.length() <= maxLen;
+        return s -> s != null && s.length() <= maxLen;
     }
 
     /**
@@ -275,6 +275,6 @@ public final class StringMatchHelpers {
      */
     public static AdvPredicate<String> maxLength(IntSupplier maxSupplier) throws NullPointerException {
         Objects.requireNonNull(maxSupplier);
-        return s -> s == null ? false : s.length() <= maxSupplier.getAsInt();
+        return s -> s != null && s.length() <= maxSupplier.getAsInt();
     }
 }

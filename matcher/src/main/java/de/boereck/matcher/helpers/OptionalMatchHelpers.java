@@ -72,6 +72,35 @@ public class OptionalMatchHelpers {
     }
 
     /**
+     * Returns a function that will map the content of the input optional to another optional and returns this optional.
+     * If the input optional to the returned function is {@code null}, the function will return an empty optional.
+     * @param extractor mapping from the value of the iput optional to another optional, being returned from the
+     *                  result function.
+     * @param <I> Type of object held by input optional
+     * @param <O> Type of object held by output optional
+     * @return function mapping from one option based on function {@code extractor} to another optional that is returned.
+     * @throws NullPointerException if {@code extractor} is {@code null}.
+     */
+    public static final <I,O> OptionalMapper<Optional<I>,O> someFlat(Function<I, Optional<O>> extractor) throws NullPointerException {
+        Objects.requireNonNull(extractor);
+        return i -> i == null ? Optional.<O>empty() : i.flatMap(extractor);
+    }
+
+    /**
+     * Returns a function that will map the content of the input optional, by calling  {@link Optional#map(Function) map}
+     * on the input optional. If the input optional is {@code null}, an empty optional is being returned.
+     * @param mapper will be passed as input parameter to the map function of the input optional to the returned function.
+     * @param <I> Type of object held by input optional
+     * @param <O> Type of object held by output optional
+     * @return function mapping the value of the input option based {@code extractor} to another value and returns the resulting optional.
+     * @throws NullPointerException if {@code mapper} is {@code null}.
+     */
+    public static final <I,O> OptionalMapper<Optional<I>,O> someMap(Function<I, O> mapper) throws NullPointerException {
+        Objects.requireNonNull(mapper);
+        return i -> i == null ? Optional.<O>empty() : i.map(mapper);
+    }
+
+    /**
      * Predicate checking if an Optional is either null or empty.
      */
     public static final AdvPredicate<Optional<?>> none = o -> o == null || !o.isPresent();
@@ -80,7 +109,7 @@ public class OptionalMatchHelpers {
      * Function that can be used to take an OptionalInt in a match and returns this again.
      * If the input optional to the function is {@code null}, an empty optional will be returned.
      */
-    public static final Function<OptionalInt,OptionalInt> someI =
+    public static final OptionalIntMapper<OptionalInt> someI =
             i -> i == null ? OptionalInt.empty() : i;
 
 
@@ -183,4 +212,5 @@ public class OptionalMatchHelpers {
      * Predicate checking if an OptionalDouble is either {@code null} or empty.
      */
     public static final AdvPredicate<OptionalDouble> noneD = o -> o == null || !o.isPresent();
+
 }

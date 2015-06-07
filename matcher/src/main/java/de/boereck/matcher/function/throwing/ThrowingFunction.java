@@ -50,6 +50,7 @@ public interface ThrowingFunction<I,O,E extends Exception> extends TestableFunct
         private Uncheck() {
             throw new IllegalStateException();
         }
+       @SuppressWarnings("unchecked") // Cast works, since we only use it for RuntimeException
        private static <T extends Exception> void rethrowUnchecked(Exception t) throws T {
            throw (T)t;
        }
