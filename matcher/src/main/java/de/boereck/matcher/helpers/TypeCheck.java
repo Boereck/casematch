@@ -23,7 +23,6 @@ public interface TypeCheck<I, O> extends AdvPredicate<I> {
      * This is a lazy concatenation of tests. The returned TypeCheck will first test this predicate and only if this returns
      * true will test the given otherTest. The result will be the logical short-circuiting AND operation.
      * <p>
-     * <p>
      * Of any exceptions are thrown during evaluation of either predicate are passed on to the caller of the composed
      * predicate. If this predicate throws an exception, the {@code otherTest} predicate will not be called.
      * </p>
@@ -47,7 +46,6 @@ public interface TypeCheck<I, O> extends AdvPredicate<I> {
     /**
      * This is a lazy concatenation of tests. The returned TypeCheck will first test this predicate and only if this returns
      * true will test the given otherTest. The result will be the logical short-circuiting IMPLIES operation.
-     * <p>
      * <p>
      * Of any exceptions are thrown during evaluation of either predicate are passed on to the caller of the composed
      * predicate. If this predicate throws an exception, the {@code otherTest} predicate will not be called.

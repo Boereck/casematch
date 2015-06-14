@@ -185,6 +185,7 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      * optional will be returned. If the result of this OptionalMapper is {@code null}, an empty {@code Optional} will be
      * returned from the resulting function.
      *
+     * @param <V> Type of element held by output optional
      * @param after function being called on the result value of {@code this::apply}, if the optional result exists.
      *              Must not be {@code null}.
      * @return function that will first call this OptionalMapper and afterwards calls function {@code after} on the
@@ -211,6 +212,7 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      * optional will be returned. If the result of this OptionalMapper is {@code null}, an empty {@code Optional} will be
      * returned from the resulting function.
      *
+     * @param <V> Type of element held by output optional
      * @param after function being called on the result value of {@code this::apply}, if the optional result exists.
      *              Must not be {@code null}.
      * @return function that will first call this OptionalMapper and afterwards calls function {@code after} on the

@@ -4,7 +4,6 @@ import de.boereck.matcher.function.predicate.AdvPredicate;
 import org.junit.Test;
 
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.*;
 
@@ -19,7 +18,7 @@ public class AdvPredicateTest {
         AdvPredicate<Object> alwaysTrue = o -> true;
         final String returned = "Yippiekayeah!";
         final String input = "foobar";
-        Optional<String> nonEmpty = alwaysTrue.then(o -> {
+        Optional<String> nonEmpty = alwaysTrue.ifThen(o -> {
             assertEquals(input, o);
             return returned;
         }).apply(input);
@@ -28,7 +27,7 @@ public class AdvPredicateTest {
         assertEquals(returned, nonEmpty.get());
 
         // then with true with then returning null should return emtpy optional
-        Optional<Object> emptyOnNull = alwaysTrue.then(o -> {
+        Optional<Object> emptyOnNull = alwaysTrue.ifThen(o -> {
             assertEquals(input, o);
             return null;
         }).apply(input);
@@ -40,7 +39,7 @@ public class AdvPredicateTest {
     public void testThenOnFalse() {
         // then with false should invoke given function
         AdvPredicate<Object> alwaysFalse = o -> false;
-        Optional<Object> empty = alwaysFalse.then(o -> {
+        Optional<Object> empty = alwaysFalse.ifThen(o -> {
             fail();
             return null;
         }).apply(null);
@@ -51,7 +50,7 @@ public class AdvPredicateTest {
     @Test(expected = NullPointerException.class)
     public void testThenWithNullParam() {
         AdvPredicate<Object> alwaysTrue = o -> true;
-        alwaysTrue.then(null).apply(null);
+        alwaysTrue.ifThen(null).apply(null);
     }
 
     @Test
@@ -59,7 +58,7 @@ public class AdvPredicateTest {
         AdvPredicate<Object> alwaysTrue = o -> true;
         String input = "HuiBuh";
         String output = "Arrrrr";
-        Optional<String> result = alwaysTrue.thenFlat(o -> {
+        Optional<String> result = alwaysTrue.ifThenFlat(o -> {
             assertEquals(input, o);
             return Optional.of(output);
         }).apply(input);

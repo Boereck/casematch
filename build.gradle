@@ -25,6 +25,12 @@ subprojects {
     group = 'de.boereck'
     archivesBaseName = project.parent.name + '-' + project.name
 
+    javadoc {
+        options.charSet = 'UTF-8'
+        options.encoding = 'UTF-8'
+        options.links = [ 'http://docs.oracle.com/javase/8/docs/api/' ]
+    }
+
     repositories {
         mavenCentral()
     }

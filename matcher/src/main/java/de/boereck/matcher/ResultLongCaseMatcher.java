@@ -22,13 +22,11 @@ import java.util.function.Supplier;
  * matches will be executed.
  * </p>
  * <p>
- * <p>
  * The case de.boereck.matcher interface does <em>not</em> give a guarantee if the cases are checked in the order they are specified. It
  * is also not guaranteed that remaining cases are evaluated when a matching case was found. Implementations may even execute
  * the found checks and actions asynchronously. This has to be clarified by the factory method providing the instance or by
  * sub-types providing a stricter API.
  * </p>
- * <p>
  * <p>
  * It is also not defined if the evaluation of case predicates or functions is done eager when a case method is called or
  * lazy when a closing method is called. Closing methods by this interface are:
@@ -67,9 +65,9 @@ public interface ResultLongCaseMatcher<O> {
      * Defines a case that checks if the given predicate returns true when it is provided with the input value. If the case
      * is determined to be the matching case, the provided consumer method will be called with the input value.
      *
-     * @param p        Checking predicate that defines if the case is a found, when provided with the input value.
+     * @param p Checking predicate that defines if the case is a found, when provided with the input value.
      * @param f Function that will be called with the input value if the case is determined to be the matching one. The
-     *                 result of this function will be the result of the case found.
+     *          result of this function will be the result of the case found.
      * @return instance of ResultLongCaseMatcher (maybe same as same object as this) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
@@ -94,7 +92,6 @@ public interface ResultLongCaseMatcher<O> {
      * function will be the result of the matching case.
      * </p>
      * <p>
-     * <p>
      * Be aware that the expression that evaluates to the value of the {@code test} parameter will <em>always</em> be
      * evaluated, even if a previous case matched already. It is recommended to use
      * {@link de.boereck.matcher.ResultLongCaseMatcher#caseOf(java.util.function.LongPredicate, java.util.function.LongFunction) caseOf(LongPredicate, LongFunction)} or
@@ -113,7 +110,7 @@ public interface ResultLongCaseMatcher<O> {
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
      * match. If the case is determined to be the matching case, the provided runnable will be called.
      *
-     * @param p predicate that defines if the case is a found, when provided with the input object.
+     * @param p        predicate that defines if the case is a found, when provided with the input object.
      * @param supplier Will be called if the case was determined to be the matching case to return the result for the match.
      * @return instance of ResultLongCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code supplier} is {@code null}.
@@ -124,7 +121,7 @@ public interface ResultLongCaseMatcher<O> {
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
      * match. If the case is determined to be the matching case, the provided runnable will be called.
      *
-     * @param test boolean that defines if the case is a found, when provided with the input object.
+     * @param test     boolean that defines if the case is a found, when provided with the input object.
      * @param supplier Will be called if the case was determined to be the matching case to return the result for the match.
      * @return instance of ResultLongCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code supplier} is {@code null}.
@@ -137,10 +134,11 @@ public interface ResultLongCaseMatcher<O> {
      * with the the object that is wrapped in the optional returned by function {@code p}. The result of the consumer
      * function will be the overall result of the case found.
      *
-     * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
-     * @param f will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
-     *                 matching case. The consumer will be called with the value wrapped in the optional object. The result of the
-     *                 function will be the result of the case found.
+     * @param p   function that returns an optional that indicates if the case is a found, when the optional is not empty.
+     * @param f   will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
+     *            matching case. The consumer will be called with the value wrapped in the optional object. The result of the
+     *            function will be the result of the case found.
+     * @param <T> type of object extracted by function {@code p}.
      * @return instance of ResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
@@ -152,14 +150,14 @@ public interface ResultLongCaseMatcher<O> {
      * the the long value that is wrapped in the optional returned by function {@code p}. The result of the consumer function
      * will be the overall result of the case found.
      *
-     * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
+     * @param p function that returns an optional that indicates if the case is a found, when the optional is not empty.
      * @param f will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
-     *                 matching case. The consumer will be called with the value wrapped in the Optionalnt object. The result of
-     *                 the function will be the result of the case found.
+     *          matching case. The consumer will be called with the value wrapped in the Optionalnt object. The result of
+     *          the function will be the result of the case found.
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract <T> ResultLongCaseMatcher<O> caseInt(LongFunction<OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
+    public abstract ResultLongCaseMatcher<O> caseInt(LongFunction<OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalLong} when called with the
@@ -167,14 +165,14 @@ public interface ResultLongCaseMatcher<O> {
      * the the long value that is wrapped in the optional returned by function {@code p}. The result of the consumer function
      * will be the overall result of the case found.
      *
-     * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
+     * @param p function that returns an optional that indicates if the case is a found, when the optional is not empty.
      * @param f will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
-     *                 matching case. The consumer will be called with the value wrapped in the OptionaLong object. The result of
-     *                 the function will be the result of the case found.
+     *          matching case. The consumer will be called with the value wrapped in the OptionaLong object. The result of
+     *          the function will be the result of the case found.
      * @return instance of ResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract <T> ResultLongCaseMatcher<O> caseLong(LongFunction<OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
+    public abstract ResultLongCaseMatcher<O> caseLong(LongFunction<OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalDouble} when called with the
@@ -182,14 +180,14 @@ public interface ResultLongCaseMatcher<O> {
      * the the double value that is wrapped in the optional returned by function {@code p}. The result of the consumer
      * function will be the overall result of the case found.
      *
-     * @param p        function that returns an optional that indicates if the case is a found, when the optional is not empty.
+     * @param p function that returns an optional that indicates if the case is a found, when the optional is not empty.
      * @param f will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
-     *                 matching case. The consumer will be called with the value wrapped in the OptionaDouble object. The result
-     *                 of the function will be the result of the case found.
+     *          matching case. The consumer will be called with the value wrapped in the OptionaDouble object. The result
+     *          of the function will be the result of the case found.
      * @return instance of ResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract <T> ResultLongCaseMatcher<O> caseDouble(LongFunction<OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
+    public abstract ResultLongCaseMatcher<O> caseDouble(LongFunction<OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Optional will be empty if no case matched or if the matching case returned null. This methods is a closing function.
@@ -212,9 +210,10 @@ public interface ResultLongCaseMatcher<O> {
     /**
      * If there was a case found and the result of the found is not {@code null} the given callback {@code onResult} is called with
      * the result value. If no result was found or the result is {@code null}, the callback {@code onAbsent} is called.
+     *
      * @param onResult will be called with the result of the case found if the result was not {@code null}.
      * @param onAbsent will be called if no case matched or the match returned {@code null}.
-     * @throws NullPointerException  might be thrown if parameter {@code onResult} or {@code onAbsent} is {@code null}.
+     * @throws NullPointerException might be thrown if parameter {@code onResult} or {@code onAbsent} is {@code null}.
      */
     public abstract void then(Consumer<? super O> onResult, Runnable onAbsent) throws NullPointerException;
 
@@ -250,7 +249,7 @@ public interface ResultLongCaseMatcher<O> {
      * @return If there was a case-found, the result will be returned, the result value may be {@code null}.
      * @throws X                    if there was no matching case
      * @throws NullPointerException will be thrown if the exSupplier was {@code null} or the provided exception is {@code null}.
-     * @see de.boereck.matcher.ResultLongCaseMatcher#orElseThrow(java.util.function.Supplier).
+     * @see de.boereck.matcher.ResultLongCaseMatcher#orElseThrow(Supplier)
      */
     public abstract <X extends Throwable> O otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 
@@ -283,6 +282,7 @@ public interface ResultLongCaseMatcher<O> {
      *
      * @param exSupplier provides the exception to be thrown when no result or {@code null} result is available. This parameter must
      *                   not be {@code null} and the exception provided must not be null.
+     * @param <X>        type of exception that may be thrown if no match found.
      * @return the result value if there was a found and the found provided a non {@code null} value.
      * @throws X                    Will be thrown if there was no found or the found provided a {@code null} result.
      * @throws NullPointerException will be thrown if the {@code exSupplier} is {@code null} or the provided exception is {@code null}.

@@ -112,7 +112,7 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> consumer) {
+    public ResultCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -121,7 +121,7 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> consumer) {
+    public ResultCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -130,7 +130,7 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> consumer) {
+    public ResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
