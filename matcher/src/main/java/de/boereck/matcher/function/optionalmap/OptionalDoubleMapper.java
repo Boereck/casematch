@@ -29,6 +29,7 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
      * the given mapping function {@code after} and returned in an optional, otherwise an empty optional will be returned.
      * If the result of this OptionalDoubleMapper is {@code null}, an empty {@code OptionalDouble} will be returned.
      *
+     * @param <V> Type of element held by output optional
      * @param after mapping function that will be called on the value of the returned {@code OptionalDouble}
      *              of this OptionalDoubleMapper. Must not be {@code null}.
      * @return function mapping the result value of this OptionalDoubleMapper (provided the OptionalDouble holds a value).
@@ -127,7 +128,7 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
      *
      * @param after mapping function that will be called with the value of the {@code OptionalDouble} returned by
      *              this OptionalDoubleMapper. Must not be {@code null}.
-     * @param <V>   result type of optional returned by {@after} mapper function.
+     * @param <V>   result type of optional returned by {@code after} mapper function.
      * @return function that will call this OptionalDoubleMapper and afterwards, if the returned OptionalDouble contains a
      * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
      * optional returned by this OptionalDoubleMapper is empty or {@code null}, the resulting function will

@@ -22,13 +22,11 @@ import java.util.function.Supplier;
  * that matches will be executed.
  * </p>
  * <p>
- * <p>
  * The case de.boereck.matcher interface does <em>not</em> give a guarantee if the cases are checked in the order they are specified. It
  * is also not guaranteed that remaining cases are evaluated when a matching case was found. Implementations may even execute
  * the found checks and actions asynchronously. This has to be clarified by the factory method providing the instance or by
  * sub-types providing a stricter API.
  * </p>
- * <p>
  * <p>
  * It is also not defined if the evaluation of case predicates or functions is done eager when a case method is called or
  * lazy when a closing method is called. Closing methods by this interface are:
@@ -110,7 +108,6 @@ public interface ResultCaseMatcher<I, O> {
      * function will be the result of the matching case.
      * </p>
      * <p>
-     * <p>
      * Be aware that the expression that evaluates to the value of the {@code test} parameter will <em>always</em> be
      * evaluated, even if a previous case matched already. It is recommended to use
      * {@link de.boereck.matcher.ResultCaseMatcher#caseOf(java.util.function.Predicate, java.util.function.Function) caseOf(Predicate, Function)} or
@@ -157,6 +154,7 @@ public interface ResultCaseMatcher<I, O> {
      * @param f will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
      *          matching case. The consumer will be called with the value wrapped in the optional object. The result of the
      *          function will be the result of the case found.
+     * @param <T> type of object extracted by function {@code p}.
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
@@ -175,7 +173,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract <T> ResultCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
+    public abstract ResultCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalLong} when called with the
@@ -190,7 +188,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract <T> ResultCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
+    public abstract ResultCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalDouble} when called with the
@@ -205,7 +203,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract <T> ResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
+    public abstract ResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Optional will be empty if no case matched or if the matching case returned null. This methods is a closing function.
@@ -266,7 +264,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return If there was a case-found, the result will be returned, the result value may be {@code null}.
      * @throws X                    if there was no matching case
      * @throws NullPointerException will be thrown if the exSupplier was {@code null} or the provided exception is {@code null}.
-     * @see de.boereck.matcher.ResultCaseMatcher#orElseThrow(java.util.function.Supplier).
+     * @see de.boereck.matcher.ResultCaseMatcher#orElseThrow(Supplier)
      */
     public abstract <X extends Throwable> O otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 

@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class provides static methods that may help with defining consumers of cases in the found case library<br/>
+ * This class provides static methods that may help with defining consumers of cases in the found case library<br>
  * This class is not intended to be instantiated or sub-classed.
  *
  * @author Max Bureck

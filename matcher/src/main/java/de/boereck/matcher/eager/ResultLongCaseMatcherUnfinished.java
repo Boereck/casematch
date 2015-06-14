@@ -136,7 +136,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultLongCaseMatcher<O> caseInt(LongFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
+    public ResultLongCaseMatcher<O> caseInt(LongFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalInt opt = p.apply(toCheck);
@@ -152,7 +152,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultLongCaseMatcher<O> caseLong(LongFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
+    public ResultLongCaseMatcher<O> caseLong(LongFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalLong opt = p.apply(toCheck);
@@ -168,7 +168,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultLongCaseMatcher<O> caseDouble(LongFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
+    public ResultLongCaseMatcher<O> caseDouble(LongFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalDouble opt = p.apply(toCheck);

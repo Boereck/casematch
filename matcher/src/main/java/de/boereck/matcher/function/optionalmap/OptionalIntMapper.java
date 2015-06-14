@@ -29,6 +29,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      * the given mapping function {@code after} and returned in an optional, otherwise an empty optional will be returned.
      * If the result of this OptionalIntMapper is {@code null}, an empty {@code OptionalInt} will be returned.
      *
+     * @param <V> Type of element held by output optional
      * @param after mapping function that will be called on the value of the returned {@code OptionalInt}
      *              of this OptionalIntMapper. Must not be {@code null}.
      * @return function mapping the result value of this OptionalIntMapper (provided the OptionalInt holds a value).
@@ -128,7 +129,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      *
      * @param after mapping function that will be called with the value of the {@code OptionalInt} returned by
      *              this OptionalIntMapper. Must not be {@code null}.
-     * @param <V>   result type of optional returned by {@after} mapper function.
+     * @param <V>   result type of optional returned by {@code after} mapper function.
      * @return function that will call this OptionalIntMapper and afterwards, if the returned OptionalInt contains a
      * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
      * optional returned by this OptionalIntMapper is empty or {@code null}, the resulting function will
@@ -155,7 +156,6 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      *
      * @param after mapping function that will be called with the value of the {@code OptionalInt} returned by
      *              this OptionalIntMapper. Must not be {@code null}.
-     * @param <V>   result type of optional returned by {@after} mapper function.
      * @return function that will call this OptionalIntMapper and afterwards, if the returned OptionalInt contains a
      * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
      * optional returned by this OptionalIntMapper is empty or {@code null}, the resulting function will
@@ -182,7 +182,6 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      *
      * @param after mapping function that will be called with the value of the {@code OptionalInt} returned by
      *              this OptionalIntMapper. Must not be {@code null}.
-     * @param <V>   result type of optional returned by {@after} mapper function.
      * @return function that will call this OptionalIntMapper and afterwards, if the returned OptionalInt contains a
      * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
      * optional returned by this OptionalIntMapper is empty or {@code null}, the resulting function will
@@ -209,7 +208,6 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      *
      * @param after mapping function that will be called with the value of the {@code OptionalInt} returned by
      *              this OptionalIntMapper. Must not be {@code null}.
-     * @param <V>   result type of optional returned by {@after} mapper function.
      * @return function that will call this OptionalIntMapper and afterwards, if the returned OptionalInt contains a
      * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
      * optional returned by this OptionalIntMapper is empty or {@code null}, the resulting function will

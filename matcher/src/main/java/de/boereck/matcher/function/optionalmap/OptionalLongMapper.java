@@ -129,7 +129,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
      *
      * @param after mapping function that will be called with the value of the {@code OptionalLong} returned by
      *              this OptionalLongMapper. Must not be {@code null}.
-     * @param <V>   result type of optional returned by {@after} mapper function.
+     * @param <V>   result type of optional returned by {@code after} mapper function.
      * @return function that will call this OptionalLongMapper and afterwards, if the returned OptionalLong contains a
      * value, calls the {@code after} mapping function with that value and returns the resulting optional. If the
      * optional returned by this OptionalLongMapper is empty or {@code null}, the resulting function will

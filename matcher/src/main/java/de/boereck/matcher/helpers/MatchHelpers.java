@@ -337,10 +337,10 @@ public final class MatchHelpers {
      * (to static or member methods) explicitly available as predicates, which can be handy if a lambda expression would be
      * ambiguous (e.g. other functional interfaces can be expected in a certain context). It also allows easy composition of
      * functions using the methods on Predicate, like {@link java.util.function.Predicate#and(java.util.function.Predicate)} or {@link java.util.function.Predicate#or(java.util.function.Predicate)}.
-     * Example: <code> <pre>
+     * Example: <pre> <code>
      *   test(String::isEmpty).not()
-     * </pre>
      * </code>
+     * </pre>
      *
      * @param p predicate that should be made available as an AdvPredicate
      * @return AdvPredicate representation of predicate {@code p}
@@ -356,10 +356,10 @@ public final class MatchHelpers {
      * references (to static or member methods) explicitly available as predicates, which can be handy if a lambda expression
      * would be ambiguous (e.g. other functional interfaces can be expected in a certain context). It also allows easy
      * composition of functions using the methods on IntPredicate, like {@link java.util.function.IntPredicate#and(java.util.function.IntPredicate)} or
-     * {@link java.util.function.IntPredicate#or(java.util.function.IntPredicate)}. Example: <code> <pre>
-     *   testI(i -> i < 0).implies(i -> i % 2 == 0) // negative values must be even
-     * </pre>
+     * {@link java.util.function.IntPredicate#or(java.util.function.IntPredicate)}. Example: <pre> <code>
+     *   testI(i -&gt; i &lt; 0).implies(i -&gt; i % 2 == 0) // negative values must be even
      * </code>
+     * </pre>
      *
      * @param p predicate that should be made available as an AdvIntPredicate
      * @return AdvIntPredicate representation of predicate {@code p}
@@ -375,10 +375,10 @@ public final class MatchHelpers {
      * references (to static or member methods) explicitly available as predicates, which can be handy if a lambda expression
      * would be ambiguous (e.g. other functional interfaces can be expected in a certain context). It also allows easy
      * composition of functions using the methods on LongPredicate, like {@link java.util.function.LongPredicate#and(java.util.function.LongPredicate)} or
-     * {@link java.util.function.LongPredicate#or(java.util.function.LongPredicate)}. Example: <code> <pre>
-     *   testL(l -> l < 0).implies(l -> l % 2 == 0) // negative values must be even
-     * </pre>
+     * {@link java.util.function.LongPredicate#or(java.util.function.LongPredicate)}. Example: <pre><code>
+     *   testL(l -&gt; l &lt; 0).implies(l -&gt; l % 2 == 0) // negative values must be even
      * </code>
+     * </pre>
      *
      * @param p predicate that should be made available as an AdvLongPredicate
      * @return AdvLongPredicate representation of predicate {@code p}
@@ -421,7 +421,7 @@ public final class MatchHelpers {
 
     /**
      * Simple shortcut for {@code p.negate()}. This can e.g. used to negate
-     * a method reference. Exmaple: <br/>{@code notI(IntMatchHelpers.positive) // <= 0} <br/>
+     * a method reference. Exmaple: <br>{@code notI(IntMatchHelpers.positive) // <= 0} <br>
      *
      * @param p predicate to be negated
      * @return negated predicate
@@ -434,7 +434,7 @@ public final class MatchHelpers {
 
     /**
      * Simple shortcut for {@code p.negate()}. This can e.g. used to negate
-     * a method reference. Exmaple: <br/>{@code notL(LongMatchHelpers.inClosedRange(0,10)) // <= 0} <br/>
+     * a method reference. Exmaple: <br>{@code notL(LongMatchHelpers.inClosedRange(0,10)) // <= 0} <br>
      *
      * @param p predicate to be negated
      * @return negated predicate
@@ -447,7 +447,7 @@ public final class MatchHelpers {
 
     /**
      * Simple shortcut for {@code p.negate()}. This can e.g. used to negate
-     * a method reference. Exmaple: <br/>{@code notD(DoubleMatchHelpers.finite)} <br/>
+     * a method reference. Exmaple: <br>{@code notD(DoubleMatchHelpers.finite)} <br>
      *
      * @param p predicate to be negated
      * @return negated predicate

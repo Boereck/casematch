@@ -15,13 +15,11 @@ import java.util.function.*;
  * that matches will be executed.
  * </p>
  * <p>
- * <p>
  * The case de.boereck.matcher interface does <em>not</em> give a guarantee if the cases are checked in the order they are specified. It
  * is also not guaranteed that remaining cases are evaluated when a matching case was found. Implementations may even execute
  * the found checks and actions asynchronously. This has to be clarified by the factory method providing the instance or by
  * sub-types providing a stricter API.
  * </p>
- * <p>
  * <p>
  * It is also not defined if the evaluation of case predicates or functions is done eager when a case method is called or
  * lazy when a closing method is called. Closing methods by this interface are:
@@ -76,7 +74,6 @@ public interface NoResultIntCaseMatcher {
      * This method defines a case that applies if the given boolean parameter {@code test} is true. If the case is determined
      * to be the matching case, the provided consumer function will be called with the input value.
      * </p>
-     * <p>
      * <p>
      * Be aware that the expression that evaluates to the value of the {@code test} parameter will <em>always</em> be
      * evaluated, even if a previous case matched already. It is recommended to use

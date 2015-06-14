@@ -53,7 +53,7 @@ public class CollectionMatchHelpers {
     }
 
     /**
-     * This is a shortcut for {@code (Stream<O>) s.filter(o -> clazz.isInstance(o)).
+     * This is a shortcut for {@code (Stream<O>) s.filter(o -> clazz.isInstance(o))}.
      * @param s stream that's elements are filtered by type {@code clazz}. Must not be {@code null}.
      * @param clazz Type the elements of the input stream should be of to be part of the returned result stream.
      *              Must not be {@code null}.
