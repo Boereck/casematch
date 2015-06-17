@@ -4,11 +4,7 @@ import de.boereck.matcher.NoResultCaseMatcher;
 import de.boereck.matcher.function.testable.TestableToIntFunction;
 import de.boereck.matcher.function.testable.TestableToLongFunction;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
+import java.util.*;
 import java.util.function.*;
 
 /**
@@ -518,6 +514,24 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
                     throw t;
                 }
             }
+        };
+    }
+
+    /**
+     * Converts this optional mapper to a function that will perform the mapper and check if there is a result available
+     * and return it. If the returned optional is {@code null} or empty, the function will throw a {@link java.util.NoSuchElementException}.
+     *
+     * @return function not defined on inputs produce empty optionals. This means that
+     * if there this mapper produces an optional holding a value, this will be returned. Otherwise a
+     * {@link java.util.NoSuchElementException} is thrown.
+     */
+    default  TestableToIntFunction<I> partial() {
+        return i -> {
+            OptionalInt result = apply(i);
+            if(result == null) {
+                throw  new NoSuchElementException();
+            }
+            return result.getAsInt();
         };
     }
 }

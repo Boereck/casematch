@@ -7,17 +7,13 @@ import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleFunction;
-import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.function.LongFunction;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 import de.boereck.matcher.ResultCaseMatcher;
 
 public interface ResultFutureCaseMatcher<I, O> extends ResultCaseMatcher<I, O> {
+
+    // TODO versions of cases taking Executor
 
     /**
      * {@inheritDoc}
@@ -49,25 +45,26 @@ public interface ResultFutureCaseMatcher<I, O> extends ResultCaseMatcher<I, O> {
     @Override
     public abstract <T> ResultFutureCaseMatcher<I, O> caseObj(Function<? super I, Optional<T>> p, Function<? super T, ? extends O> consumer);
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract <T> ResultFutureCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> consumer);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> ResultFutureCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> consumer);
+    public abstract ResultFutureCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> ResultFutureCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> consumer);
+    public abstract ResultFutureCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
 
-    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract ResultFutureCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
+
+
     // TODO versions of case methods taking Executor to say where to execute case actions
 
     // TODO versions of otherwise and orElse returning CompletableFuture
@@ -80,21 +77,13 @@ public interface ResultFutureCaseMatcher<I, O> extends ResultCaseMatcher<I, O> {
 
     ResultFutureCaseMatcher<I, O> caseExceptionForward();
 
-    CompletableFuture<Optional<O>> resultAsync();
-
-    CompletableFuture<O> orElseAsync(O alternative);
-
-    CompletableFuture<O> orElseAsync(Supplier<O> elseSupply);
-
-    <X extends Throwable> CompletableFuture<O> otherwiseThrowAsync(Supplier<X> exSupplier);
-
     /**
      * Result will contain {@link java.util.concurrent.TimeoutException} and runnable will be executed.
      * <p>
      * Timeout case declaration do not depend on any order of case check by implementations of this interface. Meaning that
      * the timeout can be detected, even when previous cases were not evaluated yet.
      * </p>
-     * 
+     *
      * @param time
      * @param unit
      * @param onTimeOut
@@ -110,11 +99,47 @@ public interface ResultFutureCaseMatcher<I, O> extends ResultCaseMatcher<I, O> {
 
     /**
      * Will complete result exceptionally with a custom exception, provided by the given {@code onTimeOutException} supplier.
-     * 
+     *
      * @param time
      * @param unit
      * @param onTimeOutException
      * @return
      */
     <X extends Throwable> CompletableFuture<O> caseTimeoutException(long time, TimeUnit unit, Supplier<X> onTimeOutException);
+
+    ////////////////////
+    // Closing Method //
+    ////////////////////
+
+    CompletableFuture<Optional<O>> result();
+
+    CompletableFuture<O> otherwise(O o);
+
+    CompletableFuture<O> otherwise(Function<? super I, ? extends O> supplier) throws NullPointerException;
+
+    /**
+     * If there was a case found and the result of the found is not {@code null} the given {@code consumer} is called with
+     * the result value.
+     *
+     * @param consumer will be called with the result of the case found if the result was not {@code null}.
+     * @throws NullPointerException might be thrown if parameter {@code consumer} is {@code null}.
+     */
+    public abstract void ifResult(Consumer<? super O> consumer) throws NullPointerException;
+
+    CompletableFuture<O> orElse(O alternative) throws NullPointerException;
+
+    CompletableFuture<O> orElse(Supplier<O> elseSupply) throws NullPointerException;
+
+    <X extends Throwable> CompletableFuture<O> otherwiseThrow(Supplier<X> exSupplier) throws NullPointerException;
+
+    /**
+     * If there was a case found and the result of the found is not {@code null} the given callback {@code onResult} is called with
+     * the result value. If no result was found or the result is {@code null}, the callback {@code onAbsent} is called.
+     *
+     * @param onResult will be called with the result of the case found if the result was not {@code null}.
+     * @param onError  will be called if a throwable was thrown during evaluation of case matches.
+     * @param onAbsent will be called if no case matched or the match returned {@code null}.
+     * @throws NullPointerException might be thrown if parameter {@code onResult} or {@code onAbsent} is {@code null}.
+     */
+    public abstract void then(Consumer<? super O> onResult, Consumer<? super Throwable> onError, Runnable onAbsent) throws NullPointerException;
 }

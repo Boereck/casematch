@@ -26,7 +26,7 @@ import de.boereck.matcher.ResultDoubleCaseMatcher;
  * @param <O> type of the output object
  * @author Max Bureck
  */
-final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatcher<O> {
+final class ResultDoubleCaseMatcherUnfinished<O> implements EagerResultDoubleCaseMatcher<O> {
 
     /**
      * Value cases are defined for
@@ -52,7 +52,7 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
      * @param consumer  will be called if {@code condition} is true.
      * @return either a new instance of {@link ResultCaseMatcherFinished} holding the result or {@code this}.
      */
-    private ResultDoubleCaseMatcher<O> completeOrSelf(boolean condition, DoubleFunction<? extends O> consumer) {
+    private EagerResultDoubleCaseMatcher<O> completeOrSelf(boolean condition, DoubleFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         if (condition) {
             final O result = consumer.apply(toCheck);
@@ -66,7 +66,7 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseOf(DoublePredicate p, DoubleFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseOf(DoublePredicate p, DoubleFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         return completeOrSelf(p.test(toCheck), consumer);
@@ -76,7 +76,7 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseOf(BooleanSupplier s, DoubleFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseOf(BooleanSupplier s, DoubleFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         return completeOrSelf(s.getAsBoolean(), consumer);
     }
@@ -85,19 +85,19 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseOf(boolean test, DoubleFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseOf(boolean test, DoubleFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         return completeOrSelf(test, consumer);
     }
 
     @Override
-    public ResultDoubleCaseMatcher<O> caseIs(DoublePredicate p, Supplier<? extends O> supplier) throws NullPointerException {
+    public EagerResultDoubleCaseMatcher<O> caseIs(DoublePredicate p, Supplier<? extends O> supplier) throws NullPointerException {
         Objects.requireNonNull(p);
         return caseIs(p.test(toCheck), supplier);
     }
 
     @Override
-    public ResultDoubleCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
+    public EagerResultDoubleCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
         Objects.requireNonNull(supplier);
         if (test) {
             final O result = supplier.get();
@@ -111,7 +111,7 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultDoubleCaseMatcher<O> caseObj(DoubleFunction<Optional<T>> p, Function<? super T, ? extends O> consumer) {
+    public <T> EagerResultDoubleCaseMatcher<O> caseObj(DoubleFunction<Optional<T>> p, Function<? super T, ? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final Optional<T> opt = p.apply(toCheck);
@@ -127,7 +127,7 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseInt(DoubleFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseInt(DoubleFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalInt opt = p.apply(toCheck);
@@ -143,7 +143,7 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseLong(DoubleFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseLong(DoubleFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalLong opt = p.apply(toCheck);
@@ -159,7 +159,7 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements ResultDoubleCaseMatc
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseDouble(DoubleFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseDouble(DoubleFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalDouble opt = p.apply(toCheck);

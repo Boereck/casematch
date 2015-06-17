@@ -26,7 +26,7 @@ import de.boereck.matcher.ResultIntCaseMatcher;
  * @param <O> type of the output object
  * @author Max Bureck
  */
-final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O> {
+final class ResultIntCaseMatcherUnfinished<O> implements EagerResultIntCaseMatcher<O> {
 
     /**
      * Value cases are defined for
@@ -52,7 +52,7 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
      * @param consumer  will be called if {@code condition} is true.
      * @return either a new instance of {@link ResultCaseMatcherFinished} holding the result or {@code this}.
      */
-    private ResultIntCaseMatcher<O> completeOrSelf(boolean condition, IntFunction<? extends O> consumer) {
+    private EagerResultIntCaseMatcher<O> completeOrSelf(boolean condition, IntFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         if (condition) {
             final O result = consumer.apply(toCheck);
@@ -66,7 +66,7 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> consumer) {
+    public <T> EagerResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         return completeOrSelf(i == toCheck, consumer);
     }
@@ -75,7 +75,7 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultIntCaseMatcher<O> caseOf(IntPredicate p, IntFunction<? extends O> consumer) {
+    public EagerResultIntCaseMatcher<O> caseOf(IntPredicate p, IntFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         return completeOrSelf(p.test(toCheck), consumer);
@@ -85,7 +85,7 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultIntCaseMatcher<O> caseOf(BooleanSupplier s, IntFunction<? extends O> consumer) {
+    public EagerResultIntCaseMatcher<O> caseOf(BooleanSupplier s, IntFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         return completeOrSelf(s.getAsBoolean(), consumer);
     }
@@ -94,19 +94,19 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultIntCaseMatcher<O> caseOf(boolean test, IntFunction<? extends O> consumer) {
+    public EagerResultIntCaseMatcher<O> caseOf(boolean test, IntFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         return completeOrSelf(test, consumer);
     }
 
     @Override
-    public ResultIntCaseMatcher<O> caseIs(IntPredicate p, Supplier<? extends O> supplier) throws NullPointerException {
+    public EagerResultIntCaseMatcher<O> caseIs(IntPredicate p, Supplier<? extends O> supplier) throws NullPointerException {
         Objects.requireNonNull(p);
         return caseIs(p.test(toCheck), supplier);
     }
 
     @Override
-    public ResultIntCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
+    public EagerResultIntCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
         Objects.requireNonNull(supplier);
         if (test) {
             final O result = supplier.get();
@@ -120,7 +120,7 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultIntCaseMatcher<O> caseObj(IntFunction<Optional<T>> p, Function<? super T, ? extends O> consumer) {
+    public <T> EagerResultIntCaseMatcher<O> caseObj(IntFunction<Optional<T>> p, Function<? super T, ? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final Optional<T> opt = p.apply(toCheck);
@@ -136,7 +136,7 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultIntCaseMatcher<O> caseInt(IntFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
+    public EagerResultIntCaseMatcher<O> caseInt(IntFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalInt opt = p.apply(toCheck);
@@ -152,7 +152,7 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultIntCaseMatcher<O> caseLong(IntFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
+    public EagerResultIntCaseMatcher<O> caseLong(IntFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalLong opt = p.apply(toCheck);
@@ -168,7 +168,7 @@ final class ResultIntCaseMatcherUnfinished<O> implements ResultIntCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultIntCaseMatcher<O> caseDouble(IntFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
+    public EagerResultIntCaseMatcher<O> caseDouble(IntFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalDouble opt = p.apply(toCheck);

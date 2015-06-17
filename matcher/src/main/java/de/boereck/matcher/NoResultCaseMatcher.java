@@ -29,21 +29,14 @@ import java.util.function.Supplier;
  * </p>
  * <p>
  * It is also not defined if the evaluation of case predicates or functions is done eager when a case method is called or
- * lazy when a closing method is called. Closing methods by this interface are:
- * <ul>
- * <li> {@link de.boereck.matcher.NoResultCaseMatcher#otherwise(java.util.function.Consumer) otherwise(Consumer)}</li>
- * <li> {@link de.boereck.matcher.NoResultCaseMatcher#otherwiseThrow(java.util.function.Supplier) otherwiseThrow(Supplier)}</li>
- * </ul>
- * Sub-types may define more closing methods. The effects of closing methods are always taking effect after all cases were
- * checked.
+ * lazy when a closing method is called (starting the evaluation of cases). This interface does not declare closing methods,
+ * sub-types may define their own closing methods.
  * </p>
  *
  * @param <I> type of the input object to be matched
  * @author Max Bureck
  */
 public interface NoResultCaseMatcher<I> {
-
-    //TODO caseIs(Predicate<I>, Runnable)
 
     /**
      * Defines a case that checks if the input object is instance of the given class. If the case is determined to be the
@@ -105,8 +98,6 @@ public interface NoResultCaseMatcher<I> {
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code then} is {@code null}.
      */
     public abstract NoResultCaseMatcher<I> caseIs(boolean test, Runnable then) throws NullPointerException;
-
-    // TODO caseIs for primitives and result matchers
 
     /**
      * Defines a case that checks if the given supplier returns true. If the case is determined to be the matching case, the
@@ -191,24 +182,4 @@ public interface NoResultCaseMatcher<I> {
      */
     public abstract <T> NoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
 
-    /**
-     * The given consumer will be called if all cases were checked and none of them matched. This is a closing method, some
-     * implementations of the interface may require an closing method to be called after a sequence of case definitions. The
-     * consumer will be called with the input object of the case found.
-     *
-     * @param consumer will be called with the input object if there was no matching case
-     * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
-     */
-    public abstract void otherwise(Consumer<? super I> consumer) throws NullPointerException;
-
-    /**
-     * If all cases were checked and there was no found so far, the given supplier will be called and the given throwable
-     * will be thrown. This is a closing method, some implementations of the interface may require an closing method to be
-     * called after a sequence of case definitions. The consumer will be called with the input object of the case found.
-     *
-     * @param exSupplier supplier of the exception to be thrown. For exceptions with parameterless constructors a method reference
-     *                   can be used. E.g. {@code MyException::new}.
-     * @throws NullPointerException might be thrown if parameter {@code exSupplier} is {@code null} or if it provides {@code null} as a value.
-     */
-    public abstract <X extends Throwable> void otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 }

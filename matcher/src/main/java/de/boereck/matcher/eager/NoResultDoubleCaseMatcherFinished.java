@@ -23,7 +23,7 @@ import de.boereck.matcher.NoResultDoubleCaseMatcher;
  *
  * @author Max Bureck
  */
-final class NoResultDoubleCaseMatcherFinished implements NoResultDoubleCaseMatcher {
+final class NoResultDoubleCaseMatcherFinished implements EagerNoResultDoubleCaseMatcher {
 
     /**
      * Singleton instance
@@ -50,7 +50,7 @@ final class NoResultDoubleCaseMatcherFinished implements NoResultDoubleCaseMatch
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseOf(DoublePredicate p, DoubleConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseOf(DoublePredicate p, DoubleConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -59,7 +59,7 @@ final class NoResultDoubleCaseMatcherFinished implements NoResultDoubleCaseMatch
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseOf(BooleanSupplier s, DoubleConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseOf(BooleanSupplier s, DoubleConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -68,18 +68,18 @@ final class NoResultDoubleCaseMatcherFinished implements NoResultDoubleCaseMatch
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseOf(boolean test, DoubleConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseOf(boolean test, DoubleConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
 
     @Override
-    public NoResultDoubleCaseMatcher caseIs(DoublePredicate p, Runnable then) throws NullPointerException {
+    public EagerNoResultDoubleCaseMatcher caseIs(DoublePredicate p, Runnable then) throws NullPointerException {
         return this;
     }
 
     @Override
-    public NoResultDoubleCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
+    public EagerNoResultDoubleCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
         return this;
     }
 
@@ -87,16 +87,7 @@ final class NoResultDoubleCaseMatcherFinished implements NoResultDoubleCaseMatch
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultDoubleCaseMatcher caseObj(DoubleFunction<Optional<T>> f, Consumer<T> consumer) {
-        // do nothing, we already had a matching case
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public NoResultDoubleCaseMatcher caseInt(DoubleFunction<OptionalInt> f, IntConsumer consumer) {
+    public <T> EagerNoResultDoubleCaseMatcher caseObj(DoubleFunction<Optional<T>> f, Consumer<T> consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -105,7 +96,7 @@ final class NoResultDoubleCaseMatcherFinished implements NoResultDoubleCaseMatch
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseLong(DoubleFunction<OptionalLong> f, LongConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseInt(DoubleFunction<OptionalInt> f, IntConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -114,7 +105,16 @@ final class NoResultDoubleCaseMatcherFinished implements NoResultDoubleCaseMatch
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseDouble(DoubleFunction<OptionalDouble> f, DoubleConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseLong(DoubleFunction<OptionalLong> f, LongConsumer consumer) {
+        // do nothing, we already had a matching case
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EagerNoResultDoubleCaseMatcher caseDouble(DoubleFunction<OptionalDouble> f, DoubleConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }

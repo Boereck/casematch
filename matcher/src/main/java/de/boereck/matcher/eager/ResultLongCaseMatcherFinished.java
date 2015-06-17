@@ -17,13 +17,13 @@ import java.util.function.Supplier;
 import de.boereck.matcher.ResultLongCaseMatcher;
 
 /**
- * This class represents a {@link ResultLongCaseMatcher} that already had a matching case. A new instance holding the result
+ * This class represents a {@link EagerResultLongCaseMatcher} that already had a matching case. A new instance holding the result
  * value will be created by {@link ResultLongCaseMatcherUnfinished} whenever a matching case is found.
  *
  * @param <O> type of the output/return object
  * @author Max Bureck
  */
-final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O> {
+final class ResultLongCaseMatcherFinished<O> implements EagerResultLongCaseMatcher<O> {
 
     /**
      * Holds object returned by the function of a matching case.
@@ -44,7 +44,7 @@ final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> consumer) {
+    public <T> EagerResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -53,7 +53,7 @@ final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseOf(LongPredicate p, LongFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseOf(LongPredicate p, LongFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -62,7 +62,7 @@ final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseOf(BooleanSupplier s, LongFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseOf(BooleanSupplier s, LongFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -71,28 +71,19 @@ final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseOf(boolean test, LongFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseOf(boolean test, LongFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
 
     @Override
-    public ResultLongCaseMatcher<O> caseIs(LongPredicate p, Supplier<? extends O> supplier) throws NullPointerException {
+    public EagerResultLongCaseMatcher<O> caseIs(LongPredicate p, Supplier<? extends O> supplier) throws NullPointerException {
         // we already have the result and don't need to check case
         return this;
     }
 
     @Override
-    public ResultLongCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
-        // we already have the result and don't need to check case
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <T> ResultLongCaseMatcher<O> caseObj(LongFunction<Optional<T>> p, Function<? super T, ? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
         // we already have the result and don't need to check case
         return this;
     }
@@ -101,7 +92,7 @@ final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseInt(LongFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
+    public <T> EagerResultLongCaseMatcher<O> caseObj(LongFunction<Optional<T>> p, Function<? super T, ? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -110,7 +101,7 @@ final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseLong(LongFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseInt(LongFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -119,7 +110,16 @@ final class ResultLongCaseMatcherFinished<O> implements ResultLongCaseMatcher<O>
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseDouble(LongFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseLong(LongFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
+        // we already have the result and don't need to check case
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EagerResultLongCaseMatcher<O> caseDouble(LongFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
