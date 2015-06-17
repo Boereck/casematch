@@ -66,7 +66,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements EagerResultLongCaseMat
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         return completeOrSelf(i == toCheck, consumer);
     }

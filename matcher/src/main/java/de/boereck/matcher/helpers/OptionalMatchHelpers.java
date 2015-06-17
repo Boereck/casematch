@@ -50,8 +50,9 @@ public class OptionalMatchHelpers {
      * a class as parameter that is not used but simply used to define the generic type.
      * This can be usefull if further combinators are used on the returned OptionalMapper.
      * @see OptionalMatchHelpers#some()
+     * @param clazz Type defining the type of element of optional
      * @return result of call to {@link OptionalMatchHelpers#some()}.
-     *
+     * @param <I> type of element of optional
      */
     public static final <I> OptionalMapper<Optional<I>,I> some(Class<I> clazz) {
         return some();

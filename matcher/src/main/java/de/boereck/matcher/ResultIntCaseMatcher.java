@@ -29,9 +29,8 @@ import java.util.function.Supplier;
  * </p>
  * <p>
  * It is also not defined if the evaluation of case predicates or functions is done eager when a case method is called or
- * lazy when a closing method is called.
- * Sub-types may define more closing methods. The effects of closing methods are always taking effect after all cases were
- * checked.
+ * lazy when a closing method is called (starting the evaluation of cases). This interface does not declare any closing methods,
+ * sub-types may define their own closing methods.
  * </p>
  *
  * @param <O> type of the result object returned from the case found
@@ -50,7 +49,7 @@ public interface ResultIntCaseMatcher<O> {
      * @return instance of ResultIntCaseMatcher (maybe same as same object as this) to define further cases.
      * @throws NullPointerException might be thrown if parameter {@code f} is {@code null}.
      */
-    public abstract <T> ResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> f) throws NullPointerException;
+    ResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input value. If the case

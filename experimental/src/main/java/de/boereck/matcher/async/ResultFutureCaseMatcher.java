@@ -13,61 +13,57 @@ import de.boereck.matcher.ResultCaseMatcher;
 
 public interface ResultFutureCaseMatcher<I, O> extends ResultCaseMatcher<I, O> {
 
-    // TODO versions of cases taking Executor
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    <T> ResultFutureCaseMatcher<I, O> caseOf(Class<T> clazz, Function<? super T, ? extends O> f);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> ResultFutureCaseMatcher<I, O> caseOf(Class<T> clazz, Function<? super T, ? extends O> f);
+    ResultFutureCaseMatcher<I, O> caseOf(Predicate<? super I> p, Function<? super I, ? extends O> f);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract ResultFutureCaseMatcher<I, O> caseOf(Predicate<? super I> p, Function<? super I, ? extends O> f);
+    ResultFutureCaseMatcher<I, O> caseOf(BooleanSupplier s, Function<? super I, ? extends O> f);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract ResultFutureCaseMatcher<I, O> caseOf(BooleanSupplier s, Function<? super I, ? extends O> f);
+    ResultFutureCaseMatcher<I, O> caseOf(boolean test, Function<? super I, ? extends O> f);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract ResultFutureCaseMatcher<I, O> caseOf(boolean test, Function<? super I, ? extends O> f);
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract <T> ResultFutureCaseMatcher<I, O> caseObj(Function<? super I, Optional<T>> p, Function<? super T, ? extends O> consumer);
+    <T> ResultFutureCaseMatcher<I, O> caseObj(Function<? super I, Optional<T>> p, Function<? super T, ? extends O> consumer);
 
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract ResultFutureCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
+    ResultFutureCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract ResultFutureCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
+    ResultFutureCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract ResultFutureCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
+    ResultFutureCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
 
 
     // TODO versions of case methods taking Executor to say where to execute case actions
-
-    // TODO versions of otherwise and orElse returning CompletableFuture
 
     // TODO timeout versions with ScheduledExecutorService?
 
@@ -124,7 +120,7 @@ public interface ResultFutureCaseMatcher<I, O> extends ResultCaseMatcher<I, O> {
      * @param consumer will be called with the result of the case found if the result was not {@code null}.
      * @throws NullPointerException might be thrown if parameter {@code consumer} is {@code null}.
      */
-    public abstract void ifResult(Consumer<? super O> consumer) throws NullPointerException;
+    void ifResult(Consumer<? super O> consumer) throws NullPointerException;
 
     CompletableFuture<O> orElse(O alternative) throws NullPointerException;
 
@@ -141,5 +137,5 @@ public interface ResultFutureCaseMatcher<I, O> extends ResultCaseMatcher<I, O> {
      * @param onAbsent will be called if no case matched or the match returned {@code null}.
      * @throws NullPointerException might be thrown if parameter {@code onResult} or {@code onAbsent} is {@code null}.
      */
-    public abstract void then(Consumer<? super O> onResult, Consumer<? super Throwable> onError, Runnable onAbsent) throws NullPointerException;
+    void then(Consumer<? super O> onResult, Consumer<? super Throwable> onError, Runnable onAbsent) throws NullPointerException;
 }

@@ -45,7 +45,7 @@ final class NoResultLongCaseMatcherUnfinished implements EagerNoResultLongCaseMa
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerNoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) {
         Objects.requireNonNull(consumer);
         // check if case matches
         if (reference == toCheck) {

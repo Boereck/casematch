@@ -14,24 +14,18 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * <p>
- * This interface is used to define cases that can be used to found a given object and define associated actions that are
+ * <p> This interface is used to define cases that can be used to found a given object and define associated actions that are
  * executed when a case matches for the given object. The actions and therefore the whole matching will provide no result
  * value.<br>
  * The object to be checked has to be provided during creation of the instance. Only the action of one of the given cases
- * that matches will be executed.
- * </p>
- * <p>
- * The case de.boereck.matcher interface does <em>not</em> give a guarantee if the cases are checked in the order they are specified. It
+ * that matches will be executed.</p>
+ * <p> This interface does <em>not</em> give a guarantee if the cases are checked in the order they are specified. It
  * is also not guaranteed that remaining cases are evaluated when a matching case was found. Implementations may even execute
  * the found checks and actions asynchronously. This has to be clarified by the factory method providing the instance or by
- * sub-types providing a stricter API.
- * </p>
- * <p>
- * It is also not defined if the evaluation of case predicates or functions is done eager when a case method is called or
- * lazy when a closing method is called (starting the evaluation of cases). This interface does not declare closing methods,
- * sub-types may define their own closing methods.
- * </p>
+ * sub-types providing a stricter API. </p>
+ * <p> It is also not defined if the evaluation of case predicates or functions is done eager when a case method is called or
+ * lazy when a closing method is called (starting the evaluation of cases). This interface does not declare any closing methods,
+ * sub-types may define their own closing methods. </p>
  *
  * @param <I> type of the input object to be matched
  * @author Max Bureck
@@ -81,7 +75,7 @@ public interface NoResultCaseMatcher<I> {
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
      * match. If the case is determined to be the matching case, the provided runnable will be called.
      *
-     * @param p predicate that defines if the case is a found, when provided with the input object.
+     * @param p    predicate that defines if the case is a found, when provided with the input object.
      * @param then Will be called if the case was determined to be the matching case.
      * @return instance of NoResultCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code then} is {@code null}.
@@ -154,7 +148,7 @@ public interface NoResultCaseMatcher<I> {
      * @return instance of NoResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract <T> NoResultCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer) throws NullPointerException;
+    public abstract NoResultCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalLong} when called with the
@@ -167,7 +161,7 @@ public interface NoResultCaseMatcher<I> {
      * @return instance of NoResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract <T> NoResultCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer) throws NullPointerException;
+    public abstract NoResultCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalDouble} when called with the
@@ -180,6 +174,6 @@ public interface NoResultCaseMatcher<I> {
      * @return instance of NoResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract <T> NoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
+    public abstract NoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
 
 }

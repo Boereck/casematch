@@ -50,7 +50,7 @@ final class NoResultLongCaseMatcherFinished implements EagerNoResultLongCaseMatc
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerNoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) throws NullPointerException {
+    public EagerNoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) throws NullPointerException {
         // do nothing, we already had a matching case
         return this;
     }

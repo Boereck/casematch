@@ -110,7 +110,7 @@ final class NoResultCaseMatcherFinished<I> implements EagerNoResultCaseMatcher<I
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerNoResultCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer) {
+    public EagerNoResultCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer) {
         // we already have a result, so nothing to check
         return this;
     }
@@ -119,7 +119,7 @@ final class NoResultCaseMatcherFinished<I> implements EagerNoResultCaseMatcher<I
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerNoResultCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer) {
+    public EagerNoResultCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer) {
         // we already have a result, so nothing to check
         return this;
     }
@@ -128,7 +128,7 @@ final class NoResultCaseMatcherFinished<I> implements EagerNoResultCaseMatcher<I
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerNoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) {
+    public EagerNoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) {
         // we already have a result, so nothing to check
         return this;
     }

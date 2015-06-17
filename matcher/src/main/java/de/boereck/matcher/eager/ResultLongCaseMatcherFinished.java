@@ -44,7 +44,7 @@ final class ResultLongCaseMatcherFinished<O> implements EagerResultLongCaseMatch
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }

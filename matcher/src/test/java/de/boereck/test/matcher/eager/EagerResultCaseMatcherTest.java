@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import org.junit.Test;
 
 
-public class ResultCaseMatcherTest {
+public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfClass() {

@@ -14,21 +14,41 @@ import javax.swing.text.html.Option;
 /**
  * Function that provides more combinators than {@link Function}. Especially interesting are function
  * {@link TestableFunction#thenTest(Predicate) thenTest(Predicate)} to create a predicate based on the output of the function
- * and the filter methods ({@link TestableFunction#filter(Class) filter(Class)} and {@link TestableFunction#filter(Predicate) filter(Predicate)})
+ * and the filter methods ({@link #filter(Class) filter(Class)} and {@link #filter(Predicate) filter(Predicate)})
  * to create a function providing an Optional, depending if the output of this function passes the given filter criterion
  * or not.
- * @param <I>
- * @param <O>
+ *
+ * @param <I> type of input to function
+ * @param <O> type of output of function
  */
 @FunctionalInterface
 public interface TestableFunction<I, O> extends Function<I, O> {
 
     /**
+     * Returns a function first executing this function and then calling a test predicate on the result of this function.
+     * <p>If this function or {@code test} will throw an exception when called by the returned predicate, this exception will be thrown
+     * to the caller of the returned predicate. If this function throws an exception the predicate {@code test} will
+     * not be evaluated.</p>
+     *
+     * @param test predicate that will be used on the result of this function by the returned predicate. Must not be {@code null}
+     * @return predicate calling this function on its input and call predicate {@code test} with the output. The result
+     * of the call to {@code test} will be returned as the result.
+     * @throws NullPointerException will be thrown if {@code test} is {@code null}.
+     */
+    default AdvPredicate<I> thenTest(Predicate<? super O> test) throws NullPointerException {
+        Objects.requireNonNull(test);
+        return i -> test.test(apply(i));
+    }
+
+    /**
      * Provides a function that first calls this function with its input and then
      * {@link Optional#ofNullable(Object)} with the result and returns the resulting
      * optional.
-     * <p>The difference to {@link TestableFunction#nullAware() nullAware()} is that
+     * <p>The difference to {@link #nullAware() nullAware()} is that
      * the input to the function will not be checked for {@code null}, which is don in {@code nullAware()}.</p>
+     * <p>If during the call of the returned method the call to this method throws an exception, this exception
+     * will be thrown to the caller of the returned method.</p>
+     *
      * @return function wrapping the result of this function into an optional.
      */
     default OptionalMapper<I, O> optional() {
@@ -53,16 +73,36 @@ public interface TestableFunction<I, O> extends Function<I, O> {
         return (V v) -> apply(before.apply(v));
     }
 
-    default AdvPredicate<I> thenTest(Predicate<? super O> test) throws NullPointerException {
-        Objects.requireNonNull(test);
-        return i -> test.test(apply(i));
-    }
-
+    /**
+     * Returns a consumer that will take an input, call this function with it, and then call the given
+     * {@code consumer} with the result.
+     * <p>If this function or {@code consumer} will throw an exception when called by the returned consumer, this exception will be thrown
+     * to the caller of the returned consumer. If this function throws an exception {@code consumer} will
+     * not be evaluated.</p>
+     *
+     * @param consumer will be called by the returned consumer with the result of applying this function on its input.
+     * @return Consumer calling this function with its input and calling {@code consumer} with the result. Must not be
+     * {@code null}.
+     * @throws NullPointerException will be thrown if {@code consumer} is {@code null}.
+     */
     default Consumer<I> thenDo(Consumer<? super O> consumer) throws NullPointerException {
         Objects.requireNonNull(consumer);
         return i -> consumer.accept(this.apply(i));
     }
 
+    /**
+     * Returns a function that will call this function with its input and then check if the output fulfills predicate {@code test}.
+     * If the predicate is fulfilled (returned {@code true}), an optional containing the output if this function will be
+     * returned; if the predicate is not fulfilled, an empty optional will be returned.
+     * <p>If this function or {@code test} will throw an exception when called by the returned function, this exception will be thrown
+     * to the caller of the returned function. If this function throws an exception the predicate {@code test} will
+     * not be evaluated.</p>
+     *
+     * @param test predicate checking if the result of this function should be returned in an optional by the returned
+     *             function, or if an empty optional should be returned.
+     * @return function filtering the result of this function, based on predicate {@code test}.
+     * @throws NullPointerException will be thrown if {@code test} is {@code null}.
+     */
     default OptionalMapper<I, O> filter(Predicate<? super O> test) throws NullPointerException {
         Objects.requireNonNull(test);
         return i -> {
@@ -71,14 +111,44 @@ public interface TestableFunction<I, O> extends Function<I, O> {
         };
     }
 
+    /**
+     * Returns a function that will call this function with its input and then check if the output is instance of {@code clazz}.
+     * If the object is instance of {@code clazz}, an optional containing the output if this function will be
+     * returned; if not, an empty optional will be returned.
+     * <p>If this function will throw an exception when called by the returned function, this exception will be thrown
+     * to the caller of the returned function.</p>
+     *
+     * @param clazz Class the output of this function is checked for in the returned function
+     * @param <R>   Type the output of this function is checked for in the returned function
+     * @return function filtering the result of this function, based on the type of the output object.
+     * @throws NullPointerException will be thrown if {@code clazz} is {@code null}.
+     */
+    @SuppressWarnings("unchecked") // cast is safe, we checked if result is instance of type R
     default <R> OptionalMapper<I, R> filter(Class<R> clazz) throws NullPointerException {
         Objects.requireNonNull(clazz);
         return i -> {
             final O result = this.apply(i);
-            return (clazz.isInstance(result)) ? Optional.of((R)result) : Optional.empty();
+            return (clazz.isInstance(result)) ? Optional.of((R) result) : Optional.empty();
         };
     }
 
+    /**
+     * Returns a function that will first check if its input fulfills {@code precondition} and if so returns an
+     * optional holding the result of calling this function with the input. If the precondition is not fulfilled,
+     * an empty optional will be returned without evaluating this function. Be aware that the returned function will
+     * yield an empty optional in two cases:
+     * <ul>
+     * <li>If the precondition is not fulfilled</li>
+     * <li>If this function returns a {@code null} value</li>
+     * </ul>
+     * <p>If either this function or {@code precondition} will throw an exception when called by the returned function,
+     * this exception will be thrown to the caller of the returned function. If {@code predicate} throws an exception
+     * this function will not be called.</p>
+     *
+     * @param precondition will be used in the returned function to check weather or not to call this function.
+     * @return function using {@code precondition} to decide weather or not to call this function with its input and
+     * return the result of that call.
+     */
     default OptionalMapper<I, O> requires(Predicate<? super I> precondition) {
         Objects.requireNonNull(precondition);
         return i -> precondition.test(i) ? Optional.ofNullable(this.apply(i)) : Optional.empty();
@@ -147,6 +217,7 @@ public interface TestableFunction<I, O> extends Function<I, O> {
      * with {@code handler}. After handling exceptions, the function will return an empty Optional.
      * @throws NullPointerException if {@code handler} or {@code handler} is {@code null}.
      */
+    @SuppressWarnings("unchecked")// we know cast to E is safe, we checked if t is instance of E
     default <E extends Throwable> OptionalMapper<I, O> withCatch(Class<E> clazz, Consumer<E> handler) {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(handler);
@@ -217,14 +288,15 @@ public interface TestableFunction<I, O> extends Function<I, O> {
      * re-thrown to the caller.
      * If the recovery method itself will throw an exception, it will not be caught and propagated to the caller of the function.
      *
-     * @param clazz class of exceptions to be caught and recovered from.
+     * @param clazz    class of exceptions to be caught and recovered from.
      * @param recovery function recovering from an exception providing a regular value to return from the returned function.
-     * @param <E> Type of exceptions to be caught and recovered from.
+     * @param <E>      Type of exceptions to be caught and recovered from.
      * @return function executing this TestableFunction and if a an exception of type {@code E} is thrown during the execution,
      * the given {@code recovery} function is used to provide a value to be returned. Exceptions of other types will be
      * re-thrown to the caller.
      * @throws NullPointerException if {@code clazz} or {@code recovery} is {@code null}.
      */
+    @SuppressWarnings("unchecked") // we know cast is safe, we checked if t is instance of E
     default <E extends Throwable> OptionalMapper<I, O> recoverWith(Class<E> clazz, Function<? super E, Optional<O>> recovery) {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);

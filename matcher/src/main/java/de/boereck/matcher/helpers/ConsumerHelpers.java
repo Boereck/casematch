@@ -32,9 +32,10 @@ public final class ConsumerHelpers {
      * an the methods woking with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
      * The supplier can be created from parameterless constructors of exception classes by reference to the constructor
      * like this: {@code ExceptionClass::new}.
+     *
      * @param exSupplier supplier of exceptions to be thrown when the returned consumer is invoked. The supplier msut not
      *                   be {@code null} and must not supply a {@code null} reference.
-     * @param <I> Type of object to be consumed.
+     * @param <I>        Type of object to be consumed.
      * @return Consumer that will ignore inputs and throws exceptions supplied by {@code exSupplier} instead.
      * @throws NullPointerException will be thrown if {@code exSupplier} is {@code null}.
      */
@@ -51,6 +52,7 @@ public final class ConsumerHelpers {
      * an the methods woking with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
      * The supplier can be created from parameterless constructors of exception classes by reference to the constructor
      * like this: {@code ExceptionClass::new}.
+     *
      * @param exSupplier supplier of exceptions to be thrown when the returned consumer is invoked. The supplier msut not
      *                   be {@code null} and must not supply a {@code null} reference.
      * @return Consumer that will ignore inputs and throws exceptions supplied by {@code exSupplier} instead.
@@ -66,9 +68,10 @@ public final class ConsumerHelpers {
     /**
      * This method creates a LongConsumer that ignores the input and always throws an exception provided by the given supplier
      * {@code exSupplier}. Since the case found API works on Consumers, which do not declare checked excheptions,
-     * an the methods woking with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
+     * an the methods working with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
      * The supplier can be created from parameterless constructors of exception classes by reference to the constructor
      * like this: {@code ExceptionClass::new}.
+     *
      * @param exSupplier supplier of exceptions to be thrown when the returned consumer is invoked. The supplier msut not
      *                   be {@code null} and must not supply a {@code null} reference.
      * @return Consumer that will ignore inputs and throws exceptions supplied by {@code exSupplier} instead.
@@ -87,6 +90,7 @@ public final class ConsumerHelpers {
      * an the methods woking with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
      * The supplier can be created from parameterless constructors of exception classes by reference to the constructor
      * like this: {@code ExceptionClass::new}.
+     *
      * @param exSupplier supplier of exceptions to be thrown when the returned consumer is invoked. The supplier msut not
      *                   be {@code null} and must not supply a {@code null} reference.
      * @return Consumer that will ignore inputs and throws exceptions supplied by {@code exSupplier} instead.
@@ -101,12 +105,16 @@ public final class ConsumerHelpers {
 
     /**
      * This method creates a Function that ignores the input and always throws an exception provided by the given supplier
-     * {@code exSupplier}. Since the case found API works on Consumers, which do not declare checked excheptions,
-     * an the methods woking with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
+     * {@code exSupplier}. Since the case found API works on Consumers, which do not declare checked exceptions,
+     * an the methods working with consumers also do not declare checked exceptions, only RuntimeExceptions may be thrown.
      * The supplier can be created from parameterless constructors of exception classes by reference to the constructor
      * like this: {@code ExceptionClass::new}.
+     *
      * @param exSupplier supplier of exceptions to be thrown when the returned consumer is invoked. The supplier msut not
      *                   be {@code null} and must not supply a {@code null} reference.
+     * @param <I>        type of input to returned function
+     * @param <O>        type of output to returned function. Be aware that the returned function will never actually
+     *                   return an object of this type, because it will always thrown an exception provided by {@code exSupplier}.
      * @return Function that will ignore inputs and throws exceptions supplied by {@code exSupplier} instead. The function
      * will not return a regular return value.
      * @throws NullPointerException will be thrown if {@code exSupplier} is {@code null}.
@@ -121,7 +129,9 @@ public final class ConsumerHelpers {
     /**
      * The returned consumer will ignore the input value and calls the given runnable whenever
      * a value is provided to the consumer to be consumed.
-     * @param r runnable that is wrapped into a consumer. It must not be {@code null}.
+     *
+     * @param r   runnable that is wrapped into a consumer. It must not be {@code null}.
+     * @param <I> type of object to be ignored
      * @return consumer that calls runnable {@code r} whenever a value is provided to the consumer.
      * @throws NullPointerException will be thrown if {@code r} is {@code null}.
      */
@@ -133,6 +143,7 @@ public final class ConsumerHelpers {
     /**
      * The returned IntConsumer will ignore the input value and calls the given runnable whenever
      * a value is provided to the consumer to be consumed.
+     *
      * @param r runnable that is wrapped into a consumer. It must not be {@code null}.
      * @return consumer that calls runnable {@code r} whenever a value is provided to the consumer.
      * @throws NullPointerException will be thrown if {@code r} is {@code null}.
@@ -145,6 +156,7 @@ public final class ConsumerHelpers {
     /**
      * The returned LongConsumer will ignore the input value and calls the given runnable whenever
      * a value is provided to the consumer to be consumed.
+     *
      * @param r runnable that is wrapped into a consumer. It must not be {@code null}.
      * @return consumer that calls runnable {@code r} whenever a value is provided to the consumer.
      * @throws NullPointerException will be thrown if {@code r} is {@code null}.
@@ -157,6 +169,7 @@ public final class ConsumerHelpers {
     /**
      * The returned DoubleConsumer will ignore the input value and calls the given runnable whenever
      * a value is provided to the consumer to be consumed.
+     *
      * @param r runnable that is wrapped into a consumer. It must not be {@code null}.
      * @return consumer that calls runnable {@code r} whenever a value is provided to the consumer.
      * @throws NullPointerException will be thrown if {@code r} is {@code null}.
@@ -233,6 +246,7 @@ public final class ConsumerHelpers {
 
     /**
      * Returns a Runnable that will call {@code System.out.println} with the given message.
+     *
      * @param msg message to be printed to System.out when the returned runnable is called.
      * @return Runnable that will print message {@code msg} to System.out.
      */
@@ -243,6 +257,7 @@ public final class ConsumerHelpers {
     /**
      * Returns a Consumer that will print the input reference to formatted to System.err using the given
      * {@code format}.
+     *
      * @param format used to print inputs to the returned Consumer formatted to System.err. Must not be {@code null}.
      * @return Consumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
@@ -255,6 +270,7 @@ public final class ConsumerHelpers {
     /**
      * Returns an IntConsumer that will print the input reference to formatted to System.out using the given
      * {@code format}.
+     *
      * @param format used to print inputs to the returned IntConsumer formatted to System.err. Must not be {@code null}.
      * @return IntConsumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
@@ -267,6 +283,7 @@ public final class ConsumerHelpers {
     /**
      * Returns an LongConsumer that will print the input reference to formatted to System.out using the given
      * {@code format}.
+     *
      * @param format used to print inputs to the returned LongConsumer formatted to System.err. Must not be {@code null}.
      * @return LongConsumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
@@ -279,6 +296,7 @@ public final class ConsumerHelpers {
     /**
      * Returns an DoubleConsumer that will print the input reference to formatted to System.out using the given
      * {@code format}.
+     *
      * @param format used to print inputs to the returned DoubleConsumer formatted to System.err. Must not be {@code null}.
      * @return DoubleConsumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
@@ -291,6 +309,7 @@ public final class ConsumerHelpers {
     /**
      * Returns a Consumer that will print the input reference to formatted to System.out using the given
      * {@code format} and {@code locale}.
+     *
      * @param locale locale that the formatting will use.
      * @param format used to print inputs to the returned Consumer formatted to System.out. Must not be {@code null}.
      * @return Consumer that prints inputs formatted to System.out.
@@ -303,7 +322,8 @@ public final class ConsumerHelpers {
 
     /**
      * Returns a Function that always returns value {@code o}, no matter what the input to the function is.
-     * @param o instance that will always be returned by the returned function.
+     *
+     * @param o   instance that will always be returned by the returned function.
      * @param <I> Input type to the returned function
      * @param <O> Output type of the returned function
      * @return function always returning {@code o}.
@@ -335,6 +355,7 @@ public final class ConsumerHelpers {
     /**
      * Returns a Consumer that will print the input reference to formatted to System.err using the given
      * {@code format}.
+     *
      * @param format used to print inputs to the returned Consumer formatted to System.err.
      * @return Consumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
@@ -347,6 +368,7 @@ public final class ConsumerHelpers {
     /**
      * Returns a Consumer that will print the input reference to formatted to System.err using the given
      * {@code format} and {@code locale}.
+     *
      * @param locale locale that the formatting will use
      * @param format used to print inputs to the returned Consumer formatted to System.err. Must not be {@code null}.
      * @return Consumer that prints inputs formatted to System.err.

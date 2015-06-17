@@ -66,7 +66,7 @@ final class ResultIntCaseMatcherUnfinished<O> implements EagerResultIntCaseMatch
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> consumer) {
+    public EagerResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         return completeOrSelf(i == toCheck, consumer);
     }

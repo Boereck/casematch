@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import de.boereck.matcher.function.optionalmap.OptionalMapper;
 
-public class NoResultCaseMatcherTest {
+public class EagerNoResultCaseMatcherTest {
 
     @Test
     public void testCaseOfClass() {

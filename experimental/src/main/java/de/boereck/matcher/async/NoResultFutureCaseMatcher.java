@@ -24,49 +24,49 @@ public interface NoResultFutureCaseMatcher<I> extends NoResultCaseMatcher<I> {
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> NoResultFutureCaseMatcher<I> caseOf(Class<T> clazz, Consumer<? super T> consumer);
+    <T> NoResultFutureCaseMatcher<I> caseOf(Class<T> clazz, Consumer<? super T> consumer);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract NoResultFutureCaseMatcher<I> caseOf(Predicate<? super I> p, Consumer<? super I> consumer);
+    NoResultFutureCaseMatcher<I> caseOf(Predicate<? super I> p, Consumer<? super I> consumer);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract NoResultFutureCaseMatcher<I> caseOf(BooleanSupplier s, Consumer<? super I> consumer);
+    NoResultFutureCaseMatcher<I> caseOf(BooleanSupplier s, Consumer<? super I> consumer);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract NoResultFutureCaseMatcher<I> caseOf(boolean test, Consumer<? super I> consumer);
+    NoResultFutureCaseMatcher<I> caseOf(boolean test, Consumer<? super I> consumer);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> NoResultFutureCaseMatcher<I> caseObj(Function<? super I, Optional<T>> p, Consumer<? super T> consumer);
+    <T> NoResultFutureCaseMatcher<I> caseObj(Function<? super I, Optional<T>> p, Consumer<? super T> consumer);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> NoResultFutureCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer);
+    <T> NoResultFutureCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> NoResultFutureCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer);
+    <T> NoResultFutureCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> NoResultFutureCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer);
+    <T> NoResultFutureCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer);
     
     // TODO versions of case methods taking executor
     
@@ -91,7 +91,7 @@ public interface NoResultFutureCaseMatcher<I> extends NoResultCaseMatcher<I> {
      * @param consumer will be called with the input object if there was no matching case
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
      */
-    public abstract CompletableFuture<Void> otherwise(Consumer<? super I> consumer) throws NullPointerException;
+    CompletableFuture<Void> otherwise(Consumer<? super I> consumer) throws NullPointerException;
 
     /**
      * If all cases were checked and there was no found so far, the given supplier will be called and the given throwable
@@ -102,5 +102,5 @@ public interface NoResultFutureCaseMatcher<I> extends NoResultCaseMatcher<I> {
      *                   can be used. E.g. {@code MyException::new}.
      * @throws NullPointerException might be thrown if parameter {@code exSupplier} is {@code null} or if it provides {@code null} as a value.
      */
-    public abstract <X extends Throwable> CompletableFuture<Void> otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
+    <X extends Throwable> CompletableFuture<Void> otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 }

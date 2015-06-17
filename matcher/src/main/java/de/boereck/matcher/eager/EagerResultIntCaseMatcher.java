@@ -9,6 +9,11 @@ import java.util.OptionalLong;
 import java.util.function.*;
 
 /**
+ * <p>Eager version of {@link ResultIntCaseMatcher}.</p>
+ * <p>This case matcher will evaluate the cases as soon as the case methods are called. The input object the cases
+ * are defined for must be known upfront on creation of instances of this interface. The evaluation order of cases
+ * is guaranteed to be in the order of specification. Both checks for cases, as well as the associated actions will
+ * perform on the same thread that is invoking the case methods.</p>
  * Closing methods by this interface are:
  * <ul>
  * <li> {@link de.boereck.matcher.eager.EagerResultIntCaseMatcher#otherwise(java.util.function.IntFunction) otherwise(IntFunction)}</li>
@@ -19,6 +24,7 @@ import java.util.function.*;
  * <li> {@link de.boereck.matcher.eager.EagerResultIntCaseMatcher#orElse(java.util.function.Supplier) orElse(Supplier)}</li>
  * <li> {@link de.boereck.matcher.eager.EagerResultIntCaseMatcher#orElseThrow(java.util.function.Supplier) orElseThrow(Supplier)}</li>
  * </ul>
+ * @author Max Bureck
  */
 public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
 
@@ -26,7 +32,7 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> EagerResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> f) throws NullPointerException;
+    public abstract EagerResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
@@ -182,6 +188,7 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * @return the result value if there was a found and the found provided a non {@code null} value.
      * @throws X                    Will be thrown if there was no found or the found provided a {@code null} result.
      * @throws NullPointerException will be thrown if the {@code exSupplier} is {@code null} or the provided exception is {@code null}.
+     * @param <X> type of exception that will be thrown if no other case matched or result is {@code null}.
      */
     public abstract <X extends Throwable> O orElseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 }

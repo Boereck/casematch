@@ -45,7 +45,7 @@ final class NoResultIntCaseMatcherUnfinished implements EagerNoResultIntCaseMatc
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerNoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) {
         Objects.requireNonNull(consumer);
         // check if case matches
         if (reference == toCheck) {

@@ -29,9 +29,8 @@ import java.util.function.Supplier;
  * </p>
  * <p>
  * It is also not defined if the evaluation of case predicates or functions is done eager when a case method is called or
- * lazy when a closing method is called.
- * Sub-types may define more closing methods. The effects of closing methods are always taking effect after all cases were
- * checked.
+ * lazy when a closing method is called (starting the evaluation of cases). This interface does not declare any closing methods,
+ * sub-types may define their own closing methods.
  * </p>
  *
  * @param <O> type of the result object returned from the case found
@@ -50,7 +49,7 @@ public interface ResultLongCaseMatcher<O> {
      * @return instance of ResultLongCaseMatcher (maybe same as same object as this) to define further cases.
      * @throws NullPointerException might be thrown if parameter {@code f} is {@code null}.
      */
-    public abstract <T> ResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> f) throws NullPointerException;
+    ResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input value. If the case
@@ -62,7 +61,7 @@ public interface ResultLongCaseMatcher<O> {
      * @return instance of ResultLongCaseMatcher (maybe same as same object as this) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract ResultLongCaseMatcher<O> caseOf(LongPredicate p, LongFunction<? extends O> f) throws NullPointerException;
+    ResultLongCaseMatcher<O> caseOf(LongPredicate p, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given supplier returns true. If the case is determined to be the matching case, the
@@ -74,7 +73,7 @@ public interface ResultLongCaseMatcher<O> {
      * @return instance of ResultLongCaseMatcher (maybe same as same object as this) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code s} or {@code f} is {@code null}.
      */
-    public abstract ResultLongCaseMatcher<O> caseOf(BooleanSupplier s, LongFunction<? extends O> f) throws NullPointerException;
+    ResultLongCaseMatcher<O> caseOf(BooleanSupplier s, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * <p>
@@ -95,7 +94,7 @@ public interface ResultLongCaseMatcher<O> {
      * @return instance of ResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract ResultLongCaseMatcher<O> caseOf(boolean test, LongFunction<? extends O> f) throws NullPointerException;
+    ResultLongCaseMatcher<O> caseOf(boolean test, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
@@ -106,7 +105,7 @@ public interface ResultLongCaseMatcher<O> {
      * @return instance of ResultLongCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code supplier} is {@code null}.
      */
-    public abstract ResultLongCaseMatcher<O> caseIs(LongPredicate p, Supplier<? extends O> supplier) throws NullPointerException;
+    ResultLongCaseMatcher<O> caseIs(LongPredicate p, Supplier<? extends O> supplier) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
@@ -117,7 +116,7 @@ public interface ResultLongCaseMatcher<O> {
      * @return instance of ResultLongCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code supplier} is {@code null}.
      */
-    public abstract ResultLongCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException;
+    ResultLongCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.Optional} when called with the input
@@ -132,8 +131,9 @@ public interface ResultLongCaseMatcher<O> {
      * @param <T> type of object extracted by function {@code p}.
      * @return instance of ResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
+     * @param <T> type of element extracted from input object that is matched on.
      */
-    public abstract <T> ResultLongCaseMatcher<O> caseObj(LongFunction<Optional<T>> p, Function<? super T, ? extends O> f) throws NullPointerException;
+    <T> ResultLongCaseMatcher<O> caseObj(LongFunction<Optional<T>> p, Function<? super T, ? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalInt} when called with the
@@ -148,7 +148,7 @@ public interface ResultLongCaseMatcher<O> {
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract ResultLongCaseMatcher<O> caseInt(LongFunction<OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
+    ResultLongCaseMatcher<O> caseInt(LongFunction<OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalLong} when called with the
@@ -163,7 +163,7 @@ public interface ResultLongCaseMatcher<O> {
      * @return instance of ResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract ResultLongCaseMatcher<O> caseLong(LongFunction<OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
+    ResultLongCaseMatcher<O> caseLong(LongFunction<OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalDouble} when called with the
@@ -178,6 +178,6 @@ public interface ResultLongCaseMatcher<O> {
      * @return instance of ResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract ResultLongCaseMatcher<O> caseDouble(LongFunction<OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
+    ResultLongCaseMatcher<O> caseDouble(LongFunction<OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
 
 }
