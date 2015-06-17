@@ -29,61 +29,61 @@ public interface EagerNoResultIntCaseMatcher extends NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) throws NullPointerException;
+    EagerNoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultIntCaseMatcher caseOf(IntPredicate p, IntConsumer consumer) throws NullPointerException;
+    EagerNoResultIntCaseMatcher caseOf(IntPredicate p, IntConsumer consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultIntCaseMatcher caseOf(BooleanSupplier s, IntConsumer consumer) throws NullPointerException;
+    EagerNoResultIntCaseMatcher caseOf(BooleanSupplier s, IntConsumer consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultIntCaseMatcher caseOf(boolean test, IntConsumer consumer) throws NullPointerException;
+    EagerNoResultIntCaseMatcher caseOf(boolean test, IntConsumer consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultIntCaseMatcher caseIs(IntPredicate p, Runnable then) throws NullPointerException;
+    EagerNoResultIntCaseMatcher caseIs(IntPredicate p, Runnable then) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultIntCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException;
+    EagerNoResultIntCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> EagerNoResultIntCaseMatcher caseObj(IntFunction<Optional<T>> p, Consumer<T> consumer) throws NullPointerException;
+    <T> EagerNoResultIntCaseMatcher caseObj(IntFunction<Optional<T>> p, Consumer<T> consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultIntCaseMatcher caseInt(IntFunction<OptionalInt> p, IntConsumer consumer) throws NullPointerException;
+    EagerNoResultIntCaseMatcher caseInt(IntFunction<OptionalInt> p, IntConsumer consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultIntCaseMatcher caseLong(IntFunction<OptionalLong> p, LongConsumer consumer) throws NullPointerException;
+    EagerNoResultIntCaseMatcher caseLong(IntFunction<OptionalLong> p, LongConsumer consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultIntCaseMatcher caseDouble(IntFunction<OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
+    EagerNoResultIntCaseMatcher caseDouble(IntFunction<OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
 
 
     /////////////////////
@@ -98,7 +98,7 @@ public interface EagerNoResultIntCaseMatcher extends NoResultIntCaseMatcher {
      * @param consumer will be called with the input object if there was no matching case
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
      */
-    public abstract void otherwise(IntConsumer consumer) throws NullPointerException;
+    void otherwise(IntConsumer consumer) throws NullPointerException;
 
     /**
      * If all cases were checked and there was no found so far, the given supplier will be called and the given throwable
@@ -111,5 +111,5 @@ public interface EagerNoResultIntCaseMatcher extends NoResultIntCaseMatcher {
      * @throws NullPointerException might be thrown if either parameter {@code exSupplier} is {@code null}.
      * @throws X                    if no other case matched
      */
-    public abstract <X extends Throwable> void otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
+    <X extends Throwable> void otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 }

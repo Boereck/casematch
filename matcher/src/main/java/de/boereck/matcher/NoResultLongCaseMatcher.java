@@ -47,7 +47,7 @@ public interface NoResultLongCaseMatcher {
      * @return instance of NoResultLongCaseMatcher (may be the same as this) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
      */
-    public abstract NoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) throws NullPointerException;
+     NoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input value. If the case
@@ -58,7 +58,7 @@ public interface NoResultLongCaseMatcher {
      * @return instance of NoResultLongCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract NoResultLongCaseMatcher caseOf(LongPredicate p, LongConsumer consumer) throws NullPointerException;
+     NoResultLongCaseMatcher caseOf(LongPredicate p, LongConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given supplier returns true. If the case is determined to be the matching case, the
@@ -69,7 +69,7 @@ public interface NoResultLongCaseMatcher {
      * @return instance of NoResultLongCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract NoResultLongCaseMatcher caseOf(BooleanSupplier s, LongConsumer consumer) throws NullPointerException;
+     NoResultLongCaseMatcher caseOf(BooleanSupplier s, LongConsumer consumer) throws NullPointerException;
 
     /**
      * <p>
@@ -89,7 +89,7 @@ public interface NoResultLongCaseMatcher {
      * @return instance of NoResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
      */
-    public abstract NoResultLongCaseMatcher caseOf(boolean test, LongConsumer consumer) throws NullPointerException;
+     NoResultLongCaseMatcher caseOf(boolean test, LongConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
@@ -100,7 +100,7 @@ public interface NoResultLongCaseMatcher {
      * @return instance of NoResultCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code then} is {@code null}.
      */
-    public abstract NoResultLongCaseMatcher caseIs(LongPredicate p, Runnable then) throws NullPointerException;
+     NoResultLongCaseMatcher caseIs(LongPredicate p, Runnable then) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
@@ -111,7 +111,7 @@ public interface NoResultLongCaseMatcher {
      * @return instance of NoResultLongCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code then} is {@code null}.
      */
-    public abstract NoResultLongCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException;
+     NoResultLongCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.Optional} when called with the input
@@ -123,8 +123,9 @@ public interface NoResultLongCaseMatcher {
      *                 matching case. The consumer will be called with the object wrapped in the optional object.
      * @return instance of NoResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
+     * @param <T> type of element extracted from input long value
      */
-    public abstract <T> NoResultLongCaseMatcher caseObj(LongFunction<Optional<T>> p, Consumer<T> consumer) throws NullPointerException;
+     <T> NoResultLongCaseMatcher caseObj(LongFunction<Optional<T>> p, Consumer<T> consumer) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalLong} when called with the
@@ -137,7 +138,7 @@ public interface NoResultLongCaseMatcher {
      * @return instance of NoResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract NoResultLongCaseMatcher caseInt(LongFunction<OptionalInt> p, IntConsumer consumer) throws NullPointerException;
+     NoResultLongCaseMatcher caseInt(LongFunction<OptionalInt> p, IntConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalLong} when called with the
@@ -150,7 +151,7 @@ public interface NoResultLongCaseMatcher {
      * @return instance of NoResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract NoResultLongCaseMatcher caseLong(LongFunction<OptionalLong> p, LongConsumer consumer) throws NullPointerException;
+     NoResultLongCaseMatcher caseLong(LongFunction<OptionalLong> p, LongConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalDouble} when called with the
@@ -163,6 +164,6 @@ public interface NoResultLongCaseMatcher {
      * @return instance of NoResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract NoResultLongCaseMatcher caseDouble(LongFunction<OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
+     NoResultLongCaseMatcher caseDouble(LongFunction<OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
 
 }

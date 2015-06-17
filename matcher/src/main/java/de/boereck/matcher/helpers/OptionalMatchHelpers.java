@@ -41,7 +41,7 @@ public class OptionalMatchHelpers {
      * @return function that will return the same Optional it gets as input, as long as the input
      * is not {@code null}. On {@code null} input returns an empty Optional.
      */
-    public static final <I> OptionalMapper<Optional<I>,I> some() {
+    public static <I> OptionalMapper<Optional<I>,I> some() {
         return i -> i == null ? Optional.<I>empty() : i;
     }
 
@@ -54,7 +54,7 @@ public class OptionalMatchHelpers {
      * @return result of call to {@link OptionalMatchHelpers#some()}.
      * @param <I> type of element of optional
      */
-    public static final <I> OptionalMapper<Optional<I>,I> some(Class<I> clazz) {
+    public static <I> OptionalMapper<Optional<I>,I> some(Class<I> clazz) {
         return some();
     }
 
@@ -67,7 +67,7 @@ public class OptionalMatchHelpers {
      *  If the input is {@code null}, an empty optional will be returned.
      * @throws NullPointerException if {@code p} is {@code null}.
      */
-    public static final <I> OptionalMapper<Optional<I>,I> some(Predicate<I> p) throws NullPointerException {
+    public static <I> OptionalMapper<Optional<I>,I> some(Predicate<I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return i -> i == null ? Optional.<I>empty() : i.filter(p);
     }
@@ -82,7 +82,7 @@ public class OptionalMatchHelpers {
      * @return function mapping from one option based on function {@code extractor} to another optional that is returned.
      * @throws NullPointerException if {@code extractor} is {@code null}.
      */
-    public static final <I,O> OptionalMapper<Optional<I>,O> someFlat(Function<I, Optional<O>> extractor) throws NullPointerException {
+    public static <I,O> OptionalMapper<Optional<I>,O> someFlat(Function<I, Optional<O>> extractor) throws NullPointerException {
         Objects.requireNonNull(extractor);
         return i -> i == null ? Optional.<O>empty() : i.flatMap(extractor);
     }
@@ -96,7 +96,7 @@ public class OptionalMatchHelpers {
      * @return function mapping the value of the input option based {@code extractor} to another value and returns the resulting optional.
      * @throws NullPointerException if {@code mapper} is {@code null}.
      */
-    public static final <I,O> OptionalMapper<Optional<I>,O> someMap(Function<I, O> mapper) throws NullPointerException {
+    public static <I,O> OptionalMapper<Optional<I>,O> someMap(Function<I, O> mapper) throws NullPointerException {
         Objects.requireNonNull(mapper);
         return i -> i == null ? Optional.<O>empty() : i.map(mapper);
     }
@@ -123,7 +123,7 @@ public class OptionalMatchHelpers {
      *  If the input is {@code null}, an empty optional will be returned.
      * @throws NullPointerException if {@code p} is {@code null}.
      */
-    public static final <I> OptionalIntMapper<OptionalInt> someI(IntPredicate p) throws NullPointerException {
+    public static <I> OptionalIntMapper<OptionalInt> someI(IntPredicate p) throws NullPointerException {
         Objects.requireNonNull(p);
         return i -> {
             if(i == null) {
@@ -159,7 +159,7 @@ public class OptionalMatchHelpers {
      *  If the input is {@code null}, an empty optional will be returned.
      * @throws NullPointerException if {@code p} is {@code null}.
      */
-    public static final <I> OptionalLongMapper<OptionalLong> someL(LongPredicate p) throws NullPointerException {
+    public static <I> OptionalLongMapper<OptionalLong> someL(LongPredicate p) throws NullPointerException {
         Objects.requireNonNull(p);
         return i -> {
             if(i == null) {
@@ -195,7 +195,7 @@ public class OptionalMatchHelpers {
      *  If the input is {@code null}, an empty optional will be returned.
      * @throws NullPointerException if {@code p} is {@code null}.
      */
-    public static final <I> OptionalDoubleMapper<OptionalDouble> someD(DoublePredicate p) throws NullPointerException {
+    public static <I> OptionalDoubleMapper<OptionalDouble> someD(DoublePredicate p) throws NullPointerException {
         Objects.requireNonNull(p);
         return i -> {
             if(i == null) {

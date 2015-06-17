@@ -32,62 +32,62 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> f) throws NullPointerException;
+     EagerResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerResultIntCaseMatcher<O> caseOf(IntPredicate p, IntFunction<? extends O> f) throws NullPointerException;
+     EagerResultIntCaseMatcher<O> caseOf(IntPredicate p, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerResultIntCaseMatcher<O> caseOf(BooleanSupplier s, IntFunction<? extends O> f) throws NullPointerException;
+     EagerResultIntCaseMatcher<O> caseOf(BooleanSupplier s, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerResultIntCaseMatcher<O> caseOf(boolean test, IntFunction<? extends O> f) throws NullPointerException;
+     EagerResultIntCaseMatcher<O> caseOf(boolean test, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerResultIntCaseMatcher<O> caseIs(IntPredicate p, Supplier<? extends O> supplier) throws NullPointerException;
+     EagerResultIntCaseMatcher<O> caseIs(IntPredicate p, Supplier<? extends O> supplier) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerResultIntCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException;
+     EagerResultIntCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException;
 
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> EagerResultIntCaseMatcher<O> caseObj(IntFunction<Optional<T>> p, Function<? super T, ? extends O> f) throws NullPointerException;
+     <T> EagerResultIntCaseMatcher<O> caseObj(IntFunction<Optional<T>> p, Function<? super T, ? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerResultIntCaseMatcher<O> caseInt(IntFunction<OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
+     EagerResultIntCaseMatcher<O> caseInt(IntFunction<OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerResultIntCaseMatcher<O> caseLong(IntFunction<OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
+     EagerResultIntCaseMatcher<O> caseLong(IntFunction<OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerResultIntCaseMatcher<O> caseDouble(IntFunction<OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
+     EagerResultIntCaseMatcher<O> caseDouble(IntFunction<OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
 
     /////////////////////
     // Closing Methods //
@@ -100,7 +100,7 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * @return optional that may return the result of a case found. If the optional does not hold a value either no case
      * matched or the matching case returned a null value.
      */
-    public abstract Optional<O> result();
+     Optional<O> result();
 
     /**
      * If there was a case found and the result of the found is not {@code null} the given {@code consumer} is called with
@@ -109,7 +109,7 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * @param consumer will be called with the result of the case found if the result was not {@code null}.
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
      */
-    public abstract void ifResult(Consumer<? super O> consumer) throws NullPointerException;
+     void ifResult(Consumer<? super O> consumer) throws NullPointerException;
 
     /**
      * If there was a case found and the result of the found is not {@code null} the given callback {@code onResult} is called with
@@ -118,7 +118,7 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * @param onAbsent will be called if no case matched or the match returned {@code null}.
      * @throws NullPointerException  might be thrown if parameter {@code onResult} or {@code onAbsent} is {@code null}.
      */
-    public abstract void then(Consumer<? super O> onResult, Runnable onAbsent) throws NullPointerException;
+     void then(Consumer<? super O> onResult, Runnable onAbsent) throws NullPointerException;
 
     /**
      * If there was no prior found, the method will return the provided value. Attention: This method will return
@@ -128,7 +128,7 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * @return If there was a case-found, the result will be returned, otherwise the given alternative value will be
      * returned. The returned value might be null!
      */
-    public abstract O otherwise(O o);
+     O otherwise(O o);
 
     /**
      * If there was no prior found, the method will return a value provided by the given {@code supplier}. Attention: This
@@ -140,7 +140,7 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * that is provided by the {@code supplier}. The returned value might be null!
      * @throws NullPointerException will be thrown if the {@code supplier} was null.
      */
-    public abstract O otherwise(IntFunction<? extends O> supplier) throws NullPointerException;
+     O otherwise(IntFunction<? extends O> supplier) throws NullPointerException;
 
     /**
      * If there was no found so far, the method will throw an exception. Be aware that this method will return {@code null}
@@ -153,8 +153,9 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * @throws X                    if there was no matching case
      * @throws NullPointerException will be thrown if the exSupplier was {@code null} or the provided exception is {@code null}.
      * @see de.boereck.matcher.eager.EagerResultIntCaseMatcher#orElseThrow(Supplier)
+     * @param <X> type of exception that is thrown if no match was found
      */
-    public abstract <X extends Throwable> O otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
+     <X extends Throwable> O otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 
     /**
      * This method will return the given value, if there was no found, or the matching case returned {@code null}. The given
@@ -165,7 +166,7 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * @return either result of found, or parameter o. The returned value will never be null.
      * @throws NullPointerException will the thrown if parameter {@code o == null}
      */
-    public abstract O orElse(O o) throws NullPointerException;
+     O orElse(O o) throws NullPointerException;
 
     /**
      * This method will return a value from the given supplier, if there was no found, or the matching case returned
@@ -177,7 +178,7 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * @return either result of found, or value provided from given supplier. The returned value will never be {@code null}.
      * @throws NullPointerException will be thrown if supplier is {@code null} or supplier supplies a {@code null} value.
      */
-    public abstract O orElse(Supplier<? extends O> supplier) throws NullPointerException;
+     O orElse(Supplier<? extends O> supplier) throws NullPointerException;
 
     /**
      * If the result is present and the result is not {@code null} the result will be returned. Otherwise an exception
@@ -190,5 +191,5 @@ public interface EagerResultIntCaseMatcher<O> extends ResultIntCaseMatcher<O> {
      * @throws NullPointerException will be thrown if the {@code exSupplier} is {@code null} or the provided exception is {@code null}.
      * @param <X> type of exception that will be thrown if no other case matched or result is {@code null}.
      */
-    public abstract <X extends Throwable> O orElseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
+     <X extends Throwable> O orElseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 }

@@ -64,6 +64,7 @@ final class NoResultCaseMatcherUnfinished<I> implements EagerNoResultCaseMatcher
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")// Safe cast, checked if toCheck is instance of T
     @Override
     public <T> EagerNoResultCaseMatcher<I> caseOf(Class<T> clazz, Predicate<? super T> condition, Consumer<? super T> consumer) throws NullPointerException {
         Objects.requireNonNull(clazz);

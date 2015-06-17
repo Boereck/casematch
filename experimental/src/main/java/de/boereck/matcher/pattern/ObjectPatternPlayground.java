@@ -20,9 +20,9 @@ import static de.boereck.matcher.pattern.IntVar.*;
 
 public class ObjectPatternPlayground {
 
-    static enum Sex {
+    enum Sex {
         MALE, FEMALE, OTHER
-    };
+    }
 
     static class Person {
         private int age;

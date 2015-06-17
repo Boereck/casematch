@@ -255,11 +255,7 @@ public class ArrayMatchHelpers {
             } // else
             if (i instanceof Object[]) {
                 final Class<?> arrayType = i.getClass().getComponentType();
-                if (clazz.isAssignableFrom(arrayType)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return clazz.isAssignableFrom(arrayType);
             } //else
             return false;
         };

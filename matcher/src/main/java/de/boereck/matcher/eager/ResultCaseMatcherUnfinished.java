@@ -92,6 +92,7 @@ final class ResultCaseMatcherUnfinished<I, O> implements EagerResultCaseMatcher<
         // check if input object instance of clazz
         final I toCheck = this.toCheck;
         if (clazz.isInstance(toCheck)) {
+            @SuppressWarnings("unchecked") // Safe cast, checked if toCheck is instance of T
             final T casted = (T) toCheck;
             if (condition.test(casted)) {
                 @SuppressWarnings("unchecked")

@@ -304,7 +304,7 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
         Objects.requireNonNull(consumer);
         return i -> {
             final OptionalDouble result = this.apply(i);
-            if (result != null && result != null) {
+            if (result != null) {
                 result.ifPresent(consumer);
             }
         };
@@ -422,6 +422,7 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
      * with {@code handler}. After handling exceptions, the function will return an empty OptionalDouble.
      * @throws NullPointerException if {@code clazz} or {@code handler} are {@code null}.
      */
+    @SuppressWarnings("unchecked") // Safe cast, checked if t is instance of E
     default <E extends Throwable> OptionalDoubleMapper<I> withCatch(Class<E> clazz, Consumer<E> handler) throws NullPointerException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(handler);
@@ -500,6 +501,7 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
      * re-thrown to the caller.
      * @throws NullPointerException if {@code clazz} or {@code recovery} are {@code null}.
      */
+    @SuppressWarnings("unchecked") // Safe cast, checked if t is instance of E
     default <E extends Throwable> OptionalDoubleMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalDouble> recovery) {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);

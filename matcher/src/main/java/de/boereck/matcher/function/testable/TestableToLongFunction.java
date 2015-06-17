@@ -267,6 +267,7 @@ public interface TestableToLongFunction<I> extends ToLongFunction<I> {
      * re-thrown to the caller.
      * @throws NullPointerException if {@code clazz} or {@code recovery} is {@code null}.
      */
+    @SuppressWarnings("unchecked") // Cast is safe, t is checked to be instance of E
     default <E extends Throwable> OptionalLongMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalLong> recovery) throws NullPointerException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);

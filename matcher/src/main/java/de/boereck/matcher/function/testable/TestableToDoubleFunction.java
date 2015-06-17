@@ -267,6 +267,7 @@ public interface TestableToDoubleFunction<I> extends ToDoubleFunction<I> {
      * re-thrown to the caller.
      * @throws NullPointerException if {@code clazz} or {@code recovery} is {@code null}.
      */
+    @SuppressWarnings("unchecked") // Cast is safe, t is checked to be instance of E
     default <E extends Throwable> OptionalDoubleMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalDouble> recovery) throws NullPointerException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);
