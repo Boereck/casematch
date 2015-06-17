@@ -36,6 +36,7 @@ public final class MatchHelpers {
      * This is basically an alias for {@link java.util.Optional#ofNullable(Object)}, providing the additional features of
      * {@link OptionalMapper}.
      *
+     * @param <I> type of input object to be wrapped into an optional
      * @return mapper that is reference to static method {@link java.util.Optional#ofNullable(Object)}
      */
     private static final <I> OptionalMapper<I, I> toOptional() {
@@ -48,6 +49,7 @@ public final class MatchHelpers {
      * that Exceptions do cost a lot of runtime!
      *
      * @param toTry predicate being executed, which may throw an exception
+     * @param <T>   type of object to be checked
      * @return predicate that will return false if the wrapping predicate throws an exception during evaluation. If the
      * evaluation does not throw, the result of the wrapped predicate will be returned.
      * @throws NullPointerException will be thrown if {@code toTry} is {@code null}.
@@ -92,7 +94,7 @@ public final class MatchHelpers {
      * @return function that will try to perform the given to-int-function, if an exception is thrown during the
      * execution, the mapper will swallow the exception and return an empty OptionalInt instead.
      */
-    public static <I, O> OptionalIntMapper<I> tryMapI(ToIntFunction<I> function) {
+    public static <I> OptionalIntMapper<I> tryMapI(ToIntFunction<I> function) {
         return i -> {
             try {
                 return OptionalInt.of(function.applyAsInt(i));
@@ -174,7 +176,7 @@ public final class MatchHelpers {
      * @return function that will try to perform the given to-int-function, if an exception is thrown during the
      * execution, the mapper will swallow the exception and return an empty OptionalInt instead.
      */
-    public static <I, O> OptionalIntMapper<I> tryMapI(ToIntFunction<I> function, Consumer<Exception> handler) {
+    public static <I> OptionalIntMapper<I> tryMapI(ToIntFunction<I> function, Consumer<Exception> handler) {
         return i -> {
             try {
                 return OptionalInt.of(function.applyAsInt(i));
@@ -243,6 +245,7 @@ public final class MatchHelpers {
      * Returns {@link java.util.Objects#nonNull(Object)} as predicate. This can be useful for using concatenation functions
      * {@link java.util.function.Predicate#and(java.util.function.Predicate)} or {@link java.util.function.Predicate#or(java.util.function.Predicate)}.
      *
+     * @param <T> type of input object checked to be not {@code null}.
      * @return {@link java.util.Objects#nonNull(Object)} as Predicate
      */
     public static <T> AdvPredicate<T> notNull() {
@@ -254,6 +257,7 @@ public final class MatchHelpers {
      * T.
      *
      * @param clazz class that helps determine generic type T
+     * @param <T>   type of input object checked to be not {@code null}
      * @return reference to {@link java.util.Objects#nonNull(Object)} as AdvPredicate.
      */
     public static <T> AdvPredicate<T> notNull(Class<T> clazz) {
@@ -265,8 +269,10 @@ public final class MatchHelpers {
      * {@code f} will be called and the returned object will be wrapped in an Optional. So there will never be null passed to
      * function {@code f}.
      *
-     * @param f function that's output will be wrapped into an optional. If the input value is null, the function will not
-     *          be called.
+     * @param f   function that's output will be wrapped into an optional. If the input value is null, the function will not
+     *            be called.
+     * @param <I> type of input object to be mapped to type {@code O}
+     * @param <O> type of output of the mapping
      * @return Function, either returning an Optional containing the output of function {@code f}, or an empty Optional if
      * the input is null.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
@@ -283,13 +289,14 @@ public final class MatchHelpers {
      * {@code f} will be called and the returned int value will be wrapped in an OptionalInt. So there will never be null
      * passed to function {@code f}.
      *
-     * @param f function that's output will be wrapped into an optional. If the input value is null, the function will not
-     *          be called.
+     * @param f   function that's output will be wrapped into an optional. If the input value is null, the function will not
+     *            be called.
+     * @param <I> type of input object mapped to int
      * @return Function, either returning an OptionalInt containing the output of function {@code f}, or an empty OptionalInt
      * if the input is null.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
-    public static <I, O> OptionalIntMapper<I> nullsafeI(ToIntFunction<I> f) throws NullPointerException {
+    public static <I> OptionalIntMapper<I> nullsafeI(ToIntFunction<I> f) throws NullPointerException {
         Objects.requireNonNull(f);
         // equivalent with
         // (I i) -> i == null ? OptionalInt.empty() : OptionalInt.of(f.applyAsInt(i));
@@ -301,13 +308,14 @@ public final class MatchHelpers {
      * {@code f} will be called and the returned long value will be wrapped in an OptionalInt. So there will never be null
      * passed to function {@code f}.
      *
-     * @param f function that's output will be wrapped into an optional. If the input value is null, the function will not
-     *          be called.
+     * @param f   function that's output will be wrapped into an optional. If the input value is null, the function will not
+     *            be called.
+     * @param <I> type of input object mapped to long value
      * @return Function, either returning an OptionalLong containing the output of function {@code f}, or an empty
      * OptionalLong if the input is null.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
-    public static <I, O> OptionalLongMapper<I> nullsafeL(ToLongFunction<I> f) throws NullPointerException {
+    public static <I> OptionalLongMapper<I> nullsafeL(ToLongFunction<I> f) throws NullPointerException {
         Objects.requireNonNull(f);
         // equivalent with
         // (I i) -> i == null ? OptionalLong.empty() : OptionalLong.of(f.applyAsLong(i));
@@ -319,13 +327,14 @@ public final class MatchHelpers {
      * {@code f} will be called and the returned double value will be wrapped in an OptionalDouble. So there will never be
      * null passed to function {@code f}.
      *
-     * @param f function that's output will be wrapped into an optional. If the input value is null, the function will not
-     *          be called.
+     * @param f   function that's output will be wrapped into an optional. If the input value is null, the function will not
+     *            be called.
+     * @param <I> type of input object to be mapped to double
      * @return Function, either returning an OptionalDouble containing the output of function {@code f}, or an empty
      * OptionalDouble if the input is null.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
-    public static <I, O> Function<I, OptionalDouble> nullsafeD(ToDoubleFunction<I> f) throws NullPointerException {
+    public static <I> Function<I, OptionalDouble> nullsafeD(ToDoubleFunction<I> f) throws NullPointerException {
         Objects.requireNonNull(f);
         // equivalent with
         // (I i) -> i == null ? OptionalDouble.empty() : OptionalDouble.of(f.applyAsDouble(i));
@@ -342,7 +351,8 @@ public final class MatchHelpers {
      * </code>
      * </pre>
      *
-     * @param p predicate that should be made available as an AdvPredicate
+     * @param p   predicate that should be made available as an AdvPredicate
+     * @param <T> type of object to be checked by predicate {@code p}
      * @return AdvPredicate representation of predicate {@code p}
      * @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
@@ -465,7 +475,9 @@ public final class MatchHelpers {
      * composition of functions using the methods on TestableFunction, like {@link TestableFunction#andThen(java.util.function.Function)} or
      * {@link TestableFunction#filter(java.util.function.Predicate)}.
      *
-     * @param f function that should be made available as a TestableFunction.
+     * @param f   function that should be made available as a TestableFunction.
+     * @param <I> type of input to mapping function
+     * @param <O> type of output of mapping function
      * @return TestableFunction representation of parameter {@code f}.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
@@ -481,7 +493,8 @@ public final class MatchHelpers {
      * easy composition of functions using the methods on TestableToIntFunction, like
      * {@link TestableToIntFunction#filter(java.util.function.IntPredicate)}.
      *
-     * @param f function that should be made available as a TestableFunction.
+     * @param f   function that should be made available as a TestableFunction.
+     * @param <I> type of input object to be casted to input object
      * @return TestableFunction representation of parameter {@code f}.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
@@ -497,7 +510,8 @@ public final class MatchHelpers {
      * allows easy composition of functions using the methods on TestableToLongFunction, like
      * {@link TestableToIntFunction#filter(java.util.function.IntPredicate)}.
      *
-     * @param f function that should be made available as a TestableFunction.
+     * @param f   function that should be made available as a TestableFunction.
+     * @param <I> type of input object to be mapped to long by function {@code f}
      * @return TestableFunction representation of parameter {@code f}.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
@@ -513,7 +527,8 @@ public final class MatchHelpers {
      * allows easy composition of functions using the methods on TestableToDoubleFunction, like
      * {@link TestableToDoubleFunction#filter(java.util.function.DoublePredicate)}.
      *
-     * @param f function that should be made available as a TestableFunction.
+     * @param f   function that should be made available as a TestableFunction.
+     * @param <I> type of input object to be mapped to double value by function {@code f}
      * @return TestableFunction representation of parameter {@code f}.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
@@ -564,6 +579,7 @@ public final class MatchHelpers {
      *
      * @param o     object to be casted
      * @param clazz class to cast parameter {@code o} to.
+     * @param <T>   type the input object is casted to, if it is instance of this type
      * @return if {@code o} is instance of {@code clazz}, an Optional containing o casted to clazz. Otherwise an empty
      * Optional.
      * @throws NullPointerException will be thrown if {@code clazz} is {@code null}.
@@ -584,14 +600,15 @@ public final class MatchHelpers {
      * returns false) or an Optional holding the input object (if the predicate returns true).
      *
      * @param test predicate to check if input objects should be wrapped in an optional. Must not be {@code null}.
+     * @param <I>  type of element to be tested by {@code test}
      * @return function mapping from I to Optional&lt;I&gt;, based on predicate {@code test}.
      * @throws NullPointerException will be thrown if {@code test} is {@code null}.
      */
-    public static <I, O> OptionalMapper<I, I> filter(Predicate<I> test) {
+    public static <I> OptionalMapper<I, I> filter(Predicate<I> test) {
         return i -> test.test(i) ? Optional.ofNullable(i) : Optional.empty();
     }
 
-    public static <I, O> OptionalMapper<I, I> filterNullsafe(Predicate<I> test) {
+    public static <I> OptionalMapper<I, I> filterNullsafe(Predicate<I> test) {
         return i -> Optional.ofNullable(i).filter(test);
     }
 
@@ -600,6 +617,7 @@ public final class MatchHelpers {
      * class or being empty if the input to the function was null or the input object is not instance of the given class.
      *
      * @param clazz Class to cast to
+     * @param <T>   type the input object to the returned function should be casted to.
      * @return function that does cast or returns empty Optional
      * @throws NullPointerException will be thrown if {@code clazz} is {@code null}.
      */
@@ -613,6 +631,8 @@ public final class MatchHelpers {
      * check, since this would also return true if the object was of a subtype of the class in question.
      *
      * @param clazz Class the predicate checks input objects are type of.
+     * @param <I>   type of input element checked to be of type {@code T}
+     * @param <O>   type the input element is checked to be of
      * @return Predicate testing if an object is exactly of the given type.
      * @throws NullPointerException will be thrown if {@code clazz} is {@code null}.
      */
@@ -626,6 +646,8 @@ public final class MatchHelpers {
      * checks on the input object, that will automatically be cased to the checked type.
      *
      * @param clazz type input objects are checked to be instance of
+     * @param <I>   type of input element to be checked to be instance of {@code T}
+     * @param <O>   type the input is checked to be instance of.
      * @return predicate checking input objects if they are instance of class {@code clazz}.
      * @throws NullPointerException will be thrown if {@code clazz} is {@code null}.
      */
@@ -638,7 +660,8 @@ public final class MatchHelpers {
      * Returns predicate checking if input objects are equal to the given object {@code t}. Equality check is performed
      * using {@link Objects#equals(Object, Object)}.
      *
-     * @param t object to check for equality
+     * @param t   object to check for equality
+     * @param <T> Type of element to be checked for equality
      * @return predicate, checking input objects for equality to {@code t}.
      */
     public static <T> AdvPredicate<T> eq(T t) {
@@ -655,6 +678,7 @@ public final class MatchHelpers {
      * @param t    one element predicate will check if input is equal to it
      * @param more further elements the predicate will check if element
      *             is one of them.
+     * @param <T>  type of elements to be checked
      * @return predicate checking if the input object is either {@code t} or one of {@code more}.
      * @throws NullPointerException will be thrown if {@code more} is {@code null}.
      */
@@ -679,7 +703,8 @@ public final class MatchHelpers {
      * Creates predicate checking for <em>referential</em> equality. The predicate will use the == operator and does
      * <em>not</em> call any equals method.
      *
-     * @param o to be checked for referential equality.
+     * @param o   to be checked for referential equality.
+     * @param <T> type of element checked for referential equality with parameter {@code o}.
      * @return predicate checking an input for referential equality with parameter o.
      */
     public static <T> AdvPredicate<T> refEq(Object o) {

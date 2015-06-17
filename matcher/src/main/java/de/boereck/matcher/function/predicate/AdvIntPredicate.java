@@ -26,6 +26,7 @@ import java.util.function.Predicate;
  *         content: 'true';
  *     }
  * </style>
+ * @author Max Bureck
  */
 @FunctionalInterface
 public interface AdvIntPredicate extends IntPredicate {

@@ -10,11 +10,18 @@ import java.util.OptionalLong;
 import java.util.function.*;
 
 /**
+ * <p>Eager version of {@link NoResultLongCaseMatcher}.</p>
+ * <p>This case matcher will evaluate the cases as soon as the case methods are called. The input object the cases
+ * are defined for must be known upfront on creation of instances of this interface. The evaluation order of cases
+ * is guaranteed to be in the order of specification. Both checks for cases, as well as the associated actions will
+ * perform on the same thread that is invoking the case methods.</p>
  * Closing methods by this interface are:
  * <ul>
  * <li> {@link de.boereck.matcher.eager.EagerNoResultLongCaseMatcher#otherwise(java.util.function.LongConsumer) otherwise(Consumer)}</li>
  * <li> {@link de.boereck.matcher.eager.EagerNoResultLongCaseMatcher#otherwiseThrow(java.util.function.Supplier) otherwiseThrow(Supplier)}</li>
  * </ul>
+ *
+ * @author Max Bureck
  */
 public interface EagerNoResultLongCaseMatcher extends NoResultLongCaseMatcher {
 
@@ -22,7 +29,7 @@ public interface EagerNoResultLongCaseMatcher extends NoResultLongCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> EagerNoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) throws NullPointerException;
+    public abstract EagerNoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
@@ -99,7 +106,9 @@ public interface EagerNoResultLongCaseMatcher extends NoResultLongCaseMatcher {
      *
      * @param exSupplier supplier of the exception to be thrown. For exceptions with parameterless constructors a method reference
      *                   can be used. E.g. {@code MyException::new}.
+     * @param <X>        type of exception that will be thrown if no other case matched.
      * @throws NullPointerException might be thrown if either parameter {@code exSupplier} is {@code null}.
+     * @throws X                    if no other case matched
      */
     public abstract <X extends Throwable> void otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 }

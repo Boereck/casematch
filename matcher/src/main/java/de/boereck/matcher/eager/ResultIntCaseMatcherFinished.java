@@ -44,7 +44,7 @@ final class ResultIntCaseMatcherFinished<O> implements EagerResultIntCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> consumer) {
+    public EagerResultIntCaseMatcher<O> caseOf(int i, IntFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }

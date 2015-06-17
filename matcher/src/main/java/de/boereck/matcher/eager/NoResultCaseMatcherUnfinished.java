@@ -176,7 +176,7 @@ final class NoResultCaseMatcherUnfinished<I> implements EagerNoResultCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerNoResultCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer) {
+    public EagerNoResultCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -193,7 +193,7 @@ final class NoResultCaseMatcherUnfinished<I> implements EagerNoResultCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerNoResultCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer) {
+    public EagerNoResultCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -210,7 +210,7 @@ final class NoResultCaseMatcherUnfinished<I> implements EagerNoResultCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerNoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) {
+    public EagerNoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         // check if case matches

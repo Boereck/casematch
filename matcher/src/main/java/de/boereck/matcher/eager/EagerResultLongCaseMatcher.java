@@ -9,6 +9,11 @@ import java.util.OptionalLong;
 import java.util.function.*;
 
 /**
+ * <p>Eager version of {@link ResultLongCaseMatcher}.</p>
+ * <p>This case matcher will evaluate the cases as soon as the case methods are called. The input object the cases
+ * are defined for must be known upfront on creation of instances of this interface. The evaluation order of cases
+ * is guaranteed to be in the order of specification. Both checks for cases, as well as the associated actions will
+ * perform on the same thread that is invoking the case methods.</p>
  * Closing methods by this interface are:
  * <ul>
  * <li> {@link de.boereck.matcher.eager.EagerResultLongCaseMatcher#otherwise(java.util.function.LongFunction) otherwise(LongFunction)}</li>
@@ -19,6 +24,7 @@ import java.util.function.*;
  * <li> {@link de.boereck.matcher.eager.EagerResultLongCaseMatcher#orElse(java.util.function.Supplier) orElse(Supplier)}</li>
  * <li> {@link de.boereck.matcher.eager.EagerResultLongCaseMatcher#orElseThrow(java.util.function.Supplier) orElseThrow(Supplier)}</li>
  * </ul>
+ * @author Max Bureck
  */
 public interface EagerResultLongCaseMatcher<O> extends ResultLongCaseMatcher<O> {
 
@@ -26,7 +32,7 @@ public interface EagerResultLongCaseMatcher<O> extends ResultLongCaseMatcher<O> 
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> EagerResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> f) throws NullPointerException;
+    public abstract EagerResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
@@ -147,6 +153,7 @@ public interface EagerResultLongCaseMatcher<O> extends ResultLongCaseMatcher<O> 
      * @throws X                    if there was no matching case
      * @throws NullPointerException will be thrown if the exSupplier was {@code null} or the provided exception is {@code null}.
      * @see de.boereck.matcher.eager.EagerResultLongCaseMatcher#orElseThrow(Supplier)
+     * @param <X> type of exception that will be thrown if no other case matched.
      */
     public abstract <X extends Throwable> O otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 

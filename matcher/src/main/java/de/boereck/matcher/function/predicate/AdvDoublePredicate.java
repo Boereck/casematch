@@ -30,6 +30,7 @@ import java.util.function.Predicate;
  *         content: 'true';
  *     }
  * </style>
+ * @author Max Bureck
  */
 @FunctionalInterface
 public interface AdvDoublePredicate extends DoublePredicate {

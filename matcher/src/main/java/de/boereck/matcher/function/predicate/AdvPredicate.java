@@ -27,6 +27,8 @@ import java.util.function.Predicate;
  *         content: 'true';
  *     }
  * </style>
+ * @author Max Bureck
+ * @param <I> type of input to predicate
  */
 @FunctionalInterface
 public interface AdvPredicate<I> extends Predicate<I> {

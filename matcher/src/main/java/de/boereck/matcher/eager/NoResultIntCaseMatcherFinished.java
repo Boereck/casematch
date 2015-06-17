@@ -50,7 +50,7 @@ final class NoResultIntCaseMatcherFinished implements EagerNoResultIntCaseMatche
      * {@inheritDoc}
      */
     @Override
-    public <T> EagerNoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }

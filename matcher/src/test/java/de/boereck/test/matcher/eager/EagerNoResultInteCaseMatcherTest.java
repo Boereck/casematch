@@ -9,7 +9,7 @@ import java.util.function.IntConsumer;
 
 import org.junit.Test;
 
-public class NoResultInteCaseMatcherTest {
+public class EagerNoResultInteCaseMatcherTest {
 
     private static final IntConsumer fail = o -> fail();
 

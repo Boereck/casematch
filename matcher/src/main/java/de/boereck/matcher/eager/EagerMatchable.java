@@ -11,10 +11,11 @@ package de.boereck.matcher.eager;
  * to pass an object around that allows matching on a wrapped object.</p>
  *
  * @param <T> must be the same type as the class implementing the interface!
+ * @author Max Bureck
  */
 public interface EagerMatchable<T> {
 
-    static <Z> EagerMatchable<Z> matchable(Z t){
+    static <Z> EagerMatchable<Z> matchable(Z t) {
         return new EagerMatchable<Z>() {
             @Override
             public EagerNoResultCaseMatcher<Z> match() {
@@ -30,11 +31,11 @@ public interface EagerMatchable<T> {
 
     @SuppressWarnings("unchecked")
     default EagerNoResultCaseMatcher<T> match() {
-        return EagerMatcher.match((T)this);
+        return EagerMatcher.match((T) this);
     }
 
     @SuppressWarnings("unchecked")
-    default <O> EagerResultCaseMatcher<T,O> resultMatch() {
+    default <O> EagerResultCaseMatcher<T, O> resultMatch() {
         return EagerMatcher.resultMatch((T) this);
     }
 }

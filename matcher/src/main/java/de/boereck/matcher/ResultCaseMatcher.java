@@ -29,9 +29,8 @@ import java.util.function.Supplier;
  * </p>
  * <p>
  * It is also not defined if the evaluation of case predicates or functions is done eager when a case method is called or
- * lazy when a closing method is called.
- * Sub-types may define more closing methods. The effects of closing methods are always taking effect after all cases were
- * checked.
+ * lazy when a closing method is called (starting the evaluation of cases). This interface does not declare any closing methods,
+ * sub-types may define their own closing methods.
  * </p>
  *
  * @param <I> type of the input object to be matched

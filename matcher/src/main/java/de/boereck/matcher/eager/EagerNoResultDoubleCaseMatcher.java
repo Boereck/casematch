@@ -10,11 +10,18 @@ import java.util.OptionalLong;
 import java.util.function.*;
 
 /**
+ * <p>Eager version of {@link NoResultDoubleCaseMatcher}.</p>
+ * <p>This case matcher will evaluate the cases as soon as the case methods are called. The input object the cases
+ * are defined for must be known upfront on creation of instances of this interface. The evaluation order of cases
+ * is guaranteed to be in the order of specification. Both checks for cases, as well as the associated actions will
+ * perform on the same thread that is invoking the case methods.</p>
  * Closing methods by this interface are:
  * <ul>
  * <li> {@link de.boereck.matcher.eager.EagerNoResultDoubleCaseMatcher#otherwise(java.util.function.DoubleConsumer) otherwise(Consumer)}</li>
  * <li> {@link de.boereck.matcher.eager.EagerNoResultDoubleCaseMatcher#otherwiseThrow(java.util.function.Supplier) otherwiseThrow(Supplier)}</li>
  * </ul>
+ *
+ * @author Max Bureck
  */
 public interface EagerNoResultDoubleCaseMatcher extends NoResultDoubleCaseMatcher {
 
@@ -94,7 +101,9 @@ public interface EagerNoResultDoubleCaseMatcher extends NoResultDoubleCaseMatche
      *
      * @param exSupplier supplier of the exception to be thrown. For exceptions with parameterless constructors a method reference
      *                   can be used. E.g. {@code MyException::new}.
+     * @param <X>        type of exception that will be thrown if no other case matched.
      * @throws NullPointerException might be thrown if either parameter {@code exSupplier} is {@code null}.
+     * @throws X                    if no other case matched.
      */
     public abstract <X extends Throwable> void otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 }

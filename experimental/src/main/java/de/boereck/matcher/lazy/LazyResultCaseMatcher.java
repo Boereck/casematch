@@ -18,67 +18,67 @@ public interface LazyResultCaseMatcher<I,O> extends ResultCaseMatcher<I,O>, Func
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> LazyResultCaseMatcher<I, O> caseOf(Class<T> clazz, Function<? super T, ? extends O> f) throws NullPointerException;
+    <T> LazyResultCaseMatcher<I, O> caseOf(Class<T> clazz, Function<? super T, ? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> LazyResultCaseMatcher<I, O> caseOf(Class<T> clazz, Predicate<? super T> condition, Function<? super T, ? extends O> f) throws NullPointerException;
+    <T> LazyResultCaseMatcher<I, O> caseOf(Class<T> clazz, Predicate<? super T> condition, Function<? super T, ? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract LazyResultCaseMatcher<I, O> caseOf(Predicate<? super I> p, Function<? super I, ? extends O> f) throws NullPointerException;
+    LazyResultCaseMatcher<I, O> caseOf(Predicate<? super I> p, Function<? super I, ? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract LazyResultCaseMatcher<I, O> caseOf(BooleanSupplier s, Function<? super I, ? extends O> f) throws NullPointerException;
+    LazyResultCaseMatcher<I, O> caseOf(BooleanSupplier s, Function<? super I, ? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract LazyResultCaseMatcher<I, O> caseOf(boolean test, Function<? super I, ? extends O> f) throws NullPointerException;
+    LazyResultCaseMatcher<I, O> caseOf(boolean test, Function<? super I, ? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract LazyResultCaseMatcher<I,O> caseIs(Predicate<? super I> p, Supplier<? extends O> supplier) throws NullPointerException;
+    LazyResultCaseMatcher<I,O> caseIs(Predicate<? super I> p, Supplier<? extends O> supplier) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract LazyResultCaseMatcher<I,O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException;
+    LazyResultCaseMatcher<I,O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> LazyResultCaseMatcher<I, O> caseObj(Function<? super I, Optional<T>> p, Function<? super T, ? extends O> f) throws NullPointerException;
+    <T> LazyResultCaseMatcher<I, O> caseObj(Function<? super I, Optional<T>> p, Function<? super T, ? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract LazyResultCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
+    LazyResultCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract LazyResultCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
+    LazyResultCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract LazyResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
+    LazyResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
 
 
     // TODO more closing methods
