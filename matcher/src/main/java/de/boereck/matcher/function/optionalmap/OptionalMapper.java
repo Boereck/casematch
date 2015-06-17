@@ -454,6 +454,7 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      * with {@code handler}. After handling exceptions, the function will return an empty Optional.
      * @throws NullPointerException if {@code handler} or {@code handler} is {@code null}.
      */
+    @SuppressWarnings("unchecked") // Safe cast, checked if t is instance of E
     default <E extends Throwable> OptionalMapper<I, O> withCatch(Class<E> clazz, Consumer<E> handler) {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(handler);
@@ -532,6 +533,7 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      * re-thrown to the caller.
      * @throws NullPointerException if {@code handler} or {@code recovery} is {@code null}.
      */
+    @SuppressWarnings("unchecked") // Safe cast, checked if t is instance of E
     default <E extends Throwable> OptionalMapper<I, O> recoverWith(Class<E> clazz, Function<? super E, Optional<O>> recovery) throws NullPointerException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);

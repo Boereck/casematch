@@ -59,7 +59,7 @@ public class CollectionMatchHelpers {
      *              Must not be {@code null}.
      * @param <I> Type of elements in input stream
      * @param <O> Type of element remaining in the output stream
-     * @return
+     * @return input stream filtered by type {@code O}
      * @throws NullPointerException when {@code clazz} or {@code s} is {@code null}.
      */
     @SuppressWarnings("unchecked") // we know the cast is safe, since all elements are of type O
@@ -344,7 +344,7 @@ public class CollectionMatchHelpers {
      * the mapper will return an Optional of the input object casted to Collection, otherwise it returns
      * an empty Optional.
      */
-    public static final <I> OptionalMapper<I, Collection<?>> castToCollection() {
+    public static <I> OptionalMapper<I, Collection<?>> castToCollection() {
         return o -> o != null && (o instanceof Collection) ? Optional.of((Collection<?>) o) : Optional.empty();
     }
 
@@ -358,7 +358,7 @@ public class CollectionMatchHelpers {
      * the mapper will return an Optional of the input object casted to List, otherwise it returns
      * an empty Optional.
      */
-    public static final <I> OptionalMapper<I, List<?>> castToList() {
+    public static <I> OptionalMapper<I, List<?>> castToList() {
         return o -> o != null && (o instanceof List) ? Optional.of((List<?>) o) : Optional.empty();
     }
 
@@ -372,7 +372,7 @@ public class CollectionMatchHelpers {
      * the mapper will return an Optional of the input object casted to Map, otherwise it returns
      * an empty Optional.
      */
-    public static final <I> OptionalMapper<I, Map<?, ?>> castToMap() {
+    public static <I> OptionalMapper<I, Map<?, ?>> castToMap() {
         return o -> o != null && (o instanceof Map) ? Optional.of((Map<?, ?>) o) : Optional.empty();
     }
 
@@ -402,7 +402,7 @@ public class CollectionMatchHelpers {
      * @param <I> type of object to be checked if instance of Collection
      * @return predicate checking if input object is instance of Collection.
      */
-    public static final <I> TypeCheck<I, Collection<?>> isCollection() {
+    public static <I> TypeCheck<I, Collection<?>> isCollection() {
         return o -> o != null && (o instanceof Collection);
     }
 

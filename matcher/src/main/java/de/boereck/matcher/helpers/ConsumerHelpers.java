@@ -250,7 +250,7 @@ public final class ConsumerHelpers {
      * @param msg message to be printed to System.out when the returned runnable is called.
      * @return Runnable that will print message {@code msg} to System.out.
      */
-    public static final Runnable sysout(String msg) {
+    public static Runnable sysout(String msg) {
         return () -> System.out.println(msg);
     }
 
@@ -262,7 +262,7 @@ public final class ConsumerHelpers {
      * @return Consumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
      */
-    public static final Consumer<Object> sysoutFormat(String format) throws NullPointerException {
+    public static Consumer<Object> sysoutFormat(String format) throws NullPointerException {
         Objects.requireNonNull(format);
         return o -> System.out.printf(format, o);
     }
@@ -275,7 +275,7 @@ public final class ConsumerHelpers {
      * @return IntConsumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
      */
-    public static final IntConsumer sysoutFormatI(String format) throws NullPointerException {
+    public static IntConsumer sysoutFormatI(String format) throws NullPointerException {
         Objects.requireNonNull(format);
         return i -> System.out.printf(format, i);
     }
@@ -288,7 +288,7 @@ public final class ConsumerHelpers {
      * @return LongConsumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
      */
-    public static final LongConsumer sysoutFormatL(String format) throws NullPointerException {
+    public static LongConsumer sysoutFormatL(String format) throws NullPointerException {
         Objects.requireNonNull(format);
         return l -> System.out.printf(format, l);
     }
@@ -301,7 +301,7 @@ public final class ConsumerHelpers {
      * @return DoubleConsumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
      */
-    public static final DoubleConsumer sysoutFormatD(String format) throws NullPointerException {
+    public static DoubleConsumer sysoutFormatD(String format) throws NullPointerException {
         Objects.requireNonNull(format);
         return d -> System.out.printf(format, d);
     }
@@ -315,7 +315,7 @@ public final class ConsumerHelpers {
      * @return Consumer that prints inputs formatted to System.out.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
      */
-    public static final Consumer<Object> sysoutFormat(Locale locale, String format) throws NullPointerException {
+    public static Consumer<Object> sysoutFormat(Locale locale, String format) throws NullPointerException {
         Objects.requireNonNull(format);
         return o -> System.out.printf(locale, format, o);
     }
@@ -360,7 +360,7 @@ public final class ConsumerHelpers {
      * @return Consumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
      */
-    public static final Consumer<Object> syserrFormat(String format) throws NullPointerException {
+    public static Consumer<Object> syserrFormat(String format) throws NullPointerException {
         Objects.requireNonNull(format);
         return o -> System.err.printf(format, o);
     }
@@ -374,7 +374,7 @@ public final class ConsumerHelpers {
      * @return Consumer that prints inputs formatted to System.err.
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
      */
-    public static final Consumer<Object> syserrFormat(Locale locale, String format) throws NullPointerException {
+    public static Consumer<Object> syserrFormat(Locale locale, String format) throws NullPointerException {
         Objects.requireNonNull(format);
         return o -> System.err.printf(locale, format, o);
     }

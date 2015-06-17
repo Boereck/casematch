@@ -106,6 +106,7 @@ public interface NoResultDoubleCaseMatcher {
      *                 matching case. The consumer will be called with the object wrapped in the optional object.
      * @return instance of NoResultDoubleCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
+     * @param <T> type the object extracted from input double value
      */
     <T> NoResultDoubleCaseMatcher caseObj(DoubleFunction<Optional<T>> p, Consumer<T> consumer) throws NullPointerException;
 

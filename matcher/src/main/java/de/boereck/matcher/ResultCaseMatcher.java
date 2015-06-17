@@ -49,8 +49,9 @@ public interface ResultCaseMatcher<I, O> {
      *              matching one. The result of this function will be the result of the case found.
      * @return instance of ResultCaseMatcher (maybe same as same object as this) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code clazz} or {@code f} is {@code null}.
+     * @param <T> type the input object is checked to be instance of
      */
-    public abstract <T> ResultCaseMatcher<I, O> caseOf(Class<T> clazz, Function<? super T, ? extends O> f) throws NullPointerException;
+     <T> ResultCaseMatcher<I, O> caseOf(Class<T> clazz, Function<? super T, ? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that checks if the input object is instance of the given class. If the case is determined to be the
@@ -64,8 +65,9 @@ public interface ResultCaseMatcher<I, O> {
      *                  matching one. The result of this function will be the result of the case found.
      * @return instance of ResultCaseMatcher (maybe same as same object as this) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code clazz} or {@code f} is {@code null}.
+     * @param <T> type the input object is checked to be instance of
      */
-    public abstract <T> ResultCaseMatcher<I, O> caseOf(Class<T> clazz, Predicate<? super T> condition, Function<? super T, ? extends O> f) throws NullPointerException;
+     <T> ResultCaseMatcher<I, O> caseOf(Class<T> clazz, Predicate<? super T> condition, Function<? super T, ? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input value. If the case
@@ -77,7 +79,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher (maybe same as same object as this) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract ResultCaseMatcher<I, O> caseOf(Predicate<? super I> p, Function<? super I, ? extends O> f) throws NullPointerException;
+     ResultCaseMatcher<I, O> caseOf(Predicate<? super I> p, Function<? super I, ? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given supplier returns true. If the case is determined to be the matching case, the
@@ -89,7 +91,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher (maybe same as same object as this) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code s} or {@code f} is {@code null}.
      */
-    public abstract ResultCaseMatcher<I, O> caseOf(BooleanSupplier s, Function<? super I, ? extends O> f) throws NullPointerException;
+     ResultCaseMatcher<I, O> caseOf(BooleanSupplier s, Function<? super I, ? extends O> f) throws NullPointerException;
 
     /**
      * <p>
@@ -110,7 +112,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if parameter {@code f} is {@code null}.
      */
-    public abstract ResultCaseMatcher<I, O> caseOf(boolean test, Function<? super I, ? extends O> f) throws NullPointerException;
+     ResultCaseMatcher<I, O> caseOf(boolean test, Function<? super I, ? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
@@ -121,7 +123,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code supplier} is {@code null}.
      */
-    public abstract ResultCaseMatcher<I,O> caseIs(Predicate<? super I> p, Supplier<? extends O> supplier) throws NullPointerException;
+     ResultCaseMatcher<I,O> caseIs(Predicate<? super I> p, Supplier<? extends O> supplier) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
@@ -132,7 +134,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code supplier} is {@code null}.
      */
-    public abstract ResultCaseMatcher<I,O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException;
+     ResultCaseMatcher<I,O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.Optional} when called with the input
@@ -148,7 +150,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract <T> ResultCaseMatcher<I, O> caseObj(Function<? super I, Optional<T>> p, Function<? super T, ? extends O> f) throws NullPointerException;
+     <T> ResultCaseMatcher<I, O> caseObj(Function<? super I, Optional<T>> p, Function<? super T, ? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalInt} when called with the
@@ -163,7 +165,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract ResultCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
+     ResultCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalLong} when called with the
@@ -178,7 +180,7 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract ResultCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
+     ResultCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> f) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalDouble} when called with the
@@ -193,6 +195,6 @@ public interface ResultCaseMatcher<I, O> {
      * @return instance of ResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      */
-    public abstract ResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
+     ResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
 
 }

@@ -305,7 +305,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(consumer);
         return i -> {
             final OptionalInt result = this.apply(i);
-            if (result != null && result != null) {
+            if (result != null) {
                 result.ifPresent(consumer);
             }
         };
@@ -326,7 +326,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
     default TestableToIntFunction<I> orElse(int o) {
         return i -> {
             final OptionalInt result = this.apply(i);
-            if (result != null && result != null) {
+            if (result != null) {
                 return result.orElse(o);
             } else {
                 return o;
@@ -423,6 +423,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      * with {@code handler}. After handling exceptions, the function will return an empty OptionalInt.
      * @throws NullPointerException if {@code clazz} or {@code handler} are {@code null}.
      */
+    @SuppressWarnings("unchecked") // Cast is safe, checked if t is instance of E
     default <E extends Throwable> OptionalIntMapper<I> withCatch(Class<E> clazz, Consumer<E> handler) throws NullPointerException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(handler);
@@ -501,6 +502,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      * re-thrown to the caller.
      * @throws NullPointerException if {@code clazz} or {@code recovery} are {@code null}.
      */
+    @SuppressWarnings("unchecked") // Cast is safe, t is checked to be instance of E
     default <E extends Throwable> OptionalIntMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalInt> recovery) {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);

@@ -98,6 +98,7 @@ public interface TypeCheck<I, O> extends AdvPredicate<I> {
      * succeeds in the first place.
      * @throws NullPointerException if mapping function {@code f} is {@code null}.
      */
+    @SuppressWarnings("unchecked") // Safe cast. If this predicate returns true, then i is instance of O
     default <R> OptionalMapper<I,R> thenFlatMap(Function<? super O, Optional<R>> f) throws NullPointerException {
         Objects.requireNonNull(f);
         return i -> this.test(i) ? f.apply((O) i) : Optional.empty();

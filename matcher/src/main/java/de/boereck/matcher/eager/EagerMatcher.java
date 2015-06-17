@@ -55,6 +55,7 @@ public final class EagerMatcher {
      * checks will be evaluated.
      *
      * @param <I> Type of match input object
+     * @param <O> Type of output/result object of case matcher
      * @param i object to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
@@ -69,6 +70,7 @@ public final class EagerMatcher {
      * After a matching case and therefore result value was found, no further case checks will be evaluated.
      *
      * @param <I> Type of match input object
+     * @param <O> Type of output/result object of case matcher
      * @param ouptutType expected type of the result object, that can be retrieved via closing methods.
      * @param i          object to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
@@ -194,6 +196,7 @@ public final class EagerMatcher {
      * parameter {@code outputType}. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case and therefore result value was found, no further case checks will be evaluated.
      *
+     * @param <O> Type of output/result object of case matcher
      * @param outputType expected type of the result object, that can be retrieved via closing methods.
      * @param d          double value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.

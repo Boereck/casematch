@@ -29,67 +29,67 @@ public interface EagerNoResultCaseMatcher<I> extends NoResultCaseMatcher<I> {
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> EagerNoResultCaseMatcher<I> caseOf(Class<T> clazz, Consumer<? super T> consumer) throws NullPointerException;
+    <T> EagerNoResultCaseMatcher<I> caseOf(Class<T> clazz, Consumer<? super T> consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> EagerNoResultCaseMatcher<I> caseOf(Class<T> clazz, Predicate<? super T> condition, Consumer<? super T> consumer) throws NullPointerException;
+    <T> EagerNoResultCaseMatcher<I> caseOf(Class<T> clazz, Predicate<? super T> condition, Consumer<? super T> consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultCaseMatcher<I> caseOf(Predicate<? super I> p, Consumer<? super I> consumer) throws NullPointerException;
+    EagerNoResultCaseMatcher<I> caseOf(Predicate<? super I> p, Consumer<? super I> consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultCaseMatcher<I> caseIs(Predicate<? super I> p, Runnable then) throws NullPointerException;
+    EagerNoResultCaseMatcher<I> caseIs(Predicate<? super I> p, Runnable then) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultCaseMatcher<I> caseIs(boolean test, Runnable then) throws NullPointerException;
+    EagerNoResultCaseMatcher<I> caseIs(boolean test, Runnable then) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultCaseMatcher<I> caseOf(BooleanSupplier s, Consumer<? super I> consumer) throws NullPointerException;
+    EagerNoResultCaseMatcher<I> caseOf(BooleanSupplier s, Consumer<? super I> consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultCaseMatcher<I> caseOf(boolean test, Consumer<? super I> consumer) throws NullPointerException;
+    EagerNoResultCaseMatcher<I> caseOf(boolean test, Consumer<? super I> consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract <T> EagerNoResultCaseMatcher<I> caseObj(Function<? super I, Optional<T>> p, Consumer<? super T> consumer) throws NullPointerException;
+    <T> EagerNoResultCaseMatcher<I> caseObj(Function<? super I, Optional<T>> p, Consumer<? super T> consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer) throws NullPointerException;
+    EagerNoResultCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer) throws NullPointerException;
+    EagerNoResultCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer) throws NullPointerException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EagerNoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
+    EagerNoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
 
     /////////////////////
     // Closing Methods //
@@ -104,7 +104,7 @@ public interface EagerNoResultCaseMatcher<I> extends NoResultCaseMatcher<I> {
      * @param consumer will be called with the input object if there was no matching case
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
      */
-    public abstract void otherwise(Consumer<? super I> consumer) throws NullPointerException;
+    void otherwise(Consumer<? super I> consumer) throws NullPointerException;
 
     /**
      * If all cases were checked and there was no found so far, the given supplier will be called and the given throwable
@@ -117,5 +117,5 @@ public interface EagerNoResultCaseMatcher<I> extends NoResultCaseMatcher<I> {
      * @throws NullPointerException might be thrown if parameter {@code exSupplier} is {@code null} or if it provides {@code null} as a value.
      * @throws X                    if no other case matched.
      */
-    public abstract <X extends Throwable> void otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
+    <X extends Throwable> void otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 }

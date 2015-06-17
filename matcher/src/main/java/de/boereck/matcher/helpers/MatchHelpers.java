@@ -39,7 +39,7 @@ public final class MatchHelpers {
      * @param <I> type of input object to be wrapped into an optional
      * @return mapper that is reference to static method {@link java.util.Optional#ofNullable(Object)}
      */
-    private static final <I> OptionalMapper<I, I> toOptional() {
+    private static <I> OptionalMapper<I, I> toOptional() {
         return Optional::ofNullable;
     }
 

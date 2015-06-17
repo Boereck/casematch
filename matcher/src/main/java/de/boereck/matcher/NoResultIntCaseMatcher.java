@@ -40,7 +40,7 @@ public interface NoResultIntCaseMatcher {
      * @return instance of NoResultIntCaseMatcher (may be the same as this) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
      */
-    public abstract NoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) throws NullPointerException;
+     NoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input value. If the case
@@ -51,7 +51,7 @@ public interface NoResultIntCaseMatcher {
      * @return instance of NoResultIntCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract NoResultIntCaseMatcher caseOf(IntPredicate p, IntConsumer consumer) throws NullPointerException;
+     NoResultIntCaseMatcher caseOf(IntPredicate p, IntConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given supplier returns true. If the case is determined to be the matching case, the
@@ -62,7 +62,7 @@ public interface NoResultIntCaseMatcher {
      * @return instance of NoResultIntCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract NoResultIntCaseMatcher caseOf(BooleanSupplier s, IntConsumer consumer) throws NullPointerException;
+     NoResultIntCaseMatcher caseOf(BooleanSupplier s, IntConsumer consumer) throws NullPointerException;
 
     /**
      * <p>
@@ -82,7 +82,7 @@ public interface NoResultIntCaseMatcher {
      * @return instance of NoResultCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
      */
-    public abstract NoResultIntCaseMatcher caseOf(boolean test, IntConsumer consumer) throws NullPointerException;
+     NoResultIntCaseMatcher caseOf(boolean test, IntConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
@@ -93,7 +93,7 @@ public interface NoResultIntCaseMatcher {
      * @return instance of NoResultCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code then} is {@code null}.
      */
-    public abstract NoResultIntCaseMatcher caseIs(IntPredicate p, Runnable then) throws NullPointerException;
+     NoResultIntCaseMatcher caseIs(IntPredicate p, Runnable then) throws NullPointerException;
 
     /**
      * Defines a case that checks if the given predicate returns true when it is provided with the input object to the
@@ -104,7 +104,7 @@ public interface NoResultIntCaseMatcher {
      * @return instance of NoResultIntCaseMatcher to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code then} is {@code null}.
      */
-    public abstract NoResultIntCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException;
+     NoResultIntCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.Optional} when called with the input
@@ -116,8 +116,9 @@ public interface NoResultIntCaseMatcher {
      *                 matching case. The consumer will be called with the object wrapped in the optional object.
      * @return instance of NoResultIntCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
+     * @param <T> type the object extracted from input int value
      */
-    public abstract <T> NoResultIntCaseMatcher caseObj(IntFunction<Optional<T>> p, Consumer<T> consumer) throws NullPointerException;
+     <T> NoResultIntCaseMatcher caseObj(IntFunction<Optional<T>> p, Consumer<T> consumer) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalInt} when called with the
@@ -130,7 +131,7 @@ public interface NoResultIntCaseMatcher {
      * @return instance of NoResultIntCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract NoResultIntCaseMatcher caseInt(IntFunction<OptionalInt> p, IntConsumer consumer) throws NullPointerException;
+     NoResultIntCaseMatcher caseInt(IntFunction<OptionalInt> p, IntConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalLong} when called with the
@@ -143,7 +144,7 @@ public interface NoResultIntCaseMatcher {
      * @return instance of NoResultIntCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract NoResultIntCaseMatcher caseLong(IntFunction<OptionalLong> p, LongConsumer consumer) throws NullPointerException;
+     NoResultIntCaseMatcher caseLong(IntFunction<OptionalLong> p, LongConsumer consumer) throws NullPointerException;
 
     /**
      * Defines a case that matches if the function {@code p} returns a non empty {@link java.util.OptionalDouble} when called with the
@@ -156,6 +157,6 @@ public interface NoResultIntCaseMatcher {
      * @return instance of NoResultIntCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code consumer} is {@code null}.
      */
-    public abstract NoResultIntCaseMatcher caseDouble(IntFunction<OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
+     NoResultIntCaseMatcher caseDouble(IntFunction<OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
 
 }

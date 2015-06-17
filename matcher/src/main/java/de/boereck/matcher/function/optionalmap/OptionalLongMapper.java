@@ -307,7 +307,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
         Objects.requireNonNull(consumer);
         return i -> {
             final OptionalLong result = this.apply(i);
-            if (result != null && result != null) {
+            if (result != null) {
                 result.ifPresent(consumer);
             }
         };
@@ -328,7 +328,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
     default TestableToLongFunction<I> orElse(long o) {
         return i -> {
             final OptionalLong result = this.apply(i);
-            if (result != null && result != null) {
+            if (result != null) {
                 return result.orElse(o);
             } else {
                 return o;
@@ -425,6 +425,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
      * with {@code handler}. After handling exceptions, the function will return an empty OptionalLong.
      * @throws NullPointerException if {@code clazz} or {@code handler} are {@code null}.
      */
+    @SuppressWarnings("unchecked") // Safe cast, checked if t is instance of E
     default <E extends Throwable> OptionalLongMapper<I> withCatch(Class<E> clazz, Consumer<E> handler) throws NullPointerException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(handler);
@@ -503,6 +504,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
      * re-thrown to the caller.
      * @throws NullPointerException if {@code clazz} or {@code recovery} are {@code null}.
      */
+    @SuppressWarnings("unchecked") // Safe cast, checked if t is instance of E
     default <E extends Throwable> OptionalLongMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalLong> recovery) {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);
