@@ -23,7 +23,7 @@ import de.boereck.matcher.ResultDoubleCaseMatcher;
  * @param <O> type of the output/return object
  * @author Max Bureck
  */
-final class ResultDoubleCaseMatcherFinished<O> implements ResultDoubleCaseMatcher<O> {
+final class ResultDoubleCaseMatcherFinished<O> implements EagerResultDoubleCaseMatcher<O> {
 
     /**
      * Holds object returned by the function of a matching case.
@@ -44,7 +44,7 @@ final class ResultDoubleCaseMatcherFinished<O> implements ResultDoubleCaseMatche
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseOf(DoublePredicate p, DoubleFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseOf(DoublePredicate p, DoubleFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -53,7 +53,7 @@ final class ResultDoubleCaseMatcherFinished<O> implements ResultDoubleCaseMatche
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseOf(BooleanSupplier s, DoubleFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseOf(BooleanSupplier s, DoubleFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -62,28 +62,19 @@ final class ResultDoubleCaseMatcherFinished<O> implements ResultDoubleCaseMatche
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseOf(boolean test, DoubleFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseOf(boolean test, DoubleFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
 
     @Override
-    public ResultDoubleCaseMatcher<O> caseIs(DoublePredicate p, Supplier<? extends O> supplier) throws NullPointerException {
+    public EagerResultDoubleCaseMatcher<O> caseIs(DoublePredicate p, Supplier<? extends O> supplier) throws NullPointerException {
         // we already have the result and don't need to check case
         return this;
     }
 
     @Override
-    public ResultDoubleCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
-        // we already have the result and don't need to check case
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <T> ResultDoubleCaseMatcher<O> caseObj(DoubleFunction<Optional<T>> p, Function<? super T, ? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
         // we already have the result and don't need to check case
         return this;
     }
@@ -92,7 +83,7 @@ final class ResultDoubleCaseMatcherFinished<O> implements ResultDoubleCaseMatche
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseInt(DoubleFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
+    public <T> EagerResultDoubleCaseMatcher<O> caseObj(DoubleFunction<Optional<T>> p, Function<? super T, ? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -101,7 +92,7 @@ final class ResultDoubleCaseMatcherFinished<O> implements ResultDoubleCaseMatche
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseLong(DoubleFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseInt(DoubleFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -110,7 +101,16 @@ final class ResultDoubleCaseMatcherFinished<O> implements ResultDoubleCaseMatche
      * {@inheritDoc}
      */
     @Override
-    public ResultDoubleCaseMatcher<O> caseDouble(DoubleFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
+    public EagerResultDoubleCaseMatcher<O> caseLong(DoubleFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
+        // we already have the result and don't need to check case
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EagerResultDoubleCaseMatcher<O> caseDouble(DoubleFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }

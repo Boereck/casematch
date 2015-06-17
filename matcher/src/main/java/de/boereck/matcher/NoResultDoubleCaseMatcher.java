@@ -22,11 +22,7 @@ import java.util.function.*;
  * </p>
  * <p>
  * It is also not defined if the evaluation of case predicates or functions is done eager when a case method is called or
- * lazy when a closing method is called. Closing methods by this interface are:
- * <ul>
- * <li> {@link de.boereck.matcher.NoResultDoubleCaseMatcher#otherwise(java.util.function.DoubleConsumer) otherwise(Consumer)}</li>
- * <li> {@link de.boereck.matcher.NoResultDoubleCaseMatcher#otherwiseThrow(java.util.function.Supplier) otherwiseThrow(Supplier)}</li>
- * </ul>
+ * lazy when a closing method is called.
  * Sub-types may define more closing methods. The effects of closing methods are always taking effect after all cases were
  * checked.
  * </p>
@@ -152,24 +148,4 @@ public interface NoResultDoubleCaseMatcher {
      */
     public abstract NoResultDoubleCaseMatcher caseDouble(DoubleFunction<OptionalDouble> p, DoubleConsumer consumer) throws NullPointerException;
 
-    /**
-     * The given consumer will be called if all cases were checked and none of them matched. This is a closing method, some
-     * implementations of the interface may require an closing method to be called after a sequence of case definitions. The
-     * consumer will be called with the input value of the case found.
-     *
-     * @param consumer will be called with the input object if there was no matching case
-     * @throws NullPointerException might be thrown if either parameter {@code consumer} is {@code null}.
-     */
-    public abstract void otherwise(DoubleConsumer consumer) throws NullPointerException;
-
-    /**
-     * If all cases were checked and there was no found so far, the given supplier will be called and the given throwable
-     * will be thrown. This is a closing method, some implementations of the interface may require an closing method to be
-     * called after a sequence of case definitions. The consumer will be called with the input object of the case found.
-     *
-     * @param exSupplier supplier of the exception to be thrown. For exceptions with parameterless constructors a method reference
-     *                   can be used. E.g. {@code MyException::new}.
-     * @throws NullPointerException might be thrown if either parameter {@code exSupplier} is {@code null}.
-     */
-    public abstract <X extends Throwable> void otherwiseThrow(Supplier<X> exSupplier) throws X, NullPointerException;
 }

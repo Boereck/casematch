@@ -25,7 +25,7 @@ import de.boereck.matcher.ResultCaseMatcher;
  * @param <O> type of the output/return object
  * @author Max Bureck
  */
-final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
+final class ResultCaseMatcherFinished<I, O> implements EagerResultCaseMatcher<I, O> {
 
     /**
      * Holds object returned by the function of a matching case.
@@ -46,7 +46,7 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultCaseMatcher<I, O> caseOf(Class<T> clazz, Function<? super T, ? extends O> consumer) {
+    public <T> EagerResultCaseMatcher<I, O> caseOf(Class<T> clazz, Function<? super T, ? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -55,7 +55,7 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultCaseMatcher<I, O> caseOf(Class<T> clazz, Predicate<? super T> condition, Function<? super T, ? extends O> f) throws NullPointerException {
+    public <T> EagerResultCaseMatcher<I, O> caseOf(Class<T> clazz, Predicate<? super T> condition, Function<? super T, ? extends O> f) throws NullPointerException {
         // we already have the result and don't need to check case
         return this;
     }
@@ -64,7 +64,7 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public ResultCaseMatcher<I, O> caseOf(Predicate<? super I> p, Function<? super I, ? extends O> consumer) {
+    public EagerResultCaseMatcher<I, O> caseOf(Predicate<? super I> p, Function<? super I, ? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -73,7 +73,7 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public ResultCaseMatcher<I, O> caseOf(BooleanSupplier s, Function<? super I, ? extends O> consumer) {
+    public EagerResultCaseMatcher<I, O> caseOf(BooleanSupplier s, Function<? super I, ? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -82,28 +82,19 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public ResultCaseMatcher<I, O> caseOf(boolean test, Function<? super I, ? extends O> consumer) {
+    public EagerResultCaseMatcher<I, O> caseOf(boolean test, Function<? super I, ? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
 
     @Override
-    public ResultCaseMatcher<I, O> caseIs(Predicate<? super I> p, Supplier<? extends O> supplier) throws NullPointerException {
+    public EagerResultCaseMatcher<I, O> caseIs(Predicate<? super I> p, Supplier<? extends O> supplier) throws NullPointerException {
         // we already have the result and don't need to check case
         return this;
     }
 
     @Override
-    public ResultCaseMatcher<I,O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
-        // we already have the result and don't need to check case
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <T> ResultCaseMatcher<I, O> caseObj(Function<? super I, Optional<T>> p, Function<? super T, ? extends O> consumer) {
+    public EagerResultCaseMatcher<I,O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
         // we already have the result and don't need to check case
         return this;
     }
@@ -112,7 +103,7 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public ResultCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> consumer) {
+    public <T> EagerResultCaseMatcher<I, O> caseObj(Function<? super I, Optional<T>> p, Function<? super T, ? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -121,7 +112,7 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public ResultCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> consumer) {
+    public EagerResultCaseMatcher<I, O> caseInt(Function<? super I, OptionalInt> p, IntFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }
@@ -130,7 +121,16 @@ final class ResultCaseMatcherFinished<I, O> implements ResultCaseMatcher<I, O> {
      * {@inheritDoc}
      */
     @Override
-    public ResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> consumer) {
+    public EagerResultCaseMatcher<I, O> caseLong(Function<? super I, OptionalLong> p, LongFunction<? extends O> consumer) {
+        // we already have the result and don't need to check case
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EagerResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> consumer) {
         // we already have the result and don't need to check case
         return this;
     }

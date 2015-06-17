@@ -11,16 +11,46 @@ import de.boereck.matcher.function.predicate.AdvPredicate;
 
 import javax.swing.text.html.Option;
 
+/**
+ * Function that provides more combinators than {@link Function}. Especially interesting are function
+ * {@link TestableFunction#thenTest(Predicate) thenTest(Predicate)} to create a predicate based on the output of the function
+ * and the filter methods ({@link TestableFunction#filter(Class) filter(Class)} and {@link TestableFunction#filter(Predicate) filter(Predicate)})
+ * to create a function providing an Optional, depending if the output of this function passes the given filter criterion
+ * or not.
+ * @param <I>
+ * @param <O>
+ */
 @FunctionalInterface
 public interface TestableFunction<I, O> extends Function<I, O> {
 
+    /**
+     * Provides a function that first calls this function with its input and then
+     * {@link Optional#ofNullable(Object)} with the result and returns the resulting
+     * optional.
+     * <p>The difference to {@link TestableFunction#nullAware() nullAware()} is that
+     * the input to the function will not be checked for {@code null}, which is don in {@code nullAware()}.</p>
+     * @return function wrapping the result of this function into an optional.
+     */
     default OptionalMapper<I, O> optional() {
         return i -> Optional.ofNullable(apply(i));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     default <V> TestableFunction<I, V> andThen(Function<? super O, ? extends V> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> after.apply(apply(i));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    default <V> TestableFunction<V, O> compose(Function<? super V, ? extends I> before) {
+        Objects.requireNonNull(before);
+        return (V v) -> apply(before.apply(v));
     }
 
     default AdvPredicate<I> thenTest(Predicate<? super O> test) throws NullPointerException {
@@ -60,6 +90,8 @@ public interface TestableFunction<I, O> extends Function<I, O> {
      * If the result is {@code null}, an empty Optional will be returned. So effectively {@code null} checks will be
      * performed on input and output of the function. Exceptions being thrown during the execution of this
      * TestableFunction will also be thrown at the caller of the returned function.
+     * <p>The difference to {@link TestableFunction#optional() optional()} is that
+     * the input to the function be checked for {@code null}, which is not done in {@code optional()}.</p>
      *
      * @return function that checks if the input is {@code null} and if so returns an empty
      * optional. Otherwise it will call this TestableFunction and if the result is not {@code null}, returns it.

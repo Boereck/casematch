@@ -23,7 +23,7 @@ import de.boereck.matcher.NoResultLongCaseMatcher;
  *
  * @author Max Bureck
  */
-final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
+final class NoResultLongCaseMatcherFinished implements EagerNoResultLongCaseMatcher {
 
     /**
      * Singleton instance
@@ -50,7 +50,7 @@ final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) throws NullPointerException {
+    public <T> EagerNoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) throws NullPointerException {
         // do nothing, we already had a matching case
         return this;
     }
@@ -59,7 +59,7 @@ final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseOf(LongPredicate p, LongConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseOf(LongPredicate p, LongConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -68,7 +68,7 @@ final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseOf(BooleanSupplier s, LongConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseOf(BooleanSupplier s, LongConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -77,28 +77,19 @@ final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseOf(boolean test, LongConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseOf(boolean test, LongConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
 
     @Override
-    public NoResultLongCaseMatcher caseIs(LongPredicate p, Runnable then) throws NullPointerException {
+    public EagerNoResultLongCaseMatcher caseIs(LongPredicate p, Runnable then) throws NullPointerException {
         // do nothing, we already had a matching case
         return this;
     }
 
     @Override
-    public NoResultLongCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
-        // do nothing, we already had a matching case
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <T> NoResultLongCaseMatcher caseObj(LongFunction<Optional<T>> f, Consumer<T> consumer) {
+    public EagerNoResultLongCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
         // do nothing, we already had a matching case
         return this;
     }
@@ -107,7 +98,7 @@ final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseInt(LongFunction<OptionalInt> f, IntConsumer consumer) {
+    public <T> EagerNoResultLongCaseMatcher caseObj(LongFunction<Optional<T>> f, Consumer<T> consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -116,7 +107,7 @@ final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseLong(LongFunction<OptionalLong> f, LongConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseInt(LongFunction<OptionalInt> f, IntConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -125,7 +116,16 @@ final class NoResultLongCaseMatcherFinished implements NoResultLongCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseDouble(LongFunction<OptionalDouble> f, DoubleConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseLong(LongFunction<OptionalLong> f, LongConsumer consumer) {
+        // do nothing, we already had a matching case
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EagerNoResultLongCaseMatcher caseDouble(LongFunction<OptionalDouble> f, DoubleConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }

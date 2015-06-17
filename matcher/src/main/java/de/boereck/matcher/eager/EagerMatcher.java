@@ -35,7 +35,7 @@ public final class EagerMatcher {
     }
 
     /**
-     * This method will return a {@link NoResultCaseMatcher} object for the given input object. It allows definition of cases
+     * This method will return a {@link EagerNoResultCaseMatcher} object for the given input object. It allows definition of cases
      * and associated actions. The cases will be evaluated eagerly when being defined and in order of their definition. After
      * a matching case was found, no further case checks will be evaluated. Due to the eager evaluation it is not needed to
      * use a closing method to start evaluation.
@@ -44,12 +44,12 @@ public final class EagerMatcher {
      * @param o object to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static <I> NoResultCaseMatcher<I> match(I o) {
+    public static <I> EagerNoResultCaseMatcher<I> match(I o) {
         return new NoResultCaseMatcherUnfinished<I>(o);
     }
 
     /**
-     * Returns a {@link ResultCaseMatcher} for the given input object. It allows definition of cases and associated
+     * Returns a {@link EagerResultCaseMatcher} for the given input object. It allows definition of cases and associated
      * functions, that will provide a value returned on closing methods. The cases will be evaluated eagerly when being
      * defined and in order of their definition. After a matching case and therefore result value was found, no further case
      * checks will be evaluated.
@@ -58,12 +58,12 @@ public final class EagerMatcher {
      * @param i object to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static <I, O> ResultCaseMatcher<I, O> resultMatch(I i) {
+    public static <I, O> EagerResultCaseMatcher<I, O> resultMatch(I i) {
         return new ResultCaseMatcherUnfinished<I, O>(i);
     }
 
     /**
-     * Returns a {@link ResultCaseMatcher} for the given input object. It allows definition of cases and associated
+     * Returns a {@link EagerResultCaseMatcher} for the given input object. It allows definition of cases and associated
      * functions, that will provide a value returned on closing methods. The type of the returned object can be defined by
      * parameter {@code outputType}. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case and therefore result value was found, no further case checks will be evaluated.
@@ -73,7 +73,7 @@ public final class EagerMatcher {
      * @param i          object to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static <I, O> ResultCaseMatcher<I, O> resultMatch(Class<O> ouptutType, I i) {
+    public static <I, O> EagerResultCaseMatcher<I, O> resultMatch(Class<O> ouptutType, I i) {
         return resultMatch(i);
     }
 
@@ -86,12 +86,12 @@ public final class EagerMatcher {
      * @param i int value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static NoResultIntCaseMatcher match(int i) {
+    public static EagerNoResultIntCaseMatcher match(int i) {
         return new NoResultIntCaseMatcherUnfinished(i);
     }
 
     /**
-     * Returns a {@link ResultIntCaseMatcher} for the given input int value. It allows definition of cases and associated
+     * Returns a {@link EagerResultIntCaseMatcher} for the given input int value. It allows definition of cases and associated
      * functions, that will provide a value returned on closing methods. The cases will be evaluated eagerly when being
      * defined and in order of their definition. After a matching case and therefore result value was found, no further case
      * checks will be evaluated.
@@ -100,12 +100,12 @@ public final class EagerMatcher {
      * @param i int value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static <O> ResultIntCaseMatcher<O> resultMatch(int i) {
+    public static <O> EagerResultIntCaseMatcher<O> resultMatch(int i) {
         return new ResultIntCaseMatcherUnfinished<O>(i);
     }
 
     /**
-     * Returns a {@link ResultIntCaseMatcher} for the given input int value. It allows definition of cases and associated
+     * Returns a {@link EagerResultIntCaseMatcher} for the given input int value. It allows definition of cases and associated
      * functions, that will provide a value returned on closing methods. The type of the returned object can be defined by
      * parameter {@code outputType}. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case and therefore result value was found, no further case checks will be evaluated.
@@ -115,12 +115,12 @@ public final class EagerMatcher {
      * @param i          int value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static <O> ResultIntCaseMatcher<O> resultMatch(Class<O> outputType, int i) {
+    public static <O> EagerResultIntCaseMatcher<O> resultMatch(Class<O> outputType, int i) {
         return resultMatch(i);
     }
 
     /**
-     * This method will return a {@link NoResultLongCaseMatcher} object for the given input long value. It allows definition of
+     * This method will return a {@link EagerNoResultLongCaseMatcher} object for the given input long value. It allows definition of
      * cases and associated actions. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case was found, no further case checks will be evaluated. Due to the eager evaluation it is not
      * needed to use a closing method to start evaluation.
@@ -128,12 +128,12 @@ public final class EagerMatcher {
      * @param l long value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static NoResultLongCaseMatcher match(long l) {
+    public static EagerNoResultLongCaseMatcher match(long l) {
         return new NoResultLongCaseMatcherUnfinished(l);
     }
 
     /**
-     * Returns a {@link ResultLongCaseMatcher} for the given input long value. It allows definition of cases and associated
+     * Returns a {@link EagerResultLongCaseMatcher} for the given input long value. It allows definition of cases and associated
      * functions, that will provide a value returned on closing methods. The cases will be evaluated eagerly when being
      * defined and in order of their definition. After a matching case and therefore result value was found, no further case
      * checks will be evaluated.
@@ -142,12 +142,12 @@ public final class EagerMatcher {
      * @param l long value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static <O> ResultLongCaseMatcher<O> resultMatch(long l) {
+    public static <O> EagerResultLongCaseMatcher<O> resultMatch(long l) {
         return new ResultLongCaseMatcherUnfinished<O>(l);
     }
 
     /**
-     * Returns a {@link ResultLongCaseMatcher} for the given input long value. It allows definition of cases and associated
+     * Returns a {@link EagerResultLongCaseMatcher} for the given input long value. It allows definition of cases and associated
      * functions, that will provide a value returned on closing methods. The type of the returned object can be defined by
      * parameter {@code outputType}. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case and therefore result value was found, no further case checks will be evaluated.
@@ -157,7 +157,7 @@ public final class EagerMatcher {
      * @param l          long value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static <O> ResultLongCaseMatcher<O> resultMatch(Class<O> outputType, long l) {
+    public static <O> EagerResultLongCaseMatcher<O> resultMatch(Class<O> outputType, long l) {
         return resultMatch(l);
     }
 
@@ -170,7 +170,7 @@ public final class EagerMatcher {
      * @param d double value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static NoResultDoubleCaseMatcher match(double d) {
+    public static EagerNoResultDoubleCaseMatcher match(double d) {
         return new NoResultDoubleCaseMatcherUnfinished(d);
     }
 
@@ -184,12 +184,12 @@ public final class EagerMatcher {
      * @param d double value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static <O> ResultDoubleCaseMatcher<O> resultMatch(double d) {
+    public static <O> EagerResultDoubleCaseMatcher<O> resultMatch(double d) {
         return new ResultDoubleCaseMatcherUnfinished<O>(d);
     }
 
     /**
-     * Returns a {@link ResultDoubleCaseMatcher} for the given input double value. It allows definition of cases and associated
+     * Returns a {@link EagerResultDoubleCaseMatcher} for the given input double value. It allows definition of cases and associated
      * functions, that will provide a value returned on closing methods. The type of the returned object can be defined by
      * parameter {@code outputType}. The cases will be evaluated eagerly when being defined and in order of their definition.
      * After a matching case and therefore result value was found, no further case checks will be evaluated.
@@ -198,7 +198,7 @@ public final class EagerMatcher {
      * @param d          double value to find a matching case for
      * @return CaseMatcher object to define cases on that will be checked immediately.
      */
-    public static <O> ResultDoubleCaseMatcher<O> resultMatch(Class<O> outputType, double d) {
+    public static <O> EagerResultDoubleCaseMatcher<O> resultMatch(Class<O> outputType, double d) {
         return resultMatch(d);
     }
 }

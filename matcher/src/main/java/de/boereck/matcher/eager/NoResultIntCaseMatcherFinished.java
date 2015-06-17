@@ -23,7 +23,7 @@ import de.boereck.matcher.NoResultIntCaseMatcher;
  *
  * @author Max Bureck
  */
-final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
+final class NoResultIntCaseMatcherFinished implements EagerNoResultIntCaseMatcher {
 
     /**
      * Singleton instance
@@ -50,7 +50,7 @@ final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) {
+    public <T> EagerNoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -59,7 +59,7 @@ final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseOf(IntPredicate p, IntConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseOf(IntPredicate p, IntConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -68,7 +68,7 @@ final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseOf(BooleanSupplier s, IntConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseOf(BooleanSupplier s, IntConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -77,28 +77,19 @@ final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseOf(boolean test, IntConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseOf(boolean test, IntConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
 
     @Override
-    public NoResultIntCaseMatcher caseIs(IntPredicate p, Runnable then) throws NullPointerException {
+    public EagerNoResultIntCaseMatcher caseIs(IntPredicate p, Runnable then) throws NullPointerException {
         // do nothing, we already had a matching case
         return this;
     }
 
     @Override
-    public NoResultIntCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
-        // do nothing, we already had a matching case
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <T> NoResultIntCaseMatcher caseObj(IntFunction<Optional<T>> f, Consumer<T> consumer) {
+    public EagerNoResultIntCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
         // do nothing, we already had a matching case
         return this;
     }
@@ -107,7 +98,7 @@ final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseInt(IntFunction<OptionalInt> f, IntConsumer consumer) {
+    public <T> EagerNoResultIntCaseMatcher caseObj(IntFunction<Optional<T>> f, Consumer<T> consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -116,7 +107,7 @@ final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseLong(IntFunction<OptionalLong> f, LongConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseInt(IntFunction<OptionalInt> f, IntConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }
@@ -125,7 +116,16 @@ final class NoResultIntCaseMatcherFinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseDouble(IntFunction<OptionalDouble> f, DoubleConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseLong(IntFunction<OptionalLong> f, LongConsumer consumer) {
+        // do nothing, we already had a matching case
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EagerNoResultIntCaseMatcher caseDouble(IntFunction<OptionalDouble> f, DoubleConsumer consumer) {
         // do nothing, we already had a matching case
         return this;
     }

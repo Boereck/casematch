@@ -24,12 +24,12 @@ import de.boereck.matcher.NoResultCaseMatcher;
  * @param <I> type of the input object
  * @author Max Bureck
  */
-final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
+final class NoResultCaseMatcherFinished<I> implements EagerNoResultCaseMatcher<I> {
 
     /**
      * Singleton instance
      */
-    private static final NoResultCaseMatcherFinished<?> INSTANCE = new NoResultCaseMatcherFinished<Object>();
+    private static final EagerNoResultCaseMatcher<?> INSTANCE = new NoResultCaseMatcherFinished<Object>();
 
     /**
      * Generics aware access to singleton instance
@@ -38,7 +38,7 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
      */
     @SuppressWarnings("unchecked")
     // cast is safe
-    static <T> NoResultCaseMatcherFinished<T> instance() {
+    static <T> EagerNoResultCaseMatcher<T> instance() {
         return (NoResultCaseMatcherFinished<T>) INSTANCE;
     }
 
@@ -53,7 +53,7 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultCaseMatcher<I> caseOf(Class<T> clazz, Consumer<? super T> consumer) {
+    public <T> EagerNoResultCaseMatcher<I> caseOf(Class<T> clazz, Consumer<? super T> consumer) {
         // we already have a result, so nothing to check
         return this;
     }
@@ -62,7 +62,7 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultCaseMatcher<I> caseOf(Class<T> clazz, Predicate<? super T> condition, Consumer<? super T> consumer) throws NullPointerException {
+    public <T> EagerNoResultCaseMatcher<I> caseOf(Class<T> clazz, Predicate<? super T> condition, Consumer<? super T> consumer) throws NullPointerException {
         // we already have a result, so nothing to check
         return this;
     }
@@ -71,28 +71,19 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
      * {@inheritDoc}
      */
     @Override
-    public NoResultCaseMatcher<I> caseOf(Predicate<? super I> p, Consumer<? super I> consumer) {
+    public EagerNoResultCaseMatcher<I> caseOf(Predicate<? super I> p, Consumer<? super I> consumer) {
         // we already have a result, so nothing to check
         return this;
     }
 
     @Override
-    public NoResultCaseMatcher<I> caseIs(Predicate<? super I> p, Runnable then) throws NullPointerException {
+    public EagerNoResultCaseMatcher<I> caseIs(Predicate<? super I> p, Runnable then) throws NullPointerException {
         // we already have a result, so nothing to check
         return this;
     }
 
     @Override
-    public NoResultCaseMatcher<I> caseIs(boolean test, Runnable then) throws NullPointerException {
-        // we already have a result, so nothing to check
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public NoResultCaseMatcher<I> caseOf(BooleanSupplier s, Consumer<? super I> consumer) {
+    public EagerNoResultCaseMatcher<I> caseIs(boolean test, Runnable then) throws NullPointerException {
         // we already have a result, so nothing to check
         return this;
     }
@@ -101,7 +92,7 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultCaseMatcher<I> caseObj(Function<? super I, Optional<T>> p, Consumer<? super T> consumer) {
+    public EagerNoResultCaseMatcher<I> caseOf(BooleanSupplier s, Consumer<? super I> consumer) {
         // we already have a result, so nothing to check
         return this;
     }
@@ -110,7 +101,7 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer) {
+    public <T> EagerNoResultCaseMatcher<I> caseObj(Function<? super I, Optional<T>> p, Consumer<? super T> consumer) {
         // we already have a result, so nothing to check
         return this;
     }
@@ -119,7 +110,7 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer) {
+    public <T> EagerNoResultCaseMatcher<I> caseInt(Function<? super I, OptionalInt> p, IntConsumer consumer) {
         // we already have a result, so nothing to check
         return this;
     }
@@ -128,7 +119,7 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) {
+    public <T> EagerNoResultCaseMatcher<I> caseLong(Function<? super I, OptionalLong> p, LongConsumer consumer) {
         // we already have a result, so nothing to check
         return this;
     }
@@ -137,7 +128,16 @@ final class NoResultCaseMatcherFinished<I> implements NoResultCaseMatcher<I> {
      * {@inheritDoc}
      */
     @Override
-    public NoResultCaseMatcher<I> caseOf(boolean test, Consumer<? super I> consumer) {
+    public <T> EagerNoResultCaseMatcher<I> caseDouble(Function<? super I, OptionalDouble> p, DoubleConsumer consumer) {
+        // we already have a result, so nothing to check
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EagerNoResultCaseMatcher<I> caseOf(boolean test, Consumer<? super I> consumer) {
         // we already have a result, so nothing to check
         return this;
     }

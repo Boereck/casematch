@@ -25,7 +25,7 @@ import de.boereck.matcher.NoResultIntCaseMatcher;
  *
  * @author Max Bureck
  */
-final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
+final class NoResultIntCaseMatcherUnfinished implements EagerNoResultIntCaseMatcher {
 
     /**
      * Value cases are defined for
@@ -45,7 +45,7 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) {
+    public <T> EagerNoResultIntCaseMatcher caseOf(int reference, IntConsumer consumer) {
         Objects.requireNonNull(consumer);
         // check if case matches
         if (reference == toCheck) {
@@ -60,7 +60,7 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseOf(IntPredicate p, IntConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseOf(IntPredicate p, IntConsumer consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -77,7 +77,7 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseOf(BooleanSupplier s, IntConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseOf(BooleanSupplier s, IntConsumer consumer) {
         Objects.requireNonNull(s);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -93,7 +93,7 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseOf(boolean test, IntConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseOf(boolean test, IntConsumer consumer) {
         Objects.requireNonNull(consumer);
         // check if case matches
         if (test) {
@@ -105,7 +105,7 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
     }
 
     @Override
-    public NoResultIntCaseMatcher caseIs(IntPredicate p, Runnable then) throws NullPointerException {
+    public EagerNoResultIntCaseMatcher caseIs(IntPredicate p, Runnable then) throws NullPointerException {
         Objects.requireNonNull(p);
         Objects.requireNonNull(then);
         final int toCheck = this.toCheck;
@@ -118,7 +118,7 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
     }
 
     @Override
-    public NoResultIntCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
+    public EagerNoResultIntCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
         Objects.requireNonNull(then);
         if (test) {
             then.run();
@@ -132,7 +132,7 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultIntCaseMatcher caseObj(IntFunction<Optional<T>> f, Consumer<T> consumer) {
+    public <T> EagerNoResultIntCaseMatcher caseObj(IntFunction<Optional<T>> f, Consumer<T> consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -149,7 +149,7 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseInt(IntFunction<OptionalInt> f, IntConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseInt(IntFunction<OptionalInt> f, IntConsumer consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -166,7 +166,7 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseLong(IntFunction<OptionalLong> f, LongConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseLong(IntFunction<OptionalLong> f, LongConsumer consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -183,7 +183,7 @@ final class NoResultIntCaseMatcherUnfinished implements NoResultIntCaseMatcher {
      * {@inheritDoc}
      */
     @Override
-    public NoResultIntCaseMatcher caseDouble(IntFunction<OptionalDouble> f, DoubleConsumer consumer) {
+    public EagerNoResultIntCaseMatcher caseDouble(IntFunction<OptionalDouble> f, DoubleConsumer consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches

@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 import de.boereck.matcher.ResultLongCaseMatcher;
 
 /**
- * Eager implementation of {@link ResultLongCaseMatcher}. To instantiate use static method
+ * Eager implementation of {@link EagerResultLongCaseMatcher}. To instantiate use static method
  * {@link EagerMatcher#resultMatch(long)}. This class holds the long value that is about to be checked for cases. It will
  * evaluate predicates as soon as case methods are called (and in the order they were called). When a case does not found it
  * will return itself, when case matches {@link NoResultLongCaseMatcherFinished} will be returned. This will not evaluate
@@ -26,7 +26,7 @@ import de.boereck.matcher.ResultLongCaseMatcher;
  * @param <O> type of the output object
  * @author Max Bureck
  */
-final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<O> {
+final class ResultLongCaseMatcherUnfinished<O> implements EagerResultLongCaseMatcher<O> {
 
     /**
      * Value cases are defined for
@@ -52,7 +52,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * @param consumer  will be called if {@code condition} is true.
      * @return either a new instance of {@link ResultCaseMatcherFinished} holding the result or {@code this}.
      */
-    private ResultLongCaseMatcher<O> completeOrSelf(boolean condition, LongFunction<? extends O> consumer) {
+    private EagerResultLongCaseMatcher<O> completeOrSelf(boolean condition, LongFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         if (condition) {
             final O result = consumer.apply(toCheck);
@@ -66,7 +66,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> consumer) {
+    public <T> EagerResultLongCaseMatcher<O> caseOf(long i, LongFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         return completeOrSelf(i == toCheck, consumer);
     }
@@ -75,7 +75,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseOf(LongPredicate p, LongFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseOf(LongPredicate p, LongFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         return completeOrSelf(p.test(toCheck), consumer);
@@ -85,7 +85,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseOf(BooleanSupplier s, LongFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseOf(BooleanSupplier s, LongFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         return completeOrSelf(s.getAsBoolean(), consumer);
     }
@@ -94,19 +94,19 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseOf(boolean test, LongFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseOf(boolean test, LongFunction<? extends O> consumer) {
         Objects.requireNonNull(consumer);
         return completeOrSelf(test, consumer);
     }
 
     @Override
-    public ResultLongCaseMatcher<O> caseIs(LongPredicate p, Supplier<? extends O> supplier) throws NullPointerException {
+    public EagerResultLongCaseMatcher<O> caseIs(LongPredicate p, Supplier<? extends O> supplier) throws NullPointerException {
         Objects.requireNonNull(p);
         return caseIs(p.test(toCheck), supplier);
     }
 
     @Override
-    public ResultLongCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
+    public EagerResultLongCaseMatcher<O> caseIs(boolean test, Supplier<? extends O> supplier) throws NullPointerException {
         Objects.requireNonNull(supplier);
         if (test) {
             final O result = supplier.get();
@@ -120,7 +120,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public <T> ResultLongCaseMatcher<O> caseObj(LongFunction<Optional<T>> p, Function<? super T, ? extends O> consumer) {
+    public <T> EagerResultLongCaseMatcher<O> caseObj(LongFunction<Optional<T>> p, Function<? super T, ? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final Optional<T> opt = p.apply(toCheck);
@@ -136,7 +136,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseInt(LongFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseInt(LongFunction<OptionalInt> p, IntFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalInt opt = p.apply(toCheck);
@@ -152,7 +152,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseLong(LongFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseLong(LongFunction<OptionalLong> p, LongFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalLong opt = p.apply(toCheck);
@@ -168,7 +168,7 @@ final class ResultLongCaseMatcherUnfinished<O> implements ResultLongCaseMatcher<
      * {@inheritDoc}
      */
     @Override
-    public ResultLongCaseMatcher<O> caseDouble(LongFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
+    public EagerResultLongCaseMatcher<O> caseDouble(LongFunction<OptionalDouble> p, DoubleFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         final OptionalDouble opt = p.apply(toCheck);

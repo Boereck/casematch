@@ -25,7 +25,7 @@ import de.boereck.matcher.NoResultDoubleCaseMatcher;
  *
  * @author Max Bureck
  */
-final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMatcher {
+final class NoResultDoubleCaseMatcherUnfinished implements EagerNoResultDoubleCaseMatcher {
 
     /**
      * Value cases are defined for
@@ -45,7 +45,7 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseOf(DoublePredicate p, DoubleConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseOf(DoublePredicate p, DoubleConsumer consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -62,7 +62,7 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseOf(BooleanSupplier s, DoubleConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseOf(BooleanSupplier s, DoubleConsumer consumer) {
         Objects.requireNonNull(s);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -78,7 +78,7 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseOf(boolean test, DoubleConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseOf(boolean test, DoubleConsumer consumer) {
         Objects.requireNonNull(consumer);
         // check if case matches
         if (test) {
@@ -90,7 +90,7 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
     }
 
     @Override
-    public NoResultDoubleCaseMatcher caseIs(DoublePredicate p, Runnable then) throws NullPointerException {
+    public EagerNoResultDoubleCaseMatcher caseIs(DoublePredicate p, Runnable then) throws NullPointerException {
         Objects.requireNonNull(p);
         Objects.requireNonNull(then);
         final double toCheck = this.toCheck;
@@ -103,7 +103,7 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
     }
 
     @Override
-    public NoResultDoubleCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
+    public EagerNoResultDoubleCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
         Objects.requireNonNull(then);
         if (test) {
             then.run();
@@ -117,7 +117,7 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultDoubleCaseMatcher caseObj(DoubleFunction<Optional<T>> f, Consumer<T> consumer) {
+    public <T> EagerNoResultDoubleCaseMatcher caseObj(DoubleFunction<Optional<T>> f, Consumer<T> consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -134,7 +134,7 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseInt(DoubleFunction<OptionalInt> f, IntConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseInt(DoubleFunction<OptionalInt> f, IntConsumer consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -151,7 +151,7 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseLong(DoubleFunction<OptionalLong> f, LongConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseLong(DoubleFunction<OptionalLong> f, LongConsumer consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -168,7 +168,7 @@ final class NoResultDoubleCaseMatcherUnfinished implements NoResultDoubleCaseMat
      * {@inheritDoc}
      */
     @Override
-    public NoResultDoubleCaseMatcher caseDouble(DoubleFunction<OptionalDouble> f, DoubleConsumer consumer) {
+    public EagerNoResultDoubleCaseMatcher caseDouble(DoubleFunction<OptionalDouble> f, DoubleConsumer consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches

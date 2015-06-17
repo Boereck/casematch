@@ -25,7 +25,7 @@ import de.boereck.matcher.NoResultLongCaseMatcher;
  *
  * @author Max Bureck
  */
-final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher {
+final class NoResultLongCaseMatcherUnfinished implements EagerNoResultLongCaseMatcher {
 
     /**
      * Value cases are defined for
@@ -45,7 +45,7 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) {
+    public <T> EagerNoResultLongCaseMatcher caseOf(long reference, LongConsumer consumer) {
         Objects.requireNonNull(consumer);
         // check if case matches
         if (reference == toCheck) {
@@ -60,7 +60,7 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseOf(LongPredicate p, LongConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseOf(LongPredicate p, LongConsumer consumer) {
         Objects.requireNonNull(p);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -77,7 +77,7 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseOf(BooleanSupplier s, LongConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseOf(BooleanSupplier s, LongConsumer consumer) {
         Objects.requireNonNull(s);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -93,7 +93,7 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseOf(boolean test, LongConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseOf(boolean test, LongConsumer consumer) {
         Objects.requireNonNull(consumer);
         // check if case matches
         if (test) {
@@ -105,7 +105,7 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
     }
 
     @Override
-    public NoResultLongCaseMatcher caseIs(LongPredicate p, Runnable then) throws NullPointerException {
+    public EagerNoResultLongCaseMatcher caseIs(LongPredicate p, Runnable then) throws NullPointerException {
         Objects.requireNonNull(p);
         Objects.requireNonNull(then);
         final long toCheck = this.toCheck;
@@ -118,7 +118,7 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
     }
 
     @Override
-    public NoResultLongCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
+    public EagerNoResultLongCaseMatcher caseIs(boolean test, Runnable then) throws NullPointerException {
         Objects.requireNonNull(then);
         if (test) {
             then.run();
@@ -132,7 +132,7 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public <T> NoResultLongCaseMatcher caseObj(LongFunction<Optional<T>> f, Consumer<T> consumer) {
+    public <T> EagerNoResultLongCaseMatcher caseObj(LongFunction<Optional<T>> f, Consumer<T> consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -149,7 +149,7 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseInt(LongFunction<OptionalInt> f, IntConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseInt(LongFunction<OptionalInt> f, IntConsumer consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -166,7 +166,7 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseLong(LongFunction<OptionalLong> f, LongConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseLong(LongFunction<OptionalLong> f, LongConsumer consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches
@@ -183,7 +183,7 @@ final class NoResultLongCaseMatcherUnfinished implements NoResultLongCaseMatcher
      * {@inheritDoc}
      */
     @Override
-    public NoResultLongCaseMatcher caseDouble(LongFunction<OptionalDouble> f, DoubleConsumer consumer) {
+    public EagerNoResultLongCaseMatcher caseDouble(LongFunction<OptionalDouble> f, DoubleConsumer consumer) {
         Objects.requireNonNull(f);
         Objects.requireNonNull(consumer);
         // check if case matches
