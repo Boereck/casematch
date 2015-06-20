@@ -11,6 +11,9 @@ import org.junit.Test;
 
 public class EagerResultCaseMatcherTest {
 
+    ///////////////////////////////
+    // Testing EagerResultCaseMatcher#
+
     @Test
     public void testCaseOfClass() {
         Object o = "Boo";

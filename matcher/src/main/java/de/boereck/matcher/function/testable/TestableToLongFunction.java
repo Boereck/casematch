@@ -233,7 +233,7 @@ public interface TestableToLongFunction<I> extends ToLongFunction<I> {
     /**
      * Returns a function executing this TestableToLongFunction and if a throwable is thrown during the execution, the
      * given {@code recovery} function is used to provide a value to be returned. If an empty OptionalLong should be
-     * returned, consider using method {@link TestableToLongFunction#withCatch() withCatch()} instead.
+     * returned, consider using method {@link #withCatch() withCatch()} instead.
      * If the recovery method itself will throw an exception, it will not be caught and propagated to the caller of the function.
      *
      * @param recovery method providing a regular result value if the TestableToLongFunction throws an exception.
@@ -242,13 +242,13 @@ public interface TestableToLongFunction<I> extends ToLongFunction<I> {
      * returned, consider using method {@link TestableToLongFunction#withCatch() withCatch()} instead.
      * @throws NullPointerException if {@code recovery} is {@code null}.
      */
-    default OptionalLongMapper<I> recoverWith(Function<? super Throwable, OptionalLong> recovery) throws NullPointerException {
+    default TestableToLongFunction<I> recoverWith(ToLongFunction<? super Throwable> recovery) throws NullPointerException {
         Objects.requireNonNull(recovery);
         return i -> {
             try {
-                return OptionalLong.of(this.applyAsLong(i));
+                return this.applyAsLong(i);
             } catch (Throwable t) {
-                return recovery.apply(t);
+                return recovery.applyAsLong(t);
             }
         };
     }
@@ -268,15 +268,15 @@ public interface TestableToLongFunction<I> extends ToLongFunction<I> {
      * @throws NullPointerException if {@code clazz} or {@code recovery} is {@code null}.
      */
     @SuppressWarnings("unchecked") // Cast is safe, t is checked to be instance of E
-    default <E extends Throwable> OptionalLongMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalLong> recovery) throws NullPointerException {
+    default <E extends Throwable> TestableToLongFunction<I> recoverWith(Class<E> clazz, ToLongFunction<? super E> recovery) throws NullPointerException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);
         return i -> {
             try {
-                return OptionalLong.of(this.applyAsLong(i));
+                return this.applyAsLong(i);
             } catch (Throwable t) {
                 if (clazz.isInstance(t)) {
-                    return recovery.apply((E) t);
+                    return recovery.applyAsLong((E) t);
                 } else {
                     throw t;
                 }

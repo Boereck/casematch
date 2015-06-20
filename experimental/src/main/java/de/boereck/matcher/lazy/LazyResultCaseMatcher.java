@@ -10,9 +10,19 @@ import java.util.OptionalLong;
 import java.util.function.*;
 
 /**
- * Match that will be performed after defining all cases to be matched on, so the cases will be checked lazily.
+ * Match that will be performed <em>after</em> defining all cases to be matched on, so the cases will be checked lazily.
+ * After all cases are defined using the caseOf/caseIs/caseInt/caseDouble/caseLong methods, either method
+ * {@link #match(Object)} or {@link #apply(Object)} (must have same behavior) can be called to start the matching.
+ * match/apply are therefore the closing methods for this case matcher.
+ * <p>The cases are guaranteed to be evaluated in the order they were defined. Cases and associated actions will all be
+ * evaluated on the thread that calls the match/apply method. One of the consequences is that exceptions during case
+ * evaluation or execution of the associated action will be thrown at the user calling the match/apply method.</p>
+ * <p>The advantage of this lazy type of matching is that the objects describing the cases only have to be defined
+ * once and can be reused whenever the matching is needed. The other advantage is that the case matcher can be used
+ * whenever a function is needed, e.g. in a higher level map method, such as
+ * {@link java.util.stream.Stream#map(Function) Stream.map(Function)}<p/>
  */
-public interface LazyResultCaseMatcher<I,O> extends ResultCaseMatcher<I,O>, Function<I, Optional<O>> {
+public interface LazyResultCaseMatcher<I,O> extends ResultCaseMatcher<I,O>, MatchingFunction<I, Optional<O>> {
 
     /**
      * {@inheritDoc}
@@ -80,18 +90,22 @@ public interface LazyResultCaseMatcher<I,O> extends ResultCaseMatcher<I,O>, Func
     @Override
     LazyResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> f) throws NullPointerException;
 
-
-    // TODO more closing methods
-
     /**
      * Starts the matching process on the given input object {@code i}.
      * @param i parameter to match on.
      * @return match result.
+     * @see #match(Object)
      */
     @Override
     Optional<O> apply(I i);
 
-    Function<I,O> otherwise(O o);
+    MatchingFunction<I,O> otherwise(O o);
+
+    MatchingFunction<I,O> orElse(O o);
+
+    <X extends Exception> ThrowingMatchingFunction<I,O,X> otherwiseThrow(Supplier<X> exceptionSupplier);
+
+    MatchingFunction<I,O> otherwiseThrowRuntime(Supplier<? extends RuntimeException> exceptionSupplier);
 
     /**
      * Returns a function that will perform matches and if there is a result available will return it, if there was no
@@ -101,5 +115,5 @@ public interface LazyResultCaseMatcher<I,O> extends ResultCaseMatcher<I,O>, Func
      * if there is a matching case the result of this match is returned, otherwise a {@link java.util.NoSuchElementException} is
      * thrown.
      */
-    Function<I,O> partial();
+    MatchingFunction<I,O> partial();
 }

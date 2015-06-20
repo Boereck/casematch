@@ -33,6 +33,8 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface AdvPredicate<I> extends Predicate<I> {
 
+    // TODO add exception guarantees to ifThen and ifThenFlat
+
     /**
      * Applies this predicate as a precondition for the given function {@code f}. The returned function will return an empty
      * optional if this predicate evaluates to {@code false} for an input. Otherwise the returned function will return
@@ -190,7 +192,7 @@ public interface AdvPredicate<I> extends Predicate<I> {
      * </table>
      * @param that other predicate that returns that second argument of the logical XNOR operation performed by the
      *             returned predicate.
-     * @return predicate performing a logical NOR operation with the result of {@code this} predicate and {@code that}
+     * @return predicate performing a logical XNOR operation with the result of {@code this} predicate and {@code that}
      *  predicate.
      * @throws NullPointerException if {@code that} is {@code null}.
      */

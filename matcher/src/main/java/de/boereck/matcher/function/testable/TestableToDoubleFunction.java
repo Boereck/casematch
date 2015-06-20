@@ -242,13 +242,13 @@ public interface TestableToDoubleFunction<I> extends ToDoubleFunction<I> {
      * returned, consider using method {@link TestableToDoubleFunction#withCatch() withCatch()} instead.
      * @throws NullPointerException if {@code recovery} is {@code null}.
      */
-    default OptionalDoubleMapper<I> recoverWith(Function<? super Throwable, OptionalDouble> recovery) throws NullPointerException {
+    default TestableToDoubleFunction<I> recoverWith(ToDoubleFunction<? super Throwable> recovery) throws NullPointerException {
         Objects.requireNonNull(recovery);
         return i -> {
             try {
-                return OptionalDouble.of(this.applyAsDouble(i));
+                return this.applyAsDouble(i);
             } catch (Throwable t) {
-                return recovery.apply(t);
+                return recovery.applyAsDouble(t);
             }
         };
     }
@@ -268,15 +268,15 @@ public interface TestableToDoubleFunction<I> extends ToDoubleFunction<I> {
      * @throws NullPointerException if {@code clazz} or {@code recovery} is {@code null}.
      */
     @SuppressWarnings("unchecked") // Cast is safe, t is checked to be instance of E
-    default <E extends Throwable> OptionalDoubleMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalDouble> recovery) throws NullPointerException {
+    default <E extends Throwable> TestableToDoubleFunction<I> recoverWith(Class<E> clazz, ToDoubleFunction<? super E> recovery) throws NullPointerException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);
         return i -> {
             try {
-                return OptionalDouble.of(this.applyAsDouble(i));
+                return this.applyAsDouble(i);
             } catch (Throwable t) {
                 if (clazz.isInstance(t)) {
-                    return recovery.apply((E) t);
+                    return recovery.applyAsDouble((E) t);
                 } else {
                     throw t;
                 }
