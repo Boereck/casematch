@@ -1,5 +1,6 @@
 package de.boereck.test.matcher.example;
 
+import de.boereck.matcher.ResultCaseMatcher;
 import de.boereck.matcher.function.optionalmap.OptionalMapper;
 
 import java.util.Arrays;

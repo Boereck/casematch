@@ -242,13 +242,13 @@ public interface TestableToIntFunction<I> extends ToIntFunction<I> {
      * returned, consider using method {@link TestableToIntFunction#withCatch() withCatch()} instead.
      * @throws NullPointerException if {@code recovery} is {@code null}.
      */
-    default OptionalIntMapper<I> recoverWith(Function<? super Throwable, OptionalInt> recovery) throws NullPointerException {
+    default TestableToIntFunction<I> recoverWith(ToIntFunction<? super Throwable> recovery) throws NullPointerException {
         Objects.requireNonNull(recovery);
         return i -> {
             try {
-                return OptionalInt.of(this.applyAsInt(i));
+                return this.applyAsInt(i);
             } catch (Throwable t) {
-                return recovery.apply(t);
+                return recovery.applyAsInt(t);
             }
         };
     }
@@ -268,15 +268,15 @@ public interface TestableToIntFunction<I> extends ToIntFunction<I> {
      * @throws NullPointerException if {@code clazz} or {@code recovery} is {@code null}.
      */
     @SuppressWarnings("unchecked") // Cast is safe, we checked if t is instance of E
-    default <E extends Throwable> OptionalIntMapper<I> recoverWith(Class<E> clazz, Function<? super E, OptionalInt> recovery) throws NullPointerException {
+    default <E extends Throwable> TestableToIntFunction<I> recoverWith(Class<E> clazz, ToIntFunction<? super E> recovery) throws NullPointerException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);
         return i -> {
             try {
-                return OptionalInt.of(this.applyAsInt(i));
+                return this.applyAsInt(i);
             } catch (Throwable t) {
                 if (clazz.isInstance(t)) {
-                    return recovery.apply((E) t);
+                    return recovery.applyAsInt((E) t);
                 } else {
                     throw t;
                 }

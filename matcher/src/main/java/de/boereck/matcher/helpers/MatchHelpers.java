@@ -277,7 +277,7 @@ public final class MatchHelpers {
      * the input is null.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
-    public static <I, O> OptionalMapper<I, O> nullsafe(Function<I, O> f) {
+    public static <I, O> OptionalMapper<I, O> nullAware(Function<I, O> f) {
         Objects.requireNonNull(f);
         // equivalent with
         // (I i) -> i == null ? Optional.empty() : Optional.ofNullable(f.apply(i));
@@ -296,7 +296,7 @@ public final class MatchHelpers {
      * if the input is null.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
-    public static <I> OptionalIntMapper<I> nullsafeI(ToIntFunction<I> f) throws NullPointerException {
+    public static <I> OptionalIntMapper<I> nullAwareI(ToIntFunction<I> f) throws NullPointerException {
         Objects.requireNonNull(f);
         // equivalent with
         // (I i) -> i == null ? OptionalInt.empty() : OptionalInt.of(f.applyAsInt(i));
@@ -315,7 +315,7 @@ public final class MatchHelpers {
      * OptionalLong if the input is null.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
-    public static <I> OptionalLongMapper<I> nullsafeL(ToLongFunction<I> f) throws NullPointerException {
+    public static <I> OptionalLongMapper<I> nullAwareL(ToLongFunction<I> f) throws NullPointerException {
         Objects.requireNonNull(f);
         // equivalent with
         // (I i) -> i == null ? OptionalLong.empty() : OptionalLong.of(f.applyAsLong(i));
@@ -334,7 +334,7 @@ public final class MatchHelpers {
      * OptionalDouble if the input is null.
      * @throws NullPointerException will be thrown if {@code f} is {@code null}.
      */
-    public static <I> Function<I, OptionalDouble> nullsafeD(ToDoubleFunction<I> f) throws NullPointerException {
+    public static <I> Function<I, OptionalDouble> nullAwareD(ToDoubleFunction<I> f) throws NullPointerException {
         Objects.requireNonNull(f);
         // equivalent with
         // (I i) -> i == null ? OptionalDouble.empty() : OptionalDouble.of(f.applyAsDouble(i));

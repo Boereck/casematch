@@ -27,8 +27,8 @@ public final class AsyncMatcher {
     
     public static <I> NoResultFutureCaseMatcher<Object> matchAnyAsync(Supplier<?>... supplier) {
         throw new UnsupportedOperationException("Not Implemented Yet");
-    } 
-    
+    }
+
     public static <I> NoResultFutureCaseMatcher<Object> matchAnyAsync(Executor ex, Supplier<?>... supplier) {
         throw new UnsupportedOperationException("Not Implemented Yet");
     }
@@ -59,7 +59,15 @@ public final class AsyncMatcher {
     public static <I> NoResultFutureCaseMatcher<I> matchAsync(Executor ex, Consumer<CompletableFuture<I>> action) {
         throw new UnsupportedOperationException("Not Implemented Yet");
     }
-    
+
+    public static <I> NoResultFutureCaseMatcher<I> matchAnyAsync(Executor ex, Consumer<CompletableFuture<I>>... action) {
+        throw new UnsupportedOperationException("Not Implemented Yet");
+    }
+
+    public static <I> NoResultFutureCaseMatcher<I> matchAnyCancelRestAsync(Executor ex, Consumer<CompletableFuture<I>>... action) {
+        throw new UnsupportedOperationException("Not Implemented Yet");
+    }
+
     public static <I> NoResultFutureCaseMatcher<I> matchAsync(CompletableFuture<I> future) {
         throw new UnsupportedOperationException("Not Implemented Yet");
     }

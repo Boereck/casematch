@@ -12,6 +12,9 @@ import de.boereck.matcher.function.testable.TestableFunction;
 import de.boereck.matcher.function.testable.TestableToLongFunction;
 import de.boereck.matcher.helpers.found.*;
 
+import static de.boereck.matcher.eager.EagerMatcher.match;
+import static java.util.stream.Collectors.toList;
+
 /**
  * This class provides static helper methods for matching collection objects.
  *
@@ -54,11 +57,12 @@ public class CollectionMatchHelpers {
 
     /**
      * This is a shortcut for {@code (Stream<O>) s.filter(o -> clazz.isInstance(o))}.
-     * @param s stream that's elements are filtered by type {@code clazz}. Must not be {@code null}.
+     *
+     * @param s     stream that's elements are filtered by type {@code clazz}. Must not be {@code null}.
      * @param clazz Type the elements of the input stream should be of to be part of the returned result stream.
      *              Must not be {@code null}.
-     * @param <I> Type of elements in input stream
-     * @param <O> Type of element remaining in the output stream
+     * @param <I>   Type of elements in input stream
+     * @param <O>   Type of element remaining in the output stream
      * @return input stream filtered by type {@code O}
      * @throws NullPointerException when {@code clazz} or {@code s} is {@code null}.
      */
@@ -66,19 +70,58 @@ public class CollectionMatchHelpers {
     public static <I, O> Stream<O> filter(Stream<I> s, Class<O> clazz) throws NullPointerException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(s);
-        return (Stream<O>)s.filter(o -> clazz.isInstance(o));
+        return (Stream<O>) s.filter(clazz::isInstance);
+    }
+
+    /**
+     * Returns a function filtering an input collection and returning the elements from the source
+     * collection filtered by the given {@code type} in a new {@link List}. The optional returned by
+     * the resulting function will be empty if the input collection is {@code null}, or the input collection
+     * contains no element instance of {@code type}. If at least one element of the input collection is
+     * instance of {@code type}, the output optional will hold a list of all elements of the input
+     * collection instance of {@code type}.
+     *
+     * @param type class that input elements are filtered by. Must not be {@code null}.
+     * @param <I>  element type of input collection
+     * @param <O>  element type of output list
+     * @return function filtering the input elements by the given {@code type}.
+     * @throws NullPointerException if {@code type} is {@code null}.
+     */
+    @SuppressWarnings("unchecked") // we know cast is safe, we checked elements to be instance of O
+    public static <I, O> OptionalMapper<Collection<I>, List<O>> filterCollection(Class<O> type) throws NullPointerException {
+        Objects.requireNonNull(type);
+        return c -> filter(c, type).collect(toNonEmptyList());
+    }
+
+    /**
+     * Returns a function filtering an input collection and returning the elements from the source
+     * collection matching predicate {@code test} in a new {@link List}. The optional returned by
+     * the resulting function will be empty if the input collection is {@code null}, or the input collection
+     * contains no element conforming to predicate {@code test}. If at least one element of the input collection is
+     * conforming {@code test}, the output optional will hold a list of all elements of the input
+     * collection matching {@code test}.
+     *
+     * @param test predicate that input elements are filtered by. Must not be {@code null}.
+     * @param <I>  element type of input collection
+     * @return function filtering the input elements by the given predicate {@code test}.
+     * @throws NullPointerException if {@code test} is {@code null}.
+     */
+    public static <I> OptionalMapper<Collection<I>, List<I>> filterCollection(Predicate<I> test) {
+        Objects.requireNonNull(test);
+        return c -> $(c).filter(test).collect(toNonEmptyList());
     }
 
     /**
      * This method returns a {@link Collector} for {@link Stream}s, returning an {@link Optional} of
      * a list of all the elements that are part of the stream. If the list is empty (no element left in the stream),
      * the optional will be empty, otherwise it will contain the list with the collected elements of the stream.
+     *
      * @param <I> Type of elements in stream
      * @return Collector, returning either an empty optional, if the stream it is used on does not contain elements,
-     *   or an optional holding the list of collected elements, if there were elements in the stream.
+     * or an optional holding the list of collected elements, if there were elements in the stream.
      */
     public static <I> Collector<I, ?, Optional<List<I>>> toNonEmptyList() {
-        return Collectors.collectingAndThen(Collectors.toList(), l -> l.size() > 0 ? Optional.of(l) : Optional.empty());
+        return Collectors.collectingAndThen(toList(), l -> l.size() > 0 ? Optional.of(l) : Optional.empty());
     }
 
     /**
@@ -188,7 +231,8 @@ public class CollectionMatchHelpers {
     /**
      * Returns a function that counts how many elements of an input collection are tested positive with the given
      * predicate {@code p}. If the input collection is {@code null}, the returned count will be 0.
-     * @param p used to check how many elements in the input collection match this predicate.
+     *
+     * @param p   used to check how many elements in the input collection match this predicate.
      * @param <I> Type of elements in the input collection
      * @return function that counts how many elements of an input collection are tested positive with the given
      * predicate {@code p}. If the input collection is {@code null}, the returned count will be 0.
@@ -202,7 +246,8 @@ public class CollectionMatchHelpers {
     /**
      * This function returns a function that tests if and how many elements in a collection match
      * the given predicate {@code p}.
-     * @param p Predicate that is used to check for elements in a given collection. Must not be {@code null}.
+     *
+     * @param p   Predicate that is used to check for elements in a given collection. Must not be {@code null}.
      * @param <I> Type of elements in input collection
      * @return Function counting the elements of an input collection that are tested
      * positive with the given predicate {@code p}.
@@ -216,13 +261,14 @@ public class CollectionMatchHelpers {
     /**
      * This method returns a function that returns an optional of {@code Found}, that holds a value, if elements
      * were found, and an empty optional, if no elements were found that match predicate {@code p}.
-     * @param p used to check how many elements match this predicate. Must not be {@code null}.
+     *
+     * @param p   used to check how many elements match this predicate. Must not be {@code null}.
      * @param <I> Type of elements of input collection to be checked.
      * @return Function that returns an optional of {@code Found}, that holds a value, if elements
      * were found, and an empty optional, if no elements were found that match predicate {@code p}.
      * @throws NullPointerException if {@code p} is {@code null}.
      */
-    public static  <I> OptionalMapper<Collection<I>, Found> findCountExisting(Predicate<? super I> p) throws NullPointerException {
+    public static <I> OptionalMapper<Collection<I>, Found> findCountExisting(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return findCount(p).filter(f -> !(f instanceof FoundNone));
     }
@@ -258,11 +304,12 @@ public class CollectionMatchHelpers {
      * Returns a function from collection to an optional of collection, containing the elements of the
      * input collection filtered by predicate {@code p}, if such elements exists. Otherwise the method
      * will return an empty optional.
-     * @param p is used to check if an input collection contains elements that pass this predicate.
+     *
+     * @param p   is used to check if an input collection contains elements that pass this predicate.
      * @param <I> type of elements in input collection
      * @return function filtering element of input collection by predicate {@code p} returning an optional
-     *  that holds the filtered elements, if such elements exist.
-     *  @throws NullPointerException will be thrown if {@code p} is {@code null}.
+     * that holds the filtered elements, if such elements exist.
+     * @throws NullPointerException will be thrown if {@code p} is {@code null}.
      */
     public static <I> OptionalMapper<Collection<I>, List<I>> filterExists(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
@@ -382,8 +429,8 @@ public class CollectionMatchHelpers {
      * {@code null} or there is no value or a {@code null} value associated with the {@code key}.
      *
      * @param key Be aware that it depends on the implementation of the input map if
-     *          {@code null} keys are allowed or not. This method will not check if
-     *          this parameter is {@code null} or not.
+     *            {@code null} keys are allowed or not. This method will not check if
+     *            this parameter is {@code null} or not.
      * @param <K> Type of key of the input map
      * @param <V> Type of value of the input map
      * @return Function returning a non-empty Optional with the value of the input map
@@ -391,7 +438,7 @@ public class CollectionMatchHelpers {
      * a value for the given key, or the value is {@code null}, the Optional returned from
      * the function will be empty.
      */
-    public static <K,V> OptionalMapper<Map<K,V>,V> hasValueFor(K key) {
+    public static <K, V> OptionalMapper<Map<K, V>, V> hasValueFor(K key) {
         return m -> m == null ? Optional.empty() : Optional.ofNullable(m.get(key));
     }
 

@@ -262,20 +262,20 @@ public interface TestableFunction<I, O> extends Function<I, O> {
     /**
      * Returns a function executing this TestableFunction and if a throwable is thrown during the execution, the
      * given {@code recovery} function is used to provide a value to be returned. If an empty Optional should be
-     * returned, consider using method {@link TestableFunction#withCatch() withCatch()} instead.
+     * returned, consider using method {@link #withCatch() withCatch()} instead.
      * If the recovery method itself will throw an exception, it will not be caught and propagated to the caller of the function.
      *
      * @param recovery method providing a regular result value if the TestableFunction throws an exception.
      * @return function executing this TestableFunction and if a throwable is thrown during the execution, the
      * given {@code recovery} function is used to provide a value to be returned. If an empty Optional should be
-     * returned, consider using method {@link TestableFunction#withCatch() withCatch()} instead.
+     * returned, consider using method {@link #withCatch() withCatch()} instead.
      * @throws NullPointerException if {@code recovery} is {@code null}.
      */
-    default OptionalMapper<I, O> recoverWith(Function<? super Throwable, Optional<O>> recovery) {
+    default TestableFunction<I, O> recoverWith(Function<? super Throwable, O> recovery) {
         Objects.requireNonNull(recovery);
         return i -> {
             try {
-                return Optional.ofNullable(this.apply(i));
+                return this.apply(i);
             } catch (Throwable t) {
                 return recovery.apply(t);
             }
@@ -297,12 +297,12 @@ public interface TestableFunction<I, O> extends Function<I, O> {
      * @throws NullPointerException if {@code clazz} or {@code recovery} is {@code null}.
      */
     @SuppressWarnings("unchecked") // we know cast is safe, we checked if t is instance of E
-    default <E extends Throwable> OptionalMapper<I, O> recoverWith(Class<E> clazz, Function<? super E, Optional<O>> recovery) {
+    default <E extends Throwable> TestableFunction<I, O> recoverWith(Class<E> clazz, Function<? super E, O> recovery) {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(recovery);
         return i -> {
             try {
-                return Optional.ofNullable(this.apply(i));
+                return this.apply(i);
             } catch (Throwable t) {
                 if (clazz.isInstance(t)) {
                     return recovery.apply((E) t);

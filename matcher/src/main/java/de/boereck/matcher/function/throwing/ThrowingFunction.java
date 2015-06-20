@@ -5,7 +5,7 @@ import de.boereck.matcher.function.testable.TestableFunction;
 /**
  * This function is a special version of a {@link java.util.function.Function}, where the apply method is already implemented
  * and calling the method {@link ThrowingFunction#applyThrowing(Object) applyThrowing} (which may throw a checked  exception
- * of type {@code E}) and if the checked exception is thrown, re-throws the  {@link RuntimeException}.
+ * of type {@code E}) and if the checked exception is thrown, re-throws the exception as if it is a {@link RuntimeException}.
  *
  * It is <em>not</em> recommended overriding the default apply method. It is responsible to call
  * the {@link ThrowingFunction#applyThrowing(Object) applyThrowing} method and disguising
@@ -50,8 +50,18 @@ public interface ThrowingFunction<I,O,E extends Exception> extends TestableFunct
         private Uncheck() {
             throw new IllegalStateException();
         }
+
+        /**
+         * Rethrows exceptions as if they were RuntimeExceptions, therefore being unchecked.
+         * @param e exception rethrown disguised RuntimeException
+         * @throws RuntimeException given exception {@code e} rethrown as RuntimeException
+         */
+        public static void rethrowUnchecked(Exception e) throws RuntimeException {
+            Uncheck.<RuntimeException>rethrowCasted(e);
+        }
+
        @SuppressWarnings("unchecked") // Cast works, since we only use it for RuntimeException
-       private static <T extends Exception> void rethrowUnchecked(Exception t) throws T {
+       private static <T extends Exception> void rethrowCasted(Exception t) throws T {
            throw (T)t;
        }
     }
@@ -64,7 +74,7 @@ public interface ThrowingFunction<I,O,E extends Exception> extends TestableFunct
         try {
             return applyThrowing(i);
         } catch(Exception t) {
-            Uncheck.<RuntimeException>rethrowUnchecked(t);
+            Uncheck.rethrowUnchecked(t);
             // the following line is actually dead code.
             // It is just there because we had to re-throw the exception in Uncheck#rethrowUnchecked(Exception)
             return null;

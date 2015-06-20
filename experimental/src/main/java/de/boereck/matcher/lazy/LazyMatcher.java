@@ -10,8 +10,17 @@ import static de.boereck.matcher.helpers.StringMatchHelpers.matches;
  */
 public class LazyMatcher {
 
-
-
+    /**
+     * Alternatively to this method, the static methods of {@link LazyResultMatcher} can be used to create instances
+     * of {@link LazyResultCaseMatcher}.
+     *
+     * @param inType
+     * @param outType
+     * @param <I>
+     * @param <O>
+     * @return
+     * @see LazyResultMatcher
+     */
     public static <I,O> LazyResultCaseMatcher<I,O> lazyResultMatch(Class<I> inType, Class<O> outType) {
         return lazyResultMatch();
     }

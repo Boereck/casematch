@@ -1,5 +1,6 @@
 package de.boereck.test.matcher.function.predicate;
 
+import de.boereck.matcher.function.predicate.AdvLongPredicate;
 import de.boereck.matcher.function.predicate.AdvPredicate;
 import org.junit.Test;
 
@@ -9,18 +10,18 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 /**
- * Testing interface {@link de.boereck.matcher.function.predicate.AdvPredicate}
+ * Testing interface {@link AdvPredicate}
  */
-public class AdvPredicateTest {
+public class AdvLongPredicateTest {
 
     // TODO check exception guarantees
 
     @Test
     public void testThenOnTrue() {
         // then with true should invoke given function
-        AdvPredicate<Object> alwaysTrue = o -> true;
+        AdvLongPredicate alwaysTrue = o -> true;
         final String returned = "Yippiekayeah!";
-        final String input = "foobar";
+        final long input = 42L;
         Optional<String> nonEmpty = alwaysTrue.ifThen(o -> {
             assertEquals(input, o);
             return returned;
@@ -41,30 +42,30 @@ public class AdvPredicateTest {
     @Test
     public void testThenOnFalse() {
         // then with false should invoke given function
-        AdvPredicate<Object> alwaysFalse = o -> false;
+        AdvLongPredicate alwaysFalse = o -> false;
         Optional<Object> empty = alwaysFalse.ifThen(o -> {
             fail();
             return null;
-        }).apply(null);
+        }).apply(42L);
         assertNotNull(empty);
         assertFalse(empty.isPresent());
     }
 
     @Test(expected = NullPointerException.class)
     public void testThenWithNullParam() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        alwaysTrue.ifThen(null).apply(null);
+        AdvLongPredicate alwaysTrue = o -> true;
+        alwaysTrue.ifThen(null).apply(42L);
     }
 
     @Test
     public void testThenFlatOnTrue() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        String input = "HuiBuh";
+        AdvLongPredicate alwaysTrue = o -> true;
+        long input = 42L;
         String output = "Arrrrr";
         Optional<String> result = alwaysTrue.ifThenFlat(o -> {
             assertEquals(input, o);
             return Optional.of(output);
-        }).apply(input);
+        }).apply(42L);
         assertNotNull(result);
         assertTrue(result.isPresent());
         assertEquals(output, result.get());
@@ -72,8 +73,8 @@ public class AdvPredicateTest {
 
     @Test
     public void testThenFlatOnFalse() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        String input = "HuiBuh";
+        AdvLongPredicate alwaysFalse = o -> false;
+        long input = 42L;
         Optional<String> result = alwaysFalse.ifThenFlat(o -> {
             fail();
             return Optional.of("Arrrrr");
@@ -84,9 +85,9 @@ public class AdvPredicateTest {
 
     @Test
     public void testAnd() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        Object o = new Object();
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysTrue = o -> true;
+        final long o = 42L;
         // According to truth table
         assertTrue(alwaysTrue.and(alwaysTrue).test(o));
         assertFalse(alwaysFalse.and(alwaysTrue).test(o));
@@ -96,40 +97,40 @@ public class AdvPredicateTest {
 
     @Test(expected = NullPointerException.class)
     public void testAndNullPointer() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
+        AdvLongPredicate alwaysTrue = o -> true;
         alwaysTrue.and(null);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testAndThisFails() {
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
         alwaysThrows.and(s -> {
             fail();
             return false;
-        }).test(o);
+        }).test(42L);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testAndThatFails() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysTrue = o -> true;
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
-        alwaysTrue.and(alwaysThrows).test(o);
+        alwaysTrue.and(alwaysThrows).test(42L);
         fail();
     }
 
     @Test
     public void testOr() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        Object o = new Object();
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysTrue = o -> true;
+        final long o = 42L;
         // According to truth table
         assertTrue(alwaysTrue.or(alwaysTrue).test(o));
         assertTrue(alwaysFalse.or(alwaysTrue).test(o));
@@ -139,40 +140,40 @@ public class AdvPredicateTest {
 
     @Test(expected = NullPointerException.class)
     public void testOrNullPointer() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
+        AdvLongPredicate alwaysTrue = o -> true;
         alwaysTrue.or(null);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testOrThisFails() {
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
         alwaysThrows.or(s -> {
             fail();
             return false;
-        }).test(o);
+        }).test(42L);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testOrThatFails() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
-        alwaysFalse.or(alwaysThrows).test(o);
+        alwaysFalse.or(alwaysThrows).test(42L);
         fail();
     }
 
     @Test
     public void testXor() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        Object o = new Object();
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysTrue = o -> true;
+        final long o = 42L;
         // According to truth table
         assertFalse(alwaysTrue.xor(alwaysTrue).test(o));
         assertTrue(alwaysFalse.xor(alwaysTrue).test(o));
@@ -182,40 +183,40 @@ public class AdvPredicateTest {
 
     @Test(expected = NullPointerException.class)
     public void testXorNullPointer() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
+        AdvLongPredicate alwaysTrue = o -> true;
         alwaysTrue.xor(null);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testXorThisFails() {
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
         alwaysThrows.xor(s -> {
             fail();
             return false;
-        }).test(o);
+        }).test(42L);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testXorThatFails() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysTrue = o -> true;
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
-        alwaysTrue.xor(alwaysThrows).test(o);
+        alwaysTrue.xor(alwaysThrows).test(42L);
         fail();
     }
 
     @Test
     public void testNor() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        Object o = new Object();
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysTrue = o -> true;
+        final long o = 42L;
         // According to truth table
         assertFalse(alwaysTrue.nor(alwaysTrue).test(o));
         assertFalse(alwaysFalse.nor(alwaysTrue).test(o));
@@ -225,40 +226,39 @@ public class AdvPredicateTest {
 
     @Test(expected = NullPointerException.class)
     public void testNorNullPointer() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
+        AdvLongPredicate alwaysTrue = o -> true;
         alwaysTrue.nor(null);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testNorThisFails() {
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
         alwaysThrows.nor(s -> {
             fail();
             return false;
-        }).test(o);
+        }).test(42L);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testNorThatFails() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
-        Object o = new Object();
-        alwaysFalse.nor(alwaysThrows).test(o);
+        alwaysFalse.nor(alwaysThrows).test(42L);
         fail();
     }
 
     @Test
     public void testXnor() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        Object o = new Object();
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysTrue = o -> true;
+        final long o = 42L;
         // According to truth table
         assertTrue(alwaysTrue.xnor(alwaysTrue).test(o));
         assertFalse(alwaysFalse.xnor(alwaysTrue).test(o));
@@ -268,40 +268,40 @@ public class AdvPredicateTest {
 
     @Test(expected = NullPointerException.class)
     public void testXnorNullPointer() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
+        AdvLongPredicate alwaysTrue = o -> true;
         alwaysTrue.xnor(null);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testXnorThisFails() {
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
         alwaysThrows.xnor(s -> {
             fail();
             return false;
-        }).test(o);
+        }).test(42L);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testXnorThatFails() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
-        alwaysFalse.xnor(alwaysThrows).test(o);
+        alwaysFalse.xnor(alwaysThrows).test(42L);
         fail();
     }
 
     @Test
     public void testImplies() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        Object o = new Object();
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysTrue = o -> true;
+        final long o = 42L;
         // According to truth table
         assertTrue(alwaysTrue.implies(alwaysTrue).test(o));
         assertTrue(alwaysFalse.implies(alwaysTrue).test(o));
@@ -311,33 +311,33 @@ public class AdvPredicateTest {
 
     @Test(expected = NoSuchElementException.class)
     public void testImpliesThisFails() {
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
         alwaysThrows.implies(s -> {
             fail();
             return false;
-        }).test(o);
+        }).test(42L);
         fail();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testImpliesThatFails() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysTrue = o -> true;
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
         Object o = new Object();
-        alwaysTrue.implies(alwaysThrows).test(o);
+        alwaysTrue.implies(alwaysThrows).test(42L);
         fail();
     }
 
     @Test
     public void testNot() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        Object o = new Object();
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysTrue = o -> true;
+        final long o = 42L;
         // According to truth table
         assertFalse(alwaysTrue.not().test(o));
         assertTrue(alwaysFalse.not().test(o));
@@ -345,18 +345,18 @@ public class AdvPredicateTest {
 
     @Test(expected = NoSuchElementException.class)
     public void testNotFails() {
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
-        alwaysThrows.not().test(new Object());
+        alwaysThrows.not().test(42L);
         fail();
     }
 
     @Test
     public void testNegate() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        Object o = new Object();
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysTrue = o -> true;
+        final long o = 42L;
         // According to truth table
         assertFalse(alwaysTrue.negate().test(o));
         assertTrue(alwaysFalse.negate().test(o));
@@ -364,18 +364,18 @@ public class AdvPredicateTest {
 
     @Test(expected = NoSuchElementException.class)
     public void testNegateFails() {
-        AdvPredicate<Object> alwaysThrows = s -> {
+        AdvLongPredicate alwaysThrows = s -> {
             throw new NoSuchElementException();
         };
-        alwaysThrows.not().test(new Object());
+        alwaysThrows.not().test(42L);
         fail();
     }
 
     @Test
     public void testRequires() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        Object o = new Object();
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysTrue = o -> true;
+        final long o = 42L;
         // like and, since it is a commutative operator
         assertTrue(alwaysTrue.requires(alwaysTrue).test(o));
         assertFalse(alwaysFalse.requires(alwaysTrue).test(o));
@@ -384,38 +384,11 @@ public class AdvPredicateTest {
     }
 
     @Test
-    public void testNullToFalse() {
-        AdvPredicate<Object> alwaysTrue = o -> true;
-        Object o = new Object();
+    public void testBoxed() {
+        AdvLongPredicate alwaysFalse = o -> false;
+        AdvLongPredicate alwaysTrue = o -> true;
         // like and, since it is a commutative operator
-        assertFalse(alwaysTrue.nullToFalse().test(null));
-        assertTrue(alwaysTrue.nullToFalse().test(o));
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void testNullToFalseFails() {
-        AdvPredicate<Object> alwaysThrows = s -> {
-            throw new NoSuchElementException();
-        };
-        alwaysThrows.nullToFalse().test(new Object());
-        fail();
-    }
-
-    @Test
-    public void testNullToTrue() {
-        AdvPredicate<Object> alwaysFalse = o -> false;
-        Object o = new Object();
-        // like and, since it is a commutative operator
-        assertTrue(alwaysFalse.nullToTrue().test(null));
-        assertFalse(alwaysFalse.nullToTrue().test(o));
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void testNullToTrueFails() {
-        AdvPredicate<Object> alwaysThrows = s -> {
-            throw new NoSuchElementException();
-        };
-        alwaysThrows.nullToTrue().test(new Object());
-        fail();
+        assertTrue(alwaysTrue.boxed().test(42L));
+        assertFalse(alwaysFalse.boxed().test(42L));
     }
 }
