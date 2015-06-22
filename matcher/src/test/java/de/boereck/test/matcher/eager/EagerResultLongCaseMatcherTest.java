@@ -1,23 +1,17 @@
 package de.boereck.test.matcher.eager;
 
-import static de.boereck.matcher.eager.EagerMatcher.*;
-import static de.boereck.matcher.helpers.MatchHelpers.cast;
-import static org.junit.Assert.*;
-
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BooleanSupplier;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.print.attribute.standard.NumberOfDocuments;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.*;
+
+import static de.boereck.matcher.eager.EagerMatcher.resultMatch;
+import static org.junit.Assert.*;
 
 
-public class EagerResultCaseMatcherTest {
+public class EagerResultLongCaseMatcherTest {
 
     void isTrue(Optional<Boolean> result) {
         assertNotNull(result);
@@ -32,192 +26,28 @@ public class EagerResultCaseMatcherTest {
     }
 
     @Test
-    public void testCaseOfClass() {
-        Object o = "Boo";
-        Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseOf(String.class, s -> true)
-                .result();
-        isTrue(res);
-    }
-
-    @Test
-    public void testCaseOfClassFirstNoMatch() {
-        Object o = "Boo";
-        Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseOf(Class.class, s -> false)
-                .caseOf(String.class, s -> true)
-                .result();
-
-        isTrue(res);
-    }
-
-    @Test
-    public void testCaseOfClassSecondAlsoMatch() {
-        Object o = "Boo";
-        Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseOf(Object.class, s -> true)
-                .caseOf(String.class, s -> false)
-                .result();
-
-        isTrue(res);
-    }
-
-    @Test
-    public void testCaseOfClassSecondNoMatch() {
-        Object o = "Boo";
-        Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseOf(Object.class, s -> true)
-                .caseOf(Class.class, s -> false)
-                .result();
-
-        isTrue(res);
-    }
-
-    @Test
-    public void testCaseOfClassNoMatch() {
-        Object o = "Boo";
-        Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseOf(Boolean.class, s -> false)
-                .caseOf(Class.class, s -> false)
-                .result();
-
-        isEmpty(res);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testCaseOfClassNullPointer1() {
-        Object o = "Boo";
-        resultMatch(o).caseOf((Class<String>) null, s -> {
-            fail();
-            return null;
-        });
-        fail();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testCaseOfClassNullPointer2() {
-        Object o = "Boo";
-        resultMatch(o).caseOf(String.class, null);
-        fail();
-    }
-
-
-    @Test
-    public void testCaseOfClassNotMatchingWithPredicate() {
-        Object o = "Boo";
-        Optional<Object> result = resultMatch(o).caseOf(Integer.class, s -> {
-            fail();
-            return false;
-        }, s -> {
-            fail();
-            return null;
-        }).result();
-
-        assertNotNull(result);
-        assertFalse(result.isPresent());
-    }
-
-    @Test
-    public void testCaseOfClassWithPredicateMatching() {
-        Object o = "Boo";
-        Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(String.class, s -> true, s -> true)
-                .result();
-        isTrue(result);
-    }
-
-    @Test
-    public void testCaseOfClassWithPredicateNotMatching() {
-        Object o = "Boo";
-        Optional<Object> result = resultMatch(o)
-                .caseOf(String.class, s -> false, s -> {
-                    fail();
-                    return null;
-                }).result();
-        assertNotNull(result);
-        assertFalse(result.isPresent());
-    }
-
-    @Test
-    public void testCaseOfClassWithPredicateNotMatchingThenMatching() {
-        Object o = "Boo";
-        Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(String.class, s -> false, s -> {
-                    fail();
-                    return false;
-                })
-                .caseOf(String.class, s -> true, s -> true)
-                .result();
-
-        isTrue(result);
-    }
-
-    @Test
-    public void testCaseOfClassWithPredicateMatchingThenNotMatching() {
-        Object o = "Boo";
-        Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(String.class, s -> true, s -> true)
-                .caseOf(String.class, s -> false, s -> {
-                    fail();
-                    return false;
-                })
-                .result();
-
-        isTrue(result);
-    }
-
-    @Test
-    public void testCaseOfClassNotMatchingWithPredicateThenMatching() {
-        Object o = "Boo";
-        Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(Integer.class, s -> true, s -> {
-                    fail();
-                    return false;
-                })
-                .caseOf(String.class, s -> true, s -> true)
-                .result();
-
-        isTrue(result);
-    }
-
-    @Test
-    public void testCaseOfClassWithPredicateTwoMatchingOnlyFirst() {
-        Object o = "Boo";
-        Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(String.class, s -> true, s -> true)
-                .caseOf(String.class, s -> true, s -> {
-                    fail();
-                    return false;
-                })
-                .result();
-
-        isTrue(result);
-    }
-
-
-    @Test
     public void testCaseOfGetsSameObjectAsInput() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(s -> s == o, s -> true)
+                .caseOf(l -> l == o, l -> true)
                 .result();
         isTrue(result);
     }
 
     @Test
     public void testCaseOfPredicate() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseOf(s -> true, s -> true)
+                .caseOf(l -> true, l -> true)
                 .result();
         isTrue(res);
     }
 
     @Test
     public void testCaseOfPredicateNoMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(s -> false, s -> {
+                .caseOf(l -> false, l -> {
                     fail();
                     return false;
                 }).result();
@@ -226,13 +56,13 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfPredicateMatchThenDoNotEvaluate() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(s -> true, s -> true)
-                .caseOf(s -> {
+                .caseOf(l -> true, l -> true)
+                .caseOf(l -> {
                     fail();
                     return false;
-                }, s -> {
+                }, l -> {
                     fail();
                     return false;
                 }).result();
@@ -241,22 +71,22 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfPredicateNoMatchThenMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(s -> false, s -> {
+                .caseOf(l -> false, l -> {
                     fail();
                     return false;
                 })
-                .caseOf(s -> true, s -> true)
+                .caseOf(l -> true, l -> true)
                 .result();
         isTrue(result);
     }
 
     @Test(expected = NullPointerException.class)
     public void testCaseOfPredicateNullPointer1() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
-                .caseOf((Predicate<String>) null, s -> {
+                .caseOf((LongPredicate) null, l -> {
                     fail();
                     return false;
                 });
@@ -265,26 +95,78 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseOfPredicateNullPointer2() {
-        String o = "";
-        resultMatch(Boolean.class, o).caseOf(s -> true, null);
+        long o = 42L;
+        resultMatch(Boolean.class, o).caseOf(l -> true, null);
+        fail();
+    }
+
+    @Test
+    public void testCaseOfElement() {
+        long o = 42L;
+        Optional<Boolean> res = resultMatch(Boolean.class, o)
+                .caseOf(o, l -> true)
+                .result();
+        isTrue(res);
+    }
+
+    @Test
+    public void testCaseOfElementNoMatch() {
+        long o = 42L;
+        Optional<Boolean> result = resultMatch(Boolean.class, o)
+                .caseOf(43L, l -> {
+                    fail();
+                    return false;
+                }).result();
+        isEmpty(result);
+    }
+
+    @Test
+    public void testCaseOfElementMatchThenDoNotEvaluate() {
+        long o = 42L;
+        Optional<Boolean> result = resultMatch(Boolean.class, o)
+                .caseOf(o, l -> true)
+                .caseOf(o, l -> {
+                    fail();
+                    return false;
+                }).result();
+        isTrue(result);
+    }
+
+    @Test
+    public void testCaseOfElementNoMatchThenMatch() {
+        long o = 42L;
+        Optional<Boolean> result = resultMatch(Boolean.class, o)
+                .caseOf(43L, l -> {
+                    fail();
+                    return false;
+                })
+                .caseOf(o, l -> true)
+                .result();
+        isTrue(result);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testCaseOfElementNullPointer2() {
+        long o = 42L;
+        resultMatch(Boolean.class, o).caseOf(o, null);
         fail();
     }
 
 
     @Test
     public void testCaseOfBooleanSupplier() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(() -> true, s -> true)
+                .caseOf(() -> true, l -> true)
                 .result();
         isTrue(result);
     }
 
     @Test
     public void testCaseOfBooleanSupplierNoMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(() -> false, s -> {
+                .caseOf(() -> false, l -> {
                     fail();
                     return false;
                 }).result();
@@ -293,13 +175,13 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfBooleanSupplierMatchThenDoNotEvaluate() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(() -> true, s -> true)
+                .caseOf(() -> true, l -> true)
                 .caseOf(() -> {
                     fail();
                     return false;
-                }, s -> {
+                }, l -> {
                     fail();
                     return false;
                 }).result();
@@ -308,22 +190,22 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfBooleanSupplierNoMatchThenMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(() -> false, s -> {
+                .caseOf(() -> false, l -> {
                     fail();
                     return false;
                 })
-                .caseOf(() -> true, s -> true)
+                .caseOf(() -> true, l -> true)
                 .result();
         isTrue(result);
     }
 
     @Test(expected = NullPointerException.class)
     public void testCaseOfBooleanSupplierNullPointer1() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
-                .caseOf((BooleanSupplier) null, s -> {
+                .caseOf((BooleanSupplier) null, l -> {
                     throw new AssertionError();
                 }).result();
         fail();
@@ -331,7 +213,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseOfBooleanSupplierNullPointer2() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
                 .caseOf(() -> true, null)
                 .result();
@@ -341,18 +223,18 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfBool() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(true, s -> true)
+                .caseOf(true, l -> true)
                 .result();
         isTrue(result);
     }
 
     @Test
     public void testCaseOfBooleanNoMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(false, s -> {
+                .caseOf(false, l -> {
                     throw new AssertionError();
                 }).result();
         isEmpty(result);
@@ -360,10 +242,10 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfBooleanMatchThenDoNotEvaluate() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(true, s -> true)
-                .caseOf(true, s -> {
+                .caseOf(true, l -> true)
+                .caseOf(true, l -> {
                     throw new AssertionError();
                 })
                 .result();
@@ -372,7 +254,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseIsBooleanNoMatchThenMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
                 .caseIs(false, () -> {
                     throw new AssertionError();
@@ -384,7 +266,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseIsBooleanNullPointer() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
                 .caseIs(true, null)
                 .result();
@@ -393,7 +275,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseIsBool() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
                 .caseIs(true, () -> true)
                 .result();
@@ -402,7 +284,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseIsBooleanNoMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
                 .caseIs(false, () -> {
                     throw new AssertionError();
@@ -412,7 +294,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseIsBooleanMatchThenDoNotEvaluate() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
                 .caseIs(true, () -> true)
                 .caseIs(true, () -> {
@@ -424,19 +306,19 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfBooleanNoMatchThenMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseOf(false, s -> {
+                .caseOf(false, l -> {
                     throw new AssertionError();
                 })
-                .caseOf(true, s -> true)
+                .caseOf(true, l -> true)
                 .result();
         isTrue(result);
     }
 
     @Test(expected = NullPointerException.class)
     public void testCaseOfBooleanNullPointer() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
                 .caseOf(true, null)
                 .result();
@@ -446,27 +328,27 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseIsInputEqualsMatchPredicateBool() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseIs(s -> s == o, () -> true)
+                .caseIs(l -> l == o, () -> true)
                 .result();
         isTrue(result);
     }
 
     @Test
     public void testCaseIsPredicateBool() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseIs(s -> true, () -> true)
+                .caseIs(l -> true, () -> true)
                 .result();
         isTrue(result);
     }
 
     @Test
     public void testCaseIsPredicateBooleanNoMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseIs(s -> false, () -> {
+                .caseIs(l -> false, () -> {
                     throw new AssertionError();
                 })
                 .result();
@@ -475,10 +357,10 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseIsPredicateBooleanMatchThenDoNotEvaluate() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseIs(s -> true, () -> true)
-                .caseIs(s -> true, () -> {
+                .caseIs(l -> true, () -> true)
+                .caseIs(l -> true, () -> {
                     throw new AssertionError();
                 })
                 .result();
@@ -487,28 +369,28 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseIsPredicateBooleanNoMatchThenMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseIs(s -> false, () -> {
+                .caseIs(l -> false, () -> {
                     throw new AssertionError();
                 })
-                .caseIs(s -> true, () -> true)
+                .caseIs(l -> true, () -> true)
                 .result();
         isTrue(result);
     }
 
     @Test(expected = NullPointerException.class)
     public void testCaseIsPredicateBooleanNullPointer() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
-                .caseIs(s -> true, null)
+                .caseIs(l -> true, null)
                 .result();
         fail();
     }
 
     @Test(expected = NullPointerException.class)
     public void testCaseIsPredicateBooleanNullPointer2() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
                 .caseIs(null, () -> {
                     throw new AssertionError();
@@ -520,9 +402,9 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfInputEqualsMatchFunction() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> result = resultMatch(Boolean.class, o)
-                .caseObj(Optional::ofNullable, s -> s == o)
+                .caseObj(Optional::ofNullable, l -> l == o)
                 .result();
 
         isTrue(result);
@@ -530,19 +412,18 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfFunction() {
-        String o = "";
-        Predicate<String> isEmpty = String::isEmpty;
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseOf(isEmpty, s -> true)
+                .caseOf(l -> true, l -> true)
                 .result();
         isTrue(res);
     }
 
     @Test
     public void testCaseOfFunctionNoMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseObj(s -> Optional.empty(), s -> {
+                .caseObj(l -> Optional.empty(), l -> {
                     throw new AssertionError();
                 })
                 .result();
@@ -552,12 +433,12 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfFunctionMatchThenDoNotEvaluate() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseObj(Optional::ofNullable, s -> true)
-                .caseObj(s -> {
+                .caseObj(Optional::ofNullable, l -> true)
+                .caseObj(l -> {
                     throw new AssertionError();
-                }, s -> {
+                }, l -> {
                     throw new AssertionError();
                 })
                 .result();
@@ -567,10 +448,10 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseOfFunctionCheckParameter() {
-        Object o = "Boo";
-        String output = "foo";
+        long o = 42L;
+        long output = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseObj(s -> Optional.of(output), in -> in == output)
+                .caseObj(l -> Optional.of(output), in -> in == output)
                 .result();
 
         isTrue(res);
@@ -578,9 +459,9 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseOfFunctionNullPointer1() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
-                .caseObj(null, s -> {
+                .caseObj(null, l -> {
                     throw new AssertionError();
                 })
                 .result();
@@ -589,9 +470,9 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseOfFunctionNullPointer2() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
-                .caseObj(s -> Optional.empty(), null)
+                .caseObj(l -> Optional.empty(), null)
                 .result();
         fail();
     }
@@ -600,13 +481,13 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseIntInputEqualsMatchFunction() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseInt(s -> {
-                    assertTrue(s == o);
+                .caseInt(l -> {
+                    assertTrue(l == o);
                     return one;
-                }, i -> {
-                    assertEquals(1, i);
+                }, l -> {
+                    assertEquals(1, l);
                     return true;
                 }).result();
 
@@ -615,22 +496,22 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseIntFunctionNoMatch() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
-                .caseInt(s -> OptionalInt.empty(), s -> {
+                .caseInt(l -> OptionalInt.empty(), l -> {
                     throw new AssertionError();
                 });
     }
 
     @Test
     public void testCaseIntFunctionMatchThenDoNotEvaluate() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseInt(s -> one, s -> true)
-                .caseInt(s -> {
+                .caseInt(l -> one, l -> true)
+                .caseInt(l -> {
                     fail();
                     return OptionalInt.empty();
-                }, s -> {
+                }, l -> {
                     throw new AssertionError();
                 }).result();
 
@@ -639,9 +520,9 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseIntFunctionCheckParameter() {
-        String o = "Boo";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseInt(s -> OptionalInt.of(s.length()), in -> in == 3)
+                .caseInt(l -> OptionalInt.of(3), in -> in == 3)
                 .result();
 
         isTrue(res);
@@ -649,8 +530,8 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseIntFunctionNullPointer1() {
-        String o = "";
-        resultMatch(Boolean.class, o).caseInt(null, s -> {
+        long o = 42L;
+        resultMatch(Boolean.class, o).caseInt(null, l -> {
             throw new AssertionError();
         }).result();
         fail();
@@ -658,9 +539,9 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseIntFunctionNullPointer2() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
-                .caseInt(s -> OptionalInt.empty(), null)
+                .caseInt(l -> OptionalInt.empty(), null)
                 .result();
         fail();
     }
@@ -669,13 +550,13 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseLongInputEqualsMatchFunction() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseLong(s -> {
-                    assertTrue(s == o);
+                .caseLong(l -> {
+                    assertTrue(l == o);
                     return oneL;
-                }, i -> {
-                    assertEquals(1, i);
+                }, l -> {
+                    assertEquals(1, l);
                     return true;
                 }).result();
 
@@ -684,9 +565,9 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseLongFunctionNoMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseLong(s -> OptionalLong.empty(), s -> {
+                .caseLong(l -> OptionalLong.empty(), l -> {
                     throw new AssertionError();
                 }).result();
         isEmpty(res);
@@ -694,13 +575,13 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseLongFunctionMatchThenDoNotEvaluate() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseLong(s -> oneL, s -> true)
-                .caseLong(s -> {
+                .caseLong(l -> oneL, l -> true)
+                .caseLong(l -> {
                     fail();
                     return OptionalLong.empty();
-                }, s -> {
+                }, l -> {
                     throw new AssertionError();
                 })
                 .result();
@@ -710,9 +591,9 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseLongFunctionCheckParameter() {
-        String o = "Boo";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseLong(s -> OptionalLong.of(s.length()), in -> in == 3)
+                .caseLong(l -> OptionalLong.of(3), in -> in == 3)
                 .result();
 
         isTrue(res);
@@ -720,8 +601,8 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseLongFunctionNullPointer1() {
-        String o = "";
-        resultMatch(Boolean.class, o).caseLong(null, s -> {
+        long o = 42L;
+        resultMatch(Boolean.class, o).caseLong(null, l -> {
             throw new AssertionError();
         }).result();
         fail();
@@ -729,9 +610,9 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseLongFunctionNullPointer2() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
-                .caseLong(s -> OptionalLong.empty(), null)
+                .caseLong(l -> OptionalLong.empty(), null)
                 .result();
         fail();
     }
@@ -741,13 +622,13 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseDoubleInputEqualsMatchFunction() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseDouble(s -> {
-                    assertTrue(s == o);
+                .caseDouble(l -> {
+                    assertTrue(l == o);
                     return oneD;
-                }, i -> {
-                    assertEquals(0.0, i, 0.0);
+                }, d -> {
+                    assertEquals(0.0, d, 0.0);
                     return true;
                 }).result();
 
@@ -756,9 +637,9 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseDoubleFunctionNoMatch() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseDouble(s -> OptionalDouble.empty(), s -> {
+                .caseDouble(l -> OptionalDouble.empty(), l -> {
                     throw new AssertionError();
                 }).result();
         isEmpty(res);
@@ -766,13 +647,13 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseDoubleFunctionMatchThenDoNotEvaluate() {
-        String o = "";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseDouble(s -> oneD, s -> true)
-                .caseDouble(s -> {
+                .caseDouble(l -> oneD, l -> true)
+                .caseDouble(l -> {
                     fail();
                     return OptionalDouble.empty();
-                }, s -> {
+                }, l -> {
                     throw new AssertionError();
                 }).result();
 
@@ -781,9 +662,9 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testCaseDoubleFunctionCheckParameter() {
-        String o = "Boo";
+        long o = 42L;
         Optional<Boolean> res = resultMatch(Boolean.class, o)
-                .caseDouble(s -> OptionalDouble.of(s.length()), in -> in == 3)
+                .caseDouble(l -> OptionalDouble.of(3), in -> in == 3)
                 .result();
 
         isTrue(res);
@@ -791,8 +672,8 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseDoubleFunctionNullPointer1() {
-        String o = "";
-        resultMatch(Boolean.class, o).caseDouble(null, s -> {
+        long o = 42L;
+        resultMatch(Boolean.class, o).caseDouble(null, l -> {
             throw new AssertionError();
         }).result();
         fail();
@@ -800,17 +681,17 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testCaseDoubleFunctionNullPointer2() {
-        String o = "";
+        long o = 42L;
         resultMatch(Boolean.class, o)
-                .caseDouble(s -> OptionalDouble.empty(), null)
+                .caseDouble(l -> OptionalDouble.empty(), null)
                 .result();
         fail();
     }
 
     @Test
     public void testOtherwise() {
-        Boolean result = resultMatch(Boolean.class, "foo")
-                .otherwise(s -> true);
+        Boolean result = resultMatch(Boolean.class, 42L)
+                .otherwise(l -> true);
 
         assertNotNull(result);
         assertTrue(result);
@@ -818,25 +699,25 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testOtherwiseNull() {
-        Boolean result = resultMatch(Boolean.class, "foo")
-                .otherwise(s -> null);
+        Boolean result = resultMatch(Boolean.class, 42L)
+                .otherwise(l -> null);
 
         assertNull(result);
     }
 
     @Test(expected = NullPointerException.class)
     public void testOtherwiseNullPointer() {
-        Boolean result = resultMatch(Boolean.class, "foo")
-                .otherwise((Function<String,Boolean>)null);
+        Boolean result = resultMatch(Boolean.class, 42L)
+                .otherwise((LongFunction<Boolean>)null);
 
         assertNull(result);
     }
 
     @Test
     public void testOtherwiseNotReached() {
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> true)
-                .otherwise(s -> {
+                .otherwise(l -> {
                     throw new AssertionError();
                 });
         assertNotNull(res);
@@ -846,9 +727,9 @@ public class EagerResultCaseMatcherTest {
     @Test
     public void testOtherwiseNullNotReached() {
         // even if result is null, otherwise should not be evaluated
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> null)
-                .otherwise(s -> {
+                .otherwise(l -> {
                     throw new AssertionError();
                 });
         assertNull(res);
@@ -856,14 +737,14 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NoSuchElementException.class)
     public void testOtherwiseThrow() {
-        resultMatch(Boolean.class, "foo")
+        resultMatch(Boolean.class, 42L)
                 .otherwiseThrow(NoSuchElementException::new);
         fail();
     }
 
     @Test
     public void testOtherwiseThrowNotReached() {
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> true)
                 .otherwiseThrow(NoSuchElementException::new);
         assertNotNull(res);
@@ -872,7 +753,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testOtherwiseNullThrowNotReached() {
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> null)
                 .otherwiseThrow(NoSuchElementException::new);
         assertNull(res);
@@ -880,13 +761,13 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testIfResultWithoutResult() {
-        resultMatch(Boolean.class, "foo").ifResult(b -> fail());
+        resultMatch(Boolean.class, 42L).ifResult(b -> fail());
     }
 
     @Test
     public void testIfResultWithResult() {
         AtomicBoolean success = new AtomicBoolean(false);
-        resultMatch(Boolean.class, "foo")
+        resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> true)
                 .ifResult(b -> success.set(true));
         assertTrue(success.get());
@@ -894,7 +775,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testOtherwiseObject() {
-        Boolean result = resultMatch(Boolean.class, "foo")
+        Boolean result = resultMatch(Boolean.class, 42L)
                 .otherwise(true);
 
         assertNotNull(result);
@@ -904,7 +785,7 @@ public class EagerResultCaseMatcherTest {
     @Test
     public void testOtherwiseObjectNull() {
         // null is allowed as otherwise value
-        Boolean result = resultMatch(Boolean.class, "foo")
+        Boolean result = resultMatch(Boolean.class, 42L)
                 .otherwise((Boolean)null);
 
         assertNull(result);
@@ -912,7 +793,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testOtherwiseObjectNotReached() {
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> true)
                 .otherwise(false);
         assertNotNull(res);
@@ -921,7 +802,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testOtherwiseObjectNullNotReached() {
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> null)
                 .otherwise(false);
         assertNull(res);
@@ -930,7 +811,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testOrElse() {
-        Boolean result = resultMatch(Boolean.class, "foo")
+        Boolean result = resultMatch(Boolean.class, 42L)
                 .orElse(() -> true);
 
         assertNotNull(result);
@@ -939,21 +820,21 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testOrElseNull() {
-        resultMatch(Boolean.class, "foo")
+        resultMatch(Boolean.class, 42L)
                 .orElse(() -> null);
         fail();
     }
 
     @Test(expected = NullPointerException.class)
     public void testOrElseNullPointer() {
-        resultMatch(Boolean.class, "foo")
+        resultMatch(Boolean.class, 42L)
                 .orElse((Supplier<Boolean>)null);
         fail();
     }
 
     @Test
     public void testOrElseNotReached() {
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> true)
                 .orElse(() -> {
                     throw new AssertionError();
@@ -964,7 +845,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testOrElseReachedOnNullResult() {
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> null)
                 .orElse(() -> true);
         assertNotNull(res);
@@ -973,7 +854,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testOrElseObject() {
-        Boolean result = resultMatch(Boolean.class, "foo")
+        Boolean result = resultMatch(Boolean.class, 42L)
                 .orElse(true);
 
         assertNotNull(result);
@@ -983,13 +864,13 @@ public class EagerResultCaseMatcherTest {
     @Test(expected = NullPointerException.class)
     public void testOrElseObjectNull() {
         // null is allowed as otherwise value
-        resultMatch(Boolean.class, "foo")
+        resultMatch(Boolean.class, 42L)
                 .orElse((Boolean) null);
     }
 
     @Test
     public void testOrElseObjectNotReached() {
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> true)
                 .orElse(false);
         assertNotNull(res);
@@ -998,7 +879,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testOrElseObjectReachedOnNull() {
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> null)
                 .orElse(true);
         assertNotNull(res);
@@ -1007,14 +888,14 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NoSuchElementException.class)
     public void testOrElseThrow() {
-        resultMatch(Boolean.class, "foo")
+        resultMatch(Boolean.class, 42L)
                 .orElseThrow(NoSuchElementException::new);
         fail();
     }
 
     @Test
     public void testOrElseThrowNotReached() {
-        Boolean res = resultMatch(Boolean.class, "foo")
+        Boolean res = resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> true)
                 .orElseThrow(NoSuchElementException::new);
         assertNotNull(res);
@@ -1023,7 +904,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NoSuchElementException.class)
     public void testOtherwiseNullThrow() {
-        resultMatch(Boolean.class, "foo")
+        resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> null)
                 .orElseThrow(NoSuchElementException::new);
         fail();
@@ -1032,7 +913,7 @@ public class EagerResultCaseMatcherTest {
     @Test
     public void testThenNoResult() {
         AtomicBoolean success = new AtomicBoolean(false);
-        resultMatch(Boolean.class, "foo")
+        resultMatch(Boolean.class, 42L)
                 .then(r -> fail(), () -> success.set(true));
         assertTrue(success.get());
     }
@@ -1040,7 +921,7 @@ public class EagerResultCaseMatcherTest {
     @Test
     public void testThenNullResult() {
         AtomicBoolean success = new AtomicBoolean(false);
-        resultMatch(Boolean.class, "foo")
+        resultMatch(Boolean.class, 42L)
                 .caseIs(true, () -> null)
                 .then(r -> fail(), () -> success.set(true));
         assertTrue(success.get());
@@ -1048,7 +929,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test
     public void testThenOnResult() {
-        String input = "foo";
+        long input = 42L;
         AtomicBoolean success = new AtomicBoolean(false);
         resultMatch(Boolean.class, input)
                 .caseIs(true, () -> true)
@@ -1058,7 +939,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testThenNullPointer() {
-        String input = "foo";
+        long input = 42L;
         resultMatch(Boolean.class, input)
                 .then(null, Assert::fail);
         fail();
@@ -1066,7 +947,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testThenNullPointer2() {
-        String input = "foo";
+        long input = 42L;
         resultMatch(Boolean.class, input)
                 .then(r -> fail(), null);
         fail();
@@ -1074,7 +955,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testThenNullPointer3() {
-        String input = "foo";
+        long input = 42L;
         resultMatch(Boolean.class, input)
                 .caseIs(true, () -> false)
                 .then(null, Assert::fail);
@@ -1083,7 +964,7 @@ public class EagerResultCaseMatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testThenNullPointer4() {
-        String input = "foo";
+        long input = 42L;
         resultMatch(Boolean.class, input)
                 .caseIs(true, () -> false)
                 .then(r -> fail(), null);

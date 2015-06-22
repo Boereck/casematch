@@ -207,6 +207,7 @@ final class ResultCaseMatcherUnfinished<I, O> implements EagerResultCaseMatcher<
     @Override
     public EagerResultCaseMatcher<I, O> caseDouble(Function<? super I, OptionalDouble> p, DoubleFunction<? extends O> consumer) {
         Objects.requireNonNull(p);
+        Objects.requireNonNull(consumer);
         final OptionalDouble opt = p.apply(toCheck);
         if (opt.isPresent()) {
             final O result = consumer.apply(opt.getAsDouble());
@@ -238,6 +239,7 @@ final class ResultCaseMatcherUnfinished<I, O> implements EagerResultCaseMatcher<
     @Override
     public void then(Consumer<? super O> onResult, Runnable onAbsent) throws NullPointerException {
         Objects.requireNonNull(onAbsent);
+        Objects.requireNonNull(onResult);
         onAbsent.run();
     }
 

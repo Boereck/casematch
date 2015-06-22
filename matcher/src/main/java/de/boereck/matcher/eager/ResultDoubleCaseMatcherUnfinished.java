@@ -192,6 +192,7 @@ final class ResultDoubleCaseMatcherUnfinished<O> implements EagerResultDoubleCas
      */
     @Override
     public void then(Consumer<? super O> onResult, Runnable onAbsent) throws NullPointerException {
+        Objects.requireNonNull(onResult);
         Objects.requireNonNull(onAbsent);
         onAbsent.run();
     }

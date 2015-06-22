@@ -15,25 +15,42 @@ package de.boereck.matcher.eager;
  */
 public interface EagerMatchable<T> {
 
-    static <Z> EagerMatchable<Z> matchable(Z t) {
+    /**
+     * Creates an instance of {@code EagerMatchable&lt;T&gt;} that can create case matchers for the given
+     * input {@code t}.
+     * @param z object an instance of EagerMatchable is created for.
+     * @param <Z> type of input parameter {@code z}
+     * @return instance of EagerMatchable that can be used to match on input parameter {@code z}
+     */
+    static <Z> EagerMatchable<Z> matchable(Z z) {
         return new EagerMatchable<Z>() {
             @Override
             public EagerNoResultCaseMatcher<Z> match() {
-                return EagerMatcher.match(t);
+                return EagerMatcher.match(z);
             }
 
             @Override
             public <O> EagerResultCaseMatcher<Z, O> resultMatch() {
-                return EagerMatcher.resultMatch(t);
+                return EagerMatcher.resultMatch(z);
             }
         };
     }
 
+    /**
+     * Creates an instance of {@link EagerNoResultCaseMatcher} that can be used to match on
+     * the instance of {@code T} this matchable is defined for.
+     * @return instance of EagerNoResultCaseMatcher to match on instance of {@code T}
+     */
     @SuppressWarnings("unchecked")
     default EagerNoResultCaseMatcher<T> match() {
         return EagerMatcher.match((T) this);
     }
 
+    /**
+     * Creates an instance of {@link EagerResultCaseMatcher} that can be used to match on
+     * the instance of {@code T} this matchable is defined for.
+     * @return instance of EagerResultCaseMatcher to match on instance of {@code T}
+     */
     @SuppressWarnings("unchecked")
     default <O> EagerResultCaseMatcher<T, O> resultMatch() {
         return EagerMatcher.resultMatch((T) this);

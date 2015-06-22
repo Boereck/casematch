@@ -1,6 +1,6 @@
 Case Matcher
 ============
-This is a Java 8 library providing a fluent API to define case matching in an object oriented and functional way. This library is no replacement for traditional switch case statements in Java, but allows a richer definition of cases on primitive and object values. This allows more readable code than if-then-else cascades, but comes with a cost of runtime and memory overhead. The library will not provide a matching that is as powerful and compact as pattern matching known from functional languages (or languages with more functional aspects) such as Scala. Never the less the goal is to find readable representations of common cases in Java development.
+This is a Java 8 library providing a fluent API to define case matching in an object oriented and functional way. This library is no replacement for traditional switch case statements in Java, but allows a richer definition of cases on primitive and object reference values. This allows more readable code than if-then-else cascades, but comes with a cost of runtime and memory overhead. The library will not provide a matching that is as powerful and compact as pattern matching known from functional languages (or languages with more functional aspects) such as Scala. Never the less the goal is to find readable representations of common cases in Java development.
 
 // TODO Javadoc Link
 
@@ -77,10 +77,17 @@ TypeCheck
 // TODO describe match(instanceOf(Car.class).and)
 
 ```java 
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 import static de.boereck.matcher.eager.EagerMatcher.*;
-import static de.boereck.matcher.helpers.StringMatchHelpers.*;
-import static de.boereck.matcher.helpers.MatchHelpers.*;
+import static de.boereck.matcher.helpers.CollectionMatchHelpers.*;
 import static de.boereck.matcher.helpers.ConsumerHelpers.*;
+import static de.boereck.matcher.helpers.MatchHelpers.*;
+import static de.boereck.matcher.helpers.StringMatchHelpers.*;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 import java.util.Arrays;
 import java.util.List;
@@ -88,21 +95,22 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) {
-        List<?> list = Arrays.asList(null, "Foo", "", new StringBuilder("Bar"));
-        print(list);
-        
+        List<Object> l = asList("", "foo", null, singletonList("bar"));
+        print(l);
     }
-    
+
     private static final Predicate<Object> isEmptyString = isString.andTest(strIsEmpty);
-    private static final Consumer<Object> toStringPrint = toString.thenDo(Test::print);
+    private static final Predicate<Object> isNullOrEmptyStr = isNull.or(isEmptyString);
+    private static final Consumer<Object> printObject = toString.thenDo(sysout);
 
     public static void print(Object o) {
+
         match(o)
-                .caseOf(isNull, ignore)
-                .caseOf(isEmptyString, ignore)
+                .caseOf(isNullOrEmptyStr, ignore)
                 .caseOf(isString, sysout)
-                .caseOf(Collection.class, c -> c.forEach(Test::print))
-                .otherwise(toStringPrint);
+                .caseObj(castToCollection, c -> c.forEach(Test::print))
+                .otherwise(printObject);
+
     }
 
 }
@@ -127,8 +135,20 @@ for comparison, this is how the print function would look like using traditional
                 Collection<?> c = (Collection<?>) o;
                 c.forEach(Test::print);
             } else {
-                print(o.toString());
+                System.out.println(o.toString());
             }
         }
     }
 ```
+
+Contributions
+--------------
+Pull requests are welcome, but it may take a while until they are reviewed. Large pull request may be rejected,
+not because they are bad, but because they have to be maintained by the main committer. For now, since the project
+is a one man endeavor, this may happen; but this may change if more people get interested in committing and taking
+responsibility for the code base. Pull requests providing functionality that can be easily expressed using regular
+switch-case statements in java will also be rejected.
+
+Code that is contributed will automatically be under Apache 2.0 license like the rest of the code. When issuing a pull
+request, the user agrees that his changes will be made available under this license. To make the code available under
+a different license would need the approval of all contributors.

@@ -10,7 +10,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import de.boereck.matcher.helpers.ConsumerHelpers;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class EagerNoResultCaseMatcherTest {
@@ -338,7 +338,7 @@ public class EagerNoResultCaseMatcherTest {
     @Test
     public void testCaseIsBooleanNoMatch() {
         String o = "";
-        match(o).caseIs(false, () -> fail());
+        match(o).caseIs(false, Assert::fail);
     }
 
     @Test
@@ -347,7 +347,7 @@ public class EagerNoResultCaseMatcherTest {
         AtomicBoolean success = new AtomicBoolean(false);
         match(o)
                 .caseIs(true, () -> success.set(true))
-                .caseIs(true, () -> fail());
+                .caseIs(true, Assert::fail);
         assertTrue(success.get());
     }
 
@@ -356,7 +356,7 @@ public class EagerNoResultCaseMatcherTest {
         String o = "";
         AtomicBoolean success = new AtomicBoolean(false);
         match(o)
-                .caseIs(false, () -> fail())
+                .caseIs(false, Assert::fail)
                 .caseIs(true, () -> success.set(true));
         assertTrue(success.get());
     }
@@ -391,7 +391,7 @@ public class EagerNoResultCaseMatcherTest {
     @Test
     public void testCaseIsPredicateBooleanNoMatch() {
         String o = "";
-        match(o).caseIs(s -> false, () -> fail());
+        match(o).caseIs(s -> false, Assert::fail);
     }
 
     @Test
@@ -400,7 +400,7 @@ public class EagerNoResultCaseMatcherTest {
         AtomicBoolean success = new AtomicBoolean(false);
         match(o)
                 .caseIs(s -> true, () -> success.set(true))
-                .caseIs(s -> true, () -> fail());
+                .caseIs(s -> true, Assert::fail);
         assertTrue(success.get());
     }
 
@@ -409,7 +409,7 @@ public class EagerNoResultCaseMatcherTest {
         String o = "";
         AtomicBoolean success = new AtomicBoolean(false);
         match(o)
-                .caseIs(s -> false, () -> fail())
+                .caseIs(s -> false, Assert::fail)
                 .caseIs(s -> true, () -> success.set(true));
         assertTrue(success.get());
     }
@@ -418,6 +418,13 @@ public class EagerNoResultCaseMatcherTest {
     public void testCaseIsPredicateBooleanNullPointer() {
         String o = "";
         match(o).caseIs(s -> true, null);
+        fail();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testCaseIsPredicateBooleanNullPointer2() {
+        String o = "";
+        match(o).caseIs(null, Assert::fail);
         fail();
     }
 
@@ -482,6 +489,7 @@ public class EagerNoResultCaseMatcherTest {
     public void testCaseOfFunctionNullPointer1() {
         String o = "";
         match(o).caseObj(null, s -> {
+            fail();
         });
         fail();
     }
@@ -547,6 +555,7 @@ public class EagerNoResultCaseMatcherTest {
     public void testCaseIntFunctionNullPointer1() {
         String o = "";
         match(o).caseInt(null, s -> {
+            fail();
         });
         fail();
     }
@@ -612,6 +621,7 @@ public class EagerNoResultCaseMatcherTest {
     public void testCaseLongFunctionNullPointer1() {
         String o = "";
         match(o).caseLong(null, s -> {
+            fail();
         });
         fail();
     }
@@ -677,6 +687,7 @@ public class EagerNoResultCaseMatcherTest {
     public void testCaseDoubleFunctionNullPointer1() {
         String o = "";
         match(o).caseDouble(null, s -> {
+            fail();
         });
         fail();
     }
@@ -712,16 +723,17 @@ public class EagerNoResultCaseMatcherTest {
 
     @Test(expected = NoSuchElementException.class)
     public void testOtherwiseThrow() {
-        AtomicBoolean success = new AtomicBoolean(false);
         match("foo").otherwiseThrow(NoSuchElementException::new);
-
-        assertTrue(success.get());
+    fail();
     }
 
     @Test
     public void testOtherwiseThrowNotReached() {
+        AtomicBoolean success = new AtomicBoolean(false);
         match("foo").caseIs(true, () -> {
+            success.set(true);
         }).otherwiseThrow(NoSuchElementException::new);
+        assertTrue(success.get());
     }
 
 }
