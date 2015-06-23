@@ -67,15 +67,19 @@ public final class MatchHelpers {
 
     /**
      * Returns a mapper that will try to perform the given function, if an exception is thrown during the
-     * execution, the mapper will swallow the exception and return an empty Optional instead.
+     * execution, the mapper will swallow the exception and return an empty Optional instead. The caller of
+     * this function cannot distinguish between a null result returned by the wrapped {@code function} or
+     * if an exception was caught. In both cases an empty optional is returned.
      *
      * @param function mapping function that is tried to executed.
      * @param <I>      Type of input of {@code function}
      * @param <O>      Type of output of {@code function}
      * @return function that will try to perform the given function, if an exception is thrown during the
      * execution, the mapper will swallow the exception and return an empty Optional instead.
+     * @throws NullPointerException if {@code function} is {@code null}
      */
-    public static <I, O> OptionalMapper<I, O> tryMap(Function<I, O> function) {
+    public static <I, O> OptionalMapper<I, O> tryMap(Function<I, O> function) throws NullPointerException {
+        Objects.requireNonNull(function);
         return i -> {
             try {
                 return Optional.ofNullable(function.apply(i));
@@ -93,8 +97,10 @@ public final class MatchHelpers {
      * @param <I>      Type of input of {@code function}
      * @return function that will try to perform the given to-int-function, if an exception is thrown during the
      * execution, the mapper will swallow the exception and return an empty OptionalInt instead.
+     * @throws NullPointerException if {@code function} is {@code null}
      */
-    public static <I> OptionalIntMapper<I> tryMapI(ToIntFunction<I> function) {
+    public static <I> OptionalIntMapper<I> tryMapI(ToIntFunction<I> function) throws NullPointerException {
+        Objects.requireNonNull(function);
         return i -> {
             try {
                 return OptionalInt.of(function.applyAsInt(i));
@@ -112,8 +118,10 @@ public final class MatchHelpers {
      * @param <I>      Type of input of {@code function}
      * @return function that will try to perform the given to-double-function, if an exception is thrown during the
      * execution, the mapper will swallow the exception and return an empty OptionalDouble instead.
+     * @throws NullPointerException if {@code function} is {@code null}
      */
-    public static <I> OptionalDoubleMapper<I> tryMapD(ToDoubleFunction<I> function) {
+    public static <I> OptionalDoubleMapper<I> tryMapD(ToDoubleFunction<I> function) throws NullPointerException {
+        Objects.requireNonNull(function);
         return i -> {
             try {
                 return OptionalDouble.of(function.applyAsDouble(i));
@@ -131,8 +139,10 @@ public final class MatchHelpers {
      * @param <I>      Type of input of {@code function}
      * @return function that will try to perform the given to-long-function, if an exception is thrown during the
      * execution, the mapper will swallow the exception and return an empty OptionalLong instead.
+     * @throws NullPointerException if {@code function} is {@code null}
      */
-    public static <I> OptionalLongMapper<I> tryMapL(ToLongFunction<I> function) {
+    public static <I> OptionalLongMapper<I> tryMapL(ToLongFunction<I> function) throws NullPointerException {
+        Objects.requireNonNull(function);
         return i -> {
             try {
                 return OptionalLong.of(function.applyAsLong(i));
@@ -147,14 +157,17 @@ public final class MatchHelpers {
      * execution, the exception is passed to {@code handler} and empty Optional will be returned instead.
      * If the handler throws an exception it will be thrown to the caller of the returned mapper.
      *
-     * @param function mapping function that is tried to executed.
-     * @param handler  consumer that is handling the exception that was thrown.
+     * @param function mapping function that is tried to executed. Must not be {@code null}.
+     * @param handler  consumer that is handling the exception that was thrown. Must not be {@code null}.
      * @param <I>      Type of input of {@code function}
      * @param <O>      Type of output of {@code function}
      * @return function that will try to perform the given function, if an exception is thrown during the
      * execution, the mapper will swallow the exception and return an empty Optional instead.
+     * @throws NullPointerException if {@code function} or {@code handler} is {@code null}
      */
     public static <I, O> OptionalMapper<I, O> tryMap(Function<I, O> function, Consumer<Exception> handler) {
+        Objects.requireNonNull(function);
+        Objects.requireNonNull(handler);
         return i -> {
             try {
                 return Optional.ofNullable(function.apply(i));
@@ -175,8 +188,11 @@ public final class MatchHelpers {
      * @param <I>      Type of input of {@code function}
      * @return function that will try to perform the given to-int-function, if an exception is thrown during the
      * execution, the mapper will swallow the exception and return an empty OptionalInt instead.
+     * @throws NullPointerException if {@code function} or {@code handler} is {@code null}
      */
     public static <I> OptionalIntMapper<I> tryMapI(ToIntFunction<I> function, Consumer<Exception> handler) {
+        Objects.requireNonNull(function);
+        Objects.requireNonNull(handler);
         return i -> {
             try {
                 return OptionalInt.of(function.applyAsInt(i));
@@ -197,8 +213,11 @@ public final class MatchHelpers {
      * @param <I>      Type of input of {@code function}
      * @return function that will try to perform the given to-double-function, if an exception is thrown during the
      * execution, the mapper will swallow the exception and return an empty OptionalDouble instead.
+     * @throws NullPointerException if {@code function} or {@code handler} is {@code null}
      */
     public static <I> OptionalDoubleMapper<I> tryMapD(ToDoubleFunction<I> function, Consumer<Exception> handler) {
+        Objects.requireNonNull(function);
+        Objects.requireNonNull(handler);
         return i -> {
             try {
                 return OptionalDouble.of(function.applyAsDouble(i));
@@ -219,8 +238,11 @@ public final class MatchHelpers {
      * @param <I>      Type of input of {@code function}
      * @return function that will try to perform the given to-long-function, if an exception is thrown during the
      * execution, the mapper will swallow the exception and return an empty OptionalLong instead.
+     * @throws NullPointerException if {@code function} or {@code handler} is {@code null}
      */
     public static <I> OptionalLongMapper<I> tryMapL(ToLongFunction<I> function, Consumer<Exception> handler) {
+        Objects.requireNonNull(function);
+        Objects.requireNonNull(handler);
         return i -> {
             try {
                 return OptionalLong.of(function.applyAsLong(i));
@@ -541,7 +563,7 @@ public final class MatchHelpers {
      * This filed references a method checking if an Object is not {@code null} and instance of
      * {@link java.lang.Integer}.
      */
-    public static final OptionalIntMapper isInteger = MatchHelpers::isInteger;
+    public static final OptionalIntMapper<Object> isInteger = MatchHelpers::isInteger;
 
     private static OptionalInt isInteger(Object o) {
         return (o != null && o instanceof Integer) ? OptionalInt.of((Integer) o) : OptionalInt.empty();
@@ -551,7 +573,7 @@ public final class MatchHelpers {
      * This filed references a method checking if an Object is not {@code null} and instance of
      * {@link java.lang.Long}.
      */
-    public static final OptionalLongMapper isLong = MatchHelpers::isLong;
+    public static final OptionalLongMapper<Object> isLong = MatchHelpers::isLong;
 
     private static OptionalLong isLong(Object o) {
         return (o != null && o instanceof Long) ? OptionalLong.of((Long) o) : OptionalLong.empty();
@@ -561,7 +583,7 @@ public final class MatchHelpers {
      * This filed references a method checking if an Object is not {@code null} and instance of
      * {@link java.lang.Double}.
      */
-    public static final OptionalDoubleMapper isDouble = MatchHelpers::isDouble;
+    public static final OptionalDoubleMapper<Object> isDouble = MatchHelpers::isDouble;
 
     private static OptionalDouble isDouble(Object o) {
         return (o != null && o instanceof Double) ? OptionalDouble.of((Double) o) : OptionalDouble.empty();
@@ -604,11 +626,24 @@ public final class MatchHelpers {
      * @return function mapping from I to Optional&lt;I&gt;, based on predicate {@code test}.
      * @throws NullPointerException will be thrown if {@code test} is {@code null}.
      */
-    public static <I> OptionalMapper<I, I> filter(Predicate<I> test) {
+    public static <I> OptionalMapper<I, I> filter(Predicate<I> test) throws NullPointerException {
+        Objects.requireNonNull(test);
         return i -> test.test(i) ? Optional.ofNullable(i) : Optional.empty();
     }
 
-    public static <I> OptionalMapper<I, I> filterNullsafe(Predicate<I> test) {
+    /**
+     * Creates a function that will return the input wrapped in an optional if it is not {@code null} and predicate {@code test}
+     * returns {@code true} for this input. Otherwise it will return an empty optional. If the given predicate throws an
+     * exception the exception will be thrown to the caller of the returned filter function.
+     *
+     * @param test predicate checking if the input will be returned in an optional, or if an empty optional will be returned.
+     *             Must not be {@code null}.
+     * @param <I> type of input object to returned function
+     * @return function filtering the input out if it is {@code null} or does not match predicate {@code test}.
+     * @throws NullPointerException if {@code test} is {@code null}.
+     */
+    public static <I> OptionalMapper<I, I> filterNullAware(Predicate<I> test) throws NullPointerException {
+        Objects.requireNonNull(test);
         return i -> Optional.ofNullable(i).filter(test);
     }
 

@@ -162,7 +162,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 return after.apply(thisResult.getAsInt());
             } else {
                 return OptionalInt.empty();
@@ -188,7 +188,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 return after.apply(thisResult.getAsInt());
             } else {
                 return OptionalLong.empty();
@@ -214,7 +214,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 return after.apply(thisResult.getAsInt());
             } else {
                 return OptionalDouble.empty();
@@ -240,7 +240,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
-            if (thisResult.isPresent() && after.test(thisResult.getAsInt())) {
+            if (thisResult != null && thisResult.isPresent() && after.test(thisResult.getAsInt())) {
                 return thisResult;
             } else {
                 return OptionalInt.empty();
@@ -273,7 +273,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(test);
         return i -> {
             final OptionalInt result = apply(i);
-            return result.isPresent() && test.test(result.getAsInt());
+            return result != null && result.isPresent() && test.test(result.getAsInt());
         };
     }
 
