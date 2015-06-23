@@ -181,14 +181,13 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      * optional will be returned. If the result of this OptionalMapper is {@code null}, an empty {@code Optional} will be
      * returned from the resulting function.
      *
-     * @param <V> Type of element held by output optional
      * @param after function being called on the result value of {@code this::apply}, if the optional result exists.
      *              Must not be {@code null}.
      * @return function that will first call this OptionalMapper and afterwards calls function {@code after} on the
      * optional result.
      * @throws NullPointerException if parameter {@code after} is {@code null}.
      */
-    default <V> OptionalLongMapper<I> flatMapL(Function<? super O, OptionalLong> after) throws NullPointerException {
+    default OptionalLongMapper<I> flatMapL(Function<? super O, OptionalLong> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final Optional<O> thisResult = apply(i);
@@ -208,14 +207,13 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      * optional will be returned. If the result of this OptionalMapper is {@code null}, an empty {@code Optional} will be
      * returned from the resulting function.
      *
-     * @param <V> Type of element held by output optional
      * @param after function being called on the result value of {@code this::apply}, if the optional result exists.
      *              Must not be {@code null}.
      * @return function that will first call this OptionalMapper and afterwards calls function {@code after} on the
      * optional result.
      * @throws NullPointerException if parameter {@code after} is {@code null}.
      */
-    default <V> OptionalDoubleMapper<I> flatMapD(Function<? super O, OptionalDouble> after) throws NullPointerException {
+    default OptionalDoubleMapper<I> flatMapD(Function<? super O, OptionalDouble> after) throws NullPointerException {
         Objects.requireNonNull(after);
         return (I i) -> {
             final Optional<O> thisResult = apply(i);
@@ -270,7 +268,7 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
         return (I i) -> {
             final Optional<O> thisResult = apply(i);
             if (thisResult != null) {
-                return (Optional<R>) thisResult.filter(o -> clazz.isInstance(o));
+                return (Optional<R>) thisResult.filter(clazz::isInstance);
             } else {
                 return Optional.empty();
             }
@@ -319,7 +317,13 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      */
     default Consumer<I> thenDo(Consumer<Optional<? super O>> consumer) throws NullPointerException {
         Objects.requireNonNull(consumer);
-        return i -> consumer.accept(this.apply(i));
+        return i -> {
+            Optional<O> res = this.apply(i);
+            if(res == null) {
+                res = Optional.empty();
+            }
+            consumer.accept(res);
+        };
     }
 
     /**
@@ -348,11 +352,10 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      * the Optional returned by this OptionalMapper is {@code null}, the function will return value {@code o}.
      *
      * @param o value that will be returned from the function returned by this method if either this OptionalMapper
-     *          returns {@code null}, or an empty Optional.
+     *          returns {@code null}, or an empty Optional. This value may be {@code null}.
      * @return function that takes an input value, calls this OptionalMapper with it, and calls
      * {@link Optional#orElse(Object) orElse} on the returned Optional with the given value {@code o}. If
      * the Optional returned by this OptionalMapper is {@code null}, the function will return value {@code o}.
-     * @throws NullPointerException if {@code consumer} is {@code null}.
      */
     default TestableFunction<I, O> orElse(O o) {
         return i -> {
@@ -377,7 +380,7 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
      * {@link Optional#orElseGet(Supplier) orElseGet} on the returned Optional with the given value {@code supplier}. If
      * the Optional returned by this OptionalMapper is {@code null}, the function will return the value provided
      * by {@code supplier}.
-     * @throws NullPointerException if {@code consumer} is {@code null}.
+     * @throws NullPointerException if {@code supplier} is {@code null}.
      */
     default TestableFunction<I, O> orElseGet(Supplier<O> supplier) throws NullPointerException {
         Objects.requireNonNull(supplier);

@@ -970,7 +970,4 @@ public class EagerResultIntCaseMatcherTest {
                 .then(r -> fail(), null);
         fail();
     }
-
-    // TODO test
-    // Finished#caseIs(boolean, Supplier<? extends O>)
 }

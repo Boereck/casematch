@@ -26,9 +26,9 @@ public class Test {
 
     public static void main(String[] args) {
         match(42)
-        .caseOf(negative, i -> System.out.printf("%d is a negative value", i))
-        .caseOf(0, i -> System.out.println("Exactly zero"))
-        .caseOf(positive, i -> System.out.printf("%d is a positive value", i));
+            .caseOf(negative, i -> System.out.printf("%d is a negative value", i))
+            .caseOf(0, i -> System.out.println("Exactly zero"))
+            .caseOf(positive, i -> System.out.printf("%d is a positive value", i));
     }
 
 }
@@ -62,11 +62,11 @@ public class Test {
             {velocity = "slow";}
         };
         resultMatch(vehicle)
-        .caseOf(Car.class, c -> "This is a " + c.color + " car")
-        .caseOf(Boat.class, b -> "This is a " + b.velocity + " boat")
-        .caseOf(Plane.class, p -> "This is a " + p.size + " plane")
-        .caseOf(any, always("Unknown vehicle"))
-        .ifResult(sysout);
+            .caseOf(Car.class, c -> "This is a " + c.color + " car")
+            .caseOf(Boat.class, b -> "This is a " + b.velocity + " boat")
+            .caseOf(Plane.class, p -> "This is a " + p.size + " plane")
+            .caseOf(any, always("Unknown vehicle"))
+            .ifResult(sysout);
     }
     
 }
@@ -106,10 +106,10 @@ public class Test {
     public static void print(Object o) {
 
         match(o)
-                .caseOf(isNullOrEmptyStr, ignore)
-                .caseOf(isString, sysout)
-                .caseObj(castToCollection, c -> c.forEach(Test::print))
-                .otherwise(printObject);
+            .caseOf(isNullOrEmptyStr, ignore)
+            .caseOf(isString, sysout)
+            .caseObj(castToCollection, c -> c.forEach(Test::print))
+            .otherwise(printObject);
 
     }
 
