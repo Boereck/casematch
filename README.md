@@ -118,6 +118,7 @@ public class Test {
 ```
 
 for comparison, this is how the print function would look like using traditional if-else statements:
+
 ```java 
     public static void print(Object o) {
         if(o == null) {

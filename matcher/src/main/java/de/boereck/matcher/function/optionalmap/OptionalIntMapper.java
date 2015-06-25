@@ -25,7 +25,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      * the given mapping function {@code after} and returned in an optional, otherwise an empty optional will be returned.
      * If the result of this OptionalIntMapper is {@code null}, an empty {@code OptionalInt} will be returned.
      *
-     * @param <V> Type of element held by output optional
+     * @param <V>   Type of element held by output optional
      * @param after mapping function that will be called on the value of the returned {@code OptionalInt}
      *              of this OptionalIntMapper. Must not be {@code null}.
      * @return function mapping the result value of this OptionalIntMapper (provided the OptionalInt holds a value).
@@ -35,7 +35,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 final V afterResult = after.apply(thisResult.getAsInt());
                 return Optional.ofNullable(afterResult);
             } else {
@@ -59,11 +59,11 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 final int afterResult = after.applyAsInt(thisResult.getAsInt());
                 return OptionalInt.of(afterResult);
             } else {
-                return thisResult;
+                return OptionalInt.empty();
             }
         };
     }
@@ -83,7 +83,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 final long afterResult = after.applyAsLong(thisResult.getAsInt());
                 return OptionalLong.of(afterResult);
             } else {
@@ -108,7 +108,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 final double afterResult = after.applyAsDouble(thisResult.getAsInt());
                 return OptionalDouble.of(afterResult);
             } else {
@@ -136,7 +136,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
         Objects.requireNonNull(after);
         return (I i) -> {
             final OptionalInt thisResult = apply(i);
-            if (thisResult.isPresent()) {
+            if (thisResult != null && thisResult.isPresent()) {
                 return after.apply(thisResult.getAsInt());
             } else {
                 return Optional.empty();
@@ -251,6 +251,7 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
     /**
      * Returns a function that will call this OptionalIntMapper and checks if the returned OptionalInt contains
      * a value. If this OptionalIntMapper returns {@code null}, the predicate will return {@code false}.
+     *
      * @return function checking if the result of this OptionalIntMapper is not {@code null} and holds a value
      */
     default Predicate<I> hasResult() {
@@ -288,7 +289,13 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      */
     default Consumer<I> thenDo(Consumer<OptionalInt> consumer) throws NullPointerException {
         Objects.requireNonNull(consumer);
-        return i -> consumer.accept(this.apply(i));
+        return i -> {
+            OptionalInt res = this.apply(i);
+            if(res == null) {
+                res = OptionalInt.empty();
+            }
+            consumer.accept(res);
+        };
     }
 
     /**
@@ -494,9 +501,9 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      * re-thrown to the caller.
      * If the recovery method itself will throw an exception, it will not be caught and propagated to the caller of the function.
      *
-     * @param clazz class of exceptions to be caught and recovered from.
+     * @param clazz    class of exceptions to be caught and recovered from.
      * @param recovery function recovering from an exception providing a regular value to return from the returned function.
-     * @param <E> Type of exceptions to be caught and recovered from.
+     * @param <E>      Type of exceptions to be caught and recovered from.
      * @return function executing this OptionalIntMapper and if a an exception of type {@code E} is thrown during the execution,
      * the given {@code recovery} function is used to provide a value to be returned. Exceptions of other types will be
      * re-thrown to the caller.
@@ -527,11 +534,11 @@ public interface OptionalIntMapper<I> extends Function<I, OptionalInt> {
      * if there this mapper produces an optional holding a value, this will be returned. Otherwise a
      * {@link java.util.NoSuchElementException} is thrown.
      */
-    default  TestableToIntFunction<I> partial() {
+    default TestableToIntFunction<I> partial() {
         return i -> {
             OptionalInt result = apply(i);
-            if(result == null) {
-                throw  new NoSuchElementException();
+            if (result == null) {
+                throw new NoSuchElementException();
             }
             return result.getAsInt();
         };

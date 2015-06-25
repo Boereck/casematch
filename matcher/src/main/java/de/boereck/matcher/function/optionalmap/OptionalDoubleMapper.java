@@ -111,7 +111,7 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
                 final double afterResult = after.applyAsDouble(thisResult.getAsDouble());
                 return OptionalDouble.of(afterResult);
             } else {
-                return thisResult;
+                return OptionalDouble.empty();
             }
         };
     }
@@ -216,7 +216,7 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
             if (thisResult != null && thisResult.isPresent()) {
                 return after.apply(thisResult.getAsDouble());
             } else {
-                return thisResult;
+                return OptionalDouble.empty();
             }
         };
     }
@@ -272,7 +272,7 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
         Objects.requireNonNull(test);
         return i -> {
             final OptionalDouble result = apply(i);
-            return result.isPresent() && test.test(result.getAsDouble());
+            return result != null && result.isPresent() && test.test(result.getAsDouble());
         };
     }
 
@@ -287,7 +287,13 @@ public interface OptionalDoubleMapper<I> extends Function<I, OptionalDouble> {
      */
     default Consumer<I> thenDo(Consumer<OptionalDouble> consumer) throws NullPointerException {
         Objects.requireNonNull(consumer);
-        return i -> consumer.accept(this.apply(i));
+        return i -> {
+            OptionalDouble res = this.apply(i);
+            if(res == null) {
+                res = OptionalDouble.empty();
+            }
+            consumer.accept(res);
+        };
     }
 
     /**
