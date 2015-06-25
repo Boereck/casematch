@@ -88,7 +88,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
                 final long afterResult = after.applyAsLong(thisResult.getAsLong());
                 return OptionalLong.of(afterResult);
             } else {
-                return thisResult;
+                return OptionalLong.empty();
             }
         };
     }
@@ -191,7 +191,7 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
             if (thisResult != null && thisResult.isPresent()) {
                 return after.apply(thisResult.getAsLong());
             } else {
-                return thisResult;
+                return OptionalLong.empty();
             }
         };
     }
@@ -290,7 +290,13 @@ public interface OptionalLongMapper<I> extends Function<I, OptionalLong> {
      */
     default Consumer<I> thenDo(Consumer<OptionalLong> consumer) throws NullPointerException {
         Objects.requireNonNull(consumer);
-        return i -> consumer.accept(this.apply(i));
+        return i -> {
+            OptionalLong res = this.apply(i);
+            if(res == null) {
+                res = OptionalLong.empty();
+            }
+            consumer.accept(res);
+        };
     }
 
     /**
