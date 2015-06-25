@@ -12,7 +12,7 @@ import java.util.OptionalLong;
 import static de.boereck.matcher.helpers.OptionalMatchHelpers.*;
 import static org.junit.Assert.*;
 
-public class OptionalMapHelpers {
+public class OptionalMapHelpersTest {
 
     @Test
     public void testSome() {
