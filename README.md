@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/Boereck/casematch.svg)](https://travis-ci.org/Boereck/casematch)
+
 Case Matcher
 ============
 This is a Java 8 library providing a fluent API to define case matching in an object oriented and functional way. 
