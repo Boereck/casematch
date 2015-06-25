@@ -13,7 +13,8 @@ The following examples give an overview over the eager matching capabilities. La
 in design stages and can be found in the "experimental" sub-project.
 
 
-// TODO Javadoc Link
+JavaDoc:
+* [Current snapshot](http://boereck.github.io/casematch/javadoc/matcher/0.5-SNAPSHOT/index.html)
 
 Defining Matches
 ----------------
