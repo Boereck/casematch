@@ -1,0 +1,9 @@
+de.boereck.matcher
+de.boereck.matcher.eager
+de.boereck.matcher.function.curry
+de.boereck.matcher.function.optionalmap
+de.boereck.matcher.function.predicate
+de.boereck.matcher.function.testable
+de.boereck.matcher.function.throwing
+de.boereck.matcher.helpers
+de.boereck.matcher.helpers.found
