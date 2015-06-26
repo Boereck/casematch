@@ -4,7 +4,7 @@ jdk:
 before_install:
 - chmod +x gradlew
 after_success:
-- "[[ $TRAVIS_BRANCH == \"master\" ]] && { gradlew :matcher:uploadArchives -PnexusUsername="${SONATYPE_USERNAME}" -PnexusPassword="${SONATYPE_PASSWORD}"; };"
+  - "[[ $TRAVIS_BRANCH == \"master\" ]] && { gradlew :matcher:uploadArchives -PnexusUsername="${SONATYPE_USERNAME}" -PnexusPassword="${SONATYPE_PASSWORD}"; };"
 env:
   global:
   - secure: DQkXw79HPhxKOGkqriANMUGdLaxHJoE/WDBtcRe8fsWXyXncsVUoFpU0m7N+Ff7lWq2jjHY/J0AVJtO3OWl48dXfb4sGqFNEyYFwAviDNSds0uBqBw5dgS0YMibD83bIgPGkecN8K5KOcMZK41hMQHh1uEcOvMQmmSlPD78d5N8RA7hWy6sLRatNLABJgQ5uYtFHQJZgk4brj8Zcxkow+Dlx8+z0AU/ul+Gt98gp/ndLrOSuKcHcBpwArgwk22gyQcUrRbqQvRX98jL6sbRpkHq96Vbag/qe85B4RAERLRh0nJa1YH2TcVvv2rZV+w2kYMOIuYarDsC230onQ/drBIECvxzlrF5dfikKYDiZs5vbUXFixKHFpusGpXN5WhqomwPQb33f1kX9vZfm5M6d2pHOEBd0riGDFbzUk3D87daVnJGUF1No68Ea6MKW4HQT8LDVskQ8wV8zspl0ZpMxr518ZROPDpIEeJDhoyF9l//G6Kn+X3ABLrvEHIy0EWZ52+9fzYz1UTYZzDs3xIOx2x4l+vZwMhAO3Ev3ZjcRLDpGl5br6aRbYDCjaJax7vnagFMqMH5f2xuEiORr724i40q0xUM1lXXVa9O0LkQRrFYGwjHTTdV6r5MbuTLt3ZjrdOyHIu3txAGSo8PpuvUHwD71oCU3q7WofM5lb1V0SkU=
