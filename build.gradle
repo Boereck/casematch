@@ -1,5 +1,14 @@
 version = '0.5-SNAPSHOT'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+    }
+}
+
 defaultTasks 'clean', 'build'
 
 repositories {
@@ -8,7 +17,6 @@ repositories {
 
 allprojects {
     apply plugin: 'idea'
-    apply plugin: 'maven'
 }
 
 subprojects {
@@ -35,7 +43,7 @@ subprojects {
         options.addStringOption('Xdoclint:none', '-quiet')
     }
 
-    task javadocJar(type: Jar) {
+/*    task javadocJar(type: Jar) {
         classifier = 'javadoc'
         from javadoc
     }
@@ -47,7 +55,7 @@ subprojects {
 
     artifacts {
         archives javadocJar, sourcesJar
-    }
+    }*/
 
     repositories {
         mavenCentral()
@@ -98,7 +106,7 @@ project(':hamcrest') {
     }
 }
 
-// include publishing when
+// include publishing when -Ppublishing is added to command line
 if(project.hasProperty("publishing")) {
     apply from: 'publish.gradle'
 }

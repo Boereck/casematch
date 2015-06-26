@@ -13,8 +13,48 @@ The following examples give an overview over the eager matching capabilities. La
 in design stages and can be found in the "experimental" sub-project.
 
 
-JavaDoc:
+Browse JavaDoc:
 * [Current snapshot](http://boereck.github.io/casematch/javadoc/matcher/0.5-SNAPSHOT/index.html)
+
+How to Use Case Matcher in Your Build
+-------------------------------------
+There is currently only a snapshot repository, there is no stable release available.
+To add a dependency to a maven build, add the following repository to your POM file:
+
+```maven
+  <repositories>
+    <repository>
+      <id>Sonatype OSSRH Snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
+```
+
+And add the following dependency:
+```maven
+<dependency>
+  <groupId>com.github.boereck</groupId>
+  <artifactId>casematch-matcher</artifactId>
+  <version>0.5-SNAPSHOT</version>
+</dependency>
+```
+To use the library in your gradle build, add the snapshot repository with this command:
+```groovy
+repositories {
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
+```
+
+And add the dependency as follows:
+```groovy
+dependencies {
+    compile 'com.github.boereck:casematch-matcher:0.5-SNAPSHOT'
+}
+```
+
+TODO: Give hints how to include in maven/tycho build.
 
 Defining Matches
 ----------------
@@ -56,9 +96,10 @@ Due to the way how in Java type inference is done and how generics work, some he
 primitive types int, long, and double. The versions specific for int usually have a suffix of the letter 'I', the version 
 for long of letter 'L' and the versions for double of letter 'D'.
 
-There are also case definitions that allow the condition to return a Java 8 Optional instead of a boolean value. In this 
-definitions a case is regarded a matching case if the Optional returned from the condition does contain a value. 
-The value will then be passed to the action. TODO: EXAMPLE!
+There are also case definitions (methods named caseOf) that allow the condition to return a Java 8 Optional instead of a boolean value. 
+In this definitions a case is regarded a matching case if the Optional returned from the condition does contain a value. 
+The value will then be passed to the action defined for the case. This allows extracting values from input objects.
+TODO: EXAMPLE!
 
 In matches that do return a value, the case actions must return a value of the return type. With a so called closing method 
 it is possible to retrieve the result value from the CaseMatch object.
@@ -166,6 +207,13 @@ for comparison, this is how the print function would look like using traditional
         }
     }
 ```
+
+Building Case Matcher
+---------------------
+If you want to build the Case Matcher library on your own, first download and install Gradle (https://gradle.org/) at least in 
+version 2.1. Simply clone this git repository, switch on the shell into the working directory of the repository 
+and execute the command "gradle". When the build is successful, the main library "casematch-matcher-VERSION.jar" 
+is located in folder "matcher\build\libs".
 
 Contributions
 --------------

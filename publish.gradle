@@ -1,49 +1,54 @@
-apply plugin: 'nexus'
-
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
-
     dependencies {
-        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7.1'
+        classpath "com.bmuschko:gradle-nexus-plugin:2.3.1"
     }
 }
 
-modifyPom {
-    project {
-        name 'Case Matcher'
-        packaging 'jar'
-        description 'Small matcher library for Java 8'
-        url 'https://github.com/Boereck/casematch'
 
-        licenses {
-            license {
-                name 'The Apache License, Version 2.0'
-                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                distribution 'repo'
+subprojects {
+    apply plugin: "com.bmuschko.nexus"
+    modifyPom {
+        project {
+            name 'Case Matcher'
+            description 'Small matcher library for Java 8'
+            url 'https://github.com/Boereck/casematch'
+
+            licenses {
+                license {
+                    name 'The Apache License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
             }
-        }
-        scm {
-            url 'https://github.com/Boereck/casematch.git'
-            connection 'scm:git:https://github.com/Boereck/casematch.git'
-            developerConnection 'scm:git:https://github.com/Boereck/casematch.git'
-        }
-        developers {
-            developer {
-                id 'boereck'
-                name 'Max Bureck'
-                email 'maxbureck@arcor.de'
+            scm {
+                url 'https://github.com/Boereck/casematch.git'
+                connection 'scm:git:https://github.com/Boereck/casematch.git'
+                developerConnection 'scm:git:https://github.com/Boereck/casematch.git'
+            }
+            developers {
+                developer {
+                    id 'boereck'
+                    name 'Max Bureck'
+                    email 'maxbureck@arcor.de'
+                }
             }
         }
     }
-}
 
-nexus {
-    attachJavadoc = true
-    attachSources = true
-    attachTests = true
-    sign = true
-    repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
-    snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+    extraArchive {
+        sources = true
+        tests = false
+        javadoc = true
+    }
+
+    nexus {
+        sign = true
+        repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+        snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
 }
