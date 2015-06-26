@@ -19,25 +19,31 @@ Browse JavaDoc:
 How to Use Case Matcher in Your Build
 -------------------------------------
 There is currently only a snapshot repository, there is no stable release available.
+
+### Maven ###
+
 To add a dependency to a maven build, add the following repository to your POM file:
 
-```maven
-  <repositories>
-    <repository>
-      <id>Sonatype OSSRH Snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-  </repositories>
+```xml
+<repositories>
+  <repository>
+    <id>Sonatype OSSRH Snapshots</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+  </repository>
+</repositories>
 ```
 
 And add the following dependency:
-```maven
+```xml
 <dependency>
   <groupId>com.github.boereck</groupId>
   <artifactId>casematch-matcher</artifactId>
   <version>0.5-SNAPSHOT</version>
 </dependency>
 ```
+
+### Gradle ###
+
 To use the library in your gradle build, add the snapshot repository with this command:
 ```groovy
 repositories {
@@ -212,7 +218,7 @@ Building Case Matcher
 ---------------------
 If you want to build the Case Matcher library on your own, first download and install Gradle (https://gradle.org/) at least in 
 version 2.1. Simply clone this git repository, switch on the shell into the working directory of the repository 
-and execute the command "gradle". When the build is successful, the main library "casematch-matcher-VERSION.jar" 
+and execute the command "gradle". When the build is successful, the main library "casematch-matcher-<VERSION>.jar" 
 is located in folder "matcher\build\libs".
 
 Contributions
