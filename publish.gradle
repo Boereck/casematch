@@ -1,5 +1,15 @@
 apply plugin: 'nexus'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7.1'
+    }
+}
+
 modifyPom {
     project {
         name 'Case Matcher'
