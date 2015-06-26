@@ -131,7 +131,6 @@ public interface ResultLongCaseMatcher<O> {
      * @param <T> type of object extracted by function {@code p}.
      * @return instance of ResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
-     * @param <T> type of element extracted from input object that is matched on.
      */
     <T> ResultLongCaseMatcher<O> caseObj(LongFunction<Optional<T>> p, Function<? super T, ? extends O> f) throws NullPointerException;
 
