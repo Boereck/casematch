@@ -1,4 +1,4 @@
-version = '0.5'
+version = '0.5-SNAPSHOT'
 
 defaultTasks 'clean', 'build'
 
@@ -8,11 +8,13 @@ repositories {
 
 allprojects {
     apply plugin: 'idea'
+    apply plugin: 'maven'
 }
 
 subprojects {
     apply plugin: 'java'
     apply plugin: 'osgi'
+    apply plugin: 'signing'
 
     compileJava.options.encoding = 'UTF-8'
     compileTestJava {
@@ -22,14 +24,29 @@ subprojects {
     //compileTestJava.options.encoding = 'UTF-8'
 
     sourceCompatibility = 1.8
-    group = 'de.boereck'
+    group = 'com.github.boereck'
     archivesBaseName = project.parent.name + '-' + project.name
 
     javadoc {
         options.charSet = 'UTF-8'
         options.encoding = 'UTF-8'
         options.links = [ 'http://docs.oracle.com/javase/8/docs/api/' ]
-        options.overview = 'src/main/java/overview.html'
+        // we don't want to get complaints about tags unknown to JavaDoc, but valid, tags
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+
+    task javadocJar(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    artifacts {
+        archives javadocJar, sourcesJar
     }
 
     repositories {
@@ -39,9 +56,28 @@ subprojects {
     dependencies {
         testCompile group: 'junit', name: 'junit', version: '4.11'
     }
+
+    // run gradle -Penable_signing=on to sign jars
+    // be sure to configure signing on machine.
+    // therefore configure the following variables in your
+    // gradle config file (USER_HOME/.gradle/gradle.properties) :
+    //  signing.keyId=<key-id>
+    //  signing.password=<password>
+    //  signing.secretKeyRingFile=/path/to/gpg-file
+    if(project.hasProperty("enable_signing")) {
+        signing {
+            sign configurations.archives
+        }
+    }
 }
 
 // Project specific dependencies
+
+project(':matcher') {
+    javadoc {
+        options.overview = 'src/main/java/overview.html'
+    }
+}
 
 project(':guava') {
     dependencies {
@@ -60,4 +96,9 @@ project(':hamcrest') {
     dependencies {
         compile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
     }
+}
+
+// include publishing when
+if(project.hasProperty("publishing")) {
+    apply from: 'publish.gradle'
 }
