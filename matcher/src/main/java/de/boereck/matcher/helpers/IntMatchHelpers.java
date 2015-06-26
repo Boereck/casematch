@@ -152,16 +152,20 @@ public final class IntMatchHelpers {
 
     /**
      * Holds a predicate checking if an int value is even (dividable by 2).
+     * Zero is regarded to be zero.
      */
     public static final AdvIntPredicate even = dividableBy(2);
 
     /**
      * Holds a predicate checking if an int value is odd (not dividable by 2).
+     * Zero is not regarded as odd.
      */
     public static final AdvIntPredicate odd = notDividableBy(2);
 
     /**
      * Returns a predicate checking if an int value is dividable by {@code divisor} without leaving a rest.
+     * Zero is considered to be dividable by any value, except for zero. If the returned predicate will be
+     * tested with zero, an {@link ArithmeticException} will be thrown.
      *
      * @param divisor int value that is used in the returned predicate to check if a value is dividable by this
      *                value without leaving a rest.
@@ -173,7 +177,8 @@ public final class IntMatchHelpers {
 
     /**
      * Returns a predicate checking if an int value is not dividable by {@code divisor}. Meaning an integer division
-     * leaves a rest.
+     * leaves a rest. Zero is considered to be dividable by any value, except for zero. If the returned predicate will be
+     * tested with zero, an {@link ArithmeticException} will be thrown.
      *
      * @param divisor int value that is used in the returned predicate to check if a value is not dividable by this
      *                value (integer division leaves a rest).
