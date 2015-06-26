@@ -8,4 +8,4 @@ env:
 before_install:
 - chmod +x gradlew
 after_success:
-- "[[ $TRAVIS_BRANCH == \"master\" ]] && { gradlew :matcher:uploadArchives -PnexusUsername="${SONATYPE_USERNAME}" -PnexusPassword="${SONATYPE_PASSWORD}"; };"
+- "[[ $TRAVIS_BRANCH == \"master\" ]] && { gradlew :matcher:uploadArchives -PnexusUsername=\"${SONATYPE_USERNAME}\" -PnexusPassword=\"${SONATYPE_PASSWORD}\"; };"
