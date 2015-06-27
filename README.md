@@ -12,9 +12,15 @@ and may never be provided. Never the less the goal is to find readable represent
 The following examples give an overview over the eager matching capabilities. Lazy matchers and other features are currently
 in design stages and can be found in the "experimental" sub-project.
 
-
 Browse JavaDoc:
 * [Current snapshot](http://boereck.github.io/casematch/javadoc/matcher/0.5-SNAPSHOT/index.html)
+
+State of Implementation
+-----------------------
+
+The current version has the purpose of gathering feedback, especially with regard to the provided helper functions.
+The API may still break from version to version, since the project is not tested much with real world problems.
+So please create issues or provide pull requests making the API better and maybe easier to use.
 
 How to Use Case Matcher in Your Build
 -------------------------------------
