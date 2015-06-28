@@ -228,68 +228,9 @@ public final class IntMatchHelpers {
      * input int.
      * @throws NullPointerException will be thrown if {@code test} is {@code null}
      */
-    public static IntFunction<OptionalInt> selectInt(IntPredicate test) throws NullPointerException {
+    public static IntFunction<OptionalInt> filterInt(IntPredicate test) throws NullPointerException {
         Objects.requireNonNull(test);
         return i -> test.test(i) ? OptionalInt.of(i) : OptionalInt.empty();
-    }
-
-    /**
-     * This method returns a function that filters the output of a given function mapping an int to an OptionalInt.
-     * This means that based on the predicate {@code p} will be used to test the output of {@code orig}. If the
-     * output OptionalInt does not contain a value, the result will be this optional. If the result does contain an
-     * int value, it will be tested with {@code p}, if the predicate returns {@code false}, an empty optional will be
-     * returned, otherwise the optional holding the value will be returned.
-     *
-     * @param orig function mapping an int to an OptionalInt. The result of this function will be filtered.
-     *             Must not be {@code null}.
-     * @param p    used to filter the output of {@code orig}. Must not be {@code null}.
-     * @return A function taking an int, calls {@code orig} with the int, filters the returned output using {@code p}
-     * and returns the result of this filtering.
-     * @throws NullPointerException will be thrown if {@code orig} or {@code p} is {@code null}
-     */
-    public static IntFunction<OptionalInt> filterInt(IntFunction<OptionalInt> orig, IntPredicate p) throws NullPointerException {
-        Objects.requireNonNull(orig);
-        Objects.requireNonNull(p);
-        return (int i) -> {
-            OptionalInt aResult = orig.apply(i);
-            if (aResult != null && aResult.isPresent()) {
-                final int val = aResult.getAsInt();
-                if (p.test(val)) {
-                    return aResult;
-                } else {
-                    return OptionalInt.empty();
-                }
-            } else {
-                return aResult;
-            }
-        };
-    }
-
-    /**
-     * Returns {@code f} function mapping from int to OptionalInt. The returned function will take the input int and use
-     * function {@code f} on this. If the resulting optional is empty, it will be returned. If the resulting
-     * optional is not empty, operation {@code toApply} will be called in the int in the returned optional and the
-     * result will be wrapped into an OptionalInt and returned.
-     *
-     * @param f function, that will be composed with operator {@code toApply}. Must not be {@code null}.
-     * @param toApply operator that will be used on the output of function {@code f}, if the optional holds a result.
-     *                Must not be {@code null}.
-     * @return function combining function {@code f} with operation {@code toApply} on the result of {@code f}, if the
-     *         result is a non-empty {@code Optional}.
-     * @throws NullPointerException will be thrown if {@code f} or {@code toApply} is {@code null}
-     */
-    public static IntFunction<OptionalInt> compose(IntFunction<OptionalInt> f, IntUnaryOperator toApply) throws NullPointerException {
-        Objects.requireNonNull(f);
-        Objects.requireNonNull(toApply);
-        return (int i) -> {
-            OptionalInt aResult = f.apply(i);
-            if (aResult != null && aResult.isPresent()) {
-                final int val = aResult.getAsInt();
-                return OptionalInt.of(toApply.applyAsInt(val));
-            } else {
-                return aResult;
-            }
-        };
     }
 
     /**
