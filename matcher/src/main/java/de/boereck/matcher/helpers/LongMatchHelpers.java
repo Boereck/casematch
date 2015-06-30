@@ -46,6 +46,29 @@ public final class LongMatchHelpers {
     }
 
     /**
+     * Returns a predicate that checks if a long value is greater than or equal to value {@code compareWith}.
+     *
+     * @param compareWith value that the returned predicate uses to check if a given long is greater than or equal to this value.
+     * @return predicate checking if a long value is greater than or equal to {@code compareWith}.
+     */
+    public static AdvLongPredicate ge(long compareWith) {
+        return i -> i >= compareWith;
+    }
+
+    /**
+     * Returns a predicate that checks if an long value is greater than or equal to the value provided by {@code compareWith}.
+     *
+     * @param compareWith supplier that provides a value that the returned predicate uses to check if a given long is
+     *                    greater than or equal to this provided value. This parameter must not be {@code null}.
+     * @return predicate checking if a long value is greater than or equal to the value provided by {@code compareWith}.
+     * @throws NullPointerException will be thrown if {@code compareWith} is {@code null}
+     */
+    public static AdvLongPredicate ge(LongSupplier compareWith) throws NullPointerException {
+        Objects.requireNonNull(compareWith);
+        return i -> i >= compareWith.getAsLong();
+    }
+
+    /**
      * Returns a predicate that checks if a long value is lower than value {@code compareWith}.
      *
      * @param compareWith value that the returned predicate uses to check if a given long is lower than this value.
@@ -66,6 +89,29 @@ public final class LongMatchHelpers {
     public static AdvLongPredicate lt(LongSupplier compareWith) throws NullPointerException {
         Objects.requireNonNull(compareWith);
         return i -> i < compareWith.getAsLong();
+    }
+
+    /**
+     * Returns a predicate that checks if a long value is lower than or equal to value {@code compareWith}.
+     *
+     * @param compareWith value that the returned predicate uses to check if a given long is lower than or equal to this value.
+     * @return predicate checking if a long value is lower than or equal to {@code compareWith}.
+     */
+    public static AdvLongPredicate le(long compareWith) {
+        return i -> i <= compareWith;
+    }
+
+    /**
+     * Returns a predicate that checks if a long value is lower than or equal to the value provided by {@code compareWith}.
+     *
+     * @param compareWith supplier that provides a value that the returned predicate uses to check if a given long is
+     *                    lower than or equal to this provided value. This parameter must not be {@code null}.
+     * @return predicate checking if a long value is lower than or equal to the value provided by {@code compareWith}.
+     * @throws NullPointerException will be thrown if {@code compareWith} is {@code null}
+     */
+    public static AdvLongPredicate le(LongSupplier compareWith) throws NullPointerException {
+        Objects.requireNonNull(compareWith);
+        return i -> i <= compareWith.getAsLong();
     }
 
     /**
