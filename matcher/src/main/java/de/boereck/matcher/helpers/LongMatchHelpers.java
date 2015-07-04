@@ -123,7 +123,7 @@ public final class LongMatchHelpers {
      * @return predicate checking if the input long is either {@code el} or one of {@code more}.
      * @throws NullPointerException will be thrown if {@code more} is {@code null}.
      */
-    public static AdvLongPredicate oneOfL(long el, long... more) throws NullPointerException {
+    public static AdvLongPredicate oneOf(long el, long... more) throws NullPointerException {
         Objects.requireNonNull(more);
         // make defensive copy
         final long[] ts = Arrays.copyOf(more, more.length + 1);
