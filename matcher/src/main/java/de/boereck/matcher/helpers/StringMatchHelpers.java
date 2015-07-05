@@ -82,12 +82,16 @@ public final class StringMatchHelpers {
      *
      * @param other   predicate inputs will be checked if they start with this String.
      *                This parameter must not be {@code null}.
-     * @param toffset defines where to begin looking in the input string to the predicate.
+     * @param toffset defines where to begin looking in the input string to the predicate. Must be &gt; 0
      * @return predicate checking if input strings start with string {@code other}
      * @throws NullPointerException thrown, if {@code other} is {@code null}.
+     * @throws StringIndexOutOfBoundsException if {@code toffset &lt;= 0}
      */
-    public static Predicate<String> startsWith(String other, int toffset) throws NullPointerException {
+    public static Predicate<String> startsWith(String other, int toffset) throws NullPointerException, StringIndexOutOfBoundsException {
         Objects.requireNonNull(other);
+        if(toffset < 0) {
+            throw new StringIndexOutOfBoundsException();
+        }
         return str -> str != null && str.startsWith(other, toffset);
     }
 
@@ -103,7 +107,7 @@ public final class StringMatchHelpers {
     public static AdvPredicate<String> matches(String regEx) throws NullPointerException, PatternSyntaxException {
         Objects.requireNonNull(regEx);
         final Pattern compiledPattern = Pattern.compile(regEx);
-        return str -> compiledPattern.matcher(str).matches();
+        return str -> str != null && compiledPattern.matcher(str).matches();
     }
 
     /**
@@ -121,10 +125,12 @@ public final class StringMatchHelpers {
         Objects.requireNonNull(regEx);
         final Pattern compiledPattern = Pattern.compile(regEx);
         return s -> {
+            if(s == null) {
+                return Optional.empty();
+            }
             final Matcher m = compiledPattern.matcher(s);
             return m.matches() ? Optional.of(s) : Optional.empty();
         };
-        // s -> System.out.println(s)
     }
 
     /**
@@ -143,6 +149,9 @@ public final class StringMatchHelpers {
         Objects.requireNonNull(regEx);
         final Pattern compiledPattern = Pattern.compile(regEx);
         return s -> {
+            if(s == null) {
+                return Optional.empty();
+            }
             final Matcher m = compiledPattern.matcher(s);
             return m.matches() ? Optional.of(m) : Optional.empty();
         };

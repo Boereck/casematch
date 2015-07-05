@@ -178,7 +178,7 @@ public class LongMatchHelpersTest {
 
     @Test(expected = NullPointerException.class)
     public void testAllExceptNullPointer() {
-        allExcept(22L, null).test(42L);
+        allExcept(22L, (long[])null).test(42L);
     }
 
 
@@ -199,7 +199,7 @@ public class LongMatchHelpersTest {
 
     @Test(expected = NullPointerException.class)
     public void testOneOfNullPointer() {
-        oneOf(22L, null).test(42L);
+        oneOf(22L, (long[])null).test(42L);
     }
 
 }

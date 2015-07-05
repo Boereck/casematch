@@ -172,7 +172,7 @@ public class IntMatchHelpersTest {
 
     @Test(expected = NullPointerException.class)
     public void testOneOfNullPointer() {
-        oneOf(22, null).test(42);
+        oneOf(22, (int[])null).test(42);
     }
 
     ///
