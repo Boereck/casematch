@@ -5,7 +5,12 @@ env:
   global:
   - secure: DQkXw79HPhxKOGkqriANMUGdLaxHJoE/WDBtcRe8fsWXyXncsVUoFpU0m7N+Ff7lWq2jjHY/J0AVJtO3OWl48dXfb4sGqFNEyYFwAviDNSds0uBqBw5dgS0YMibD83bIgPGkecN8K5KOcMZK41hMQHh1uEcOvMQmmSlPD78d5N8RA7hWy6sLRatNLABJgQ5uYtFHQJZgk4brj8Zcxkow+Dlx8+z0AU/ul+Gt98gp/ndLrOSuKcHcBpwArgwk22gyQcUrRbqQvRX98jL6sbRpkHq96Vbag/qe85B4RAERLRh0nJa1YH2TcVvv2rZV+w2kYMOIuYarDsC230onQ/drBIECvxzlrF5dfikKYDiZs5vbUXFixKHFpusGpXN5WhqomwPQb33f1kX9vZfm5M6d2pHOEBd0riGDFbzUk3D87daVnJGUF1No68Ea6MKW4HQT8LDVskQ8wV8zspl0ZpMxr518ZROPDpIEeJDhoyF9l//G6Kn+X3ABLrvEHIy0EWZ52+9fzYz1UTYZzDs3xIOx2x4l+vZwMhAO3Ev3ZjcRLDpGl5br6aRbYDCjaJax7vnagFMqMH5f2xuEiORr724i40q0xUM1lXXVa9O0LkQRrFYGwjHTTdV6r5MbuTLt3ZjrdOyHIu3txAGSo8PpuvUHwD71oCU3q7WofM5lb1V0SkU=
   - secure: eLWXHE+n2WJS48HgOk3Y/oKA0d8t8rLl41J0zzsf5LdYCOzWHMNTXFPujuXhNO9EGFuSbhebQgZUen1WiseO0twcd11VogoN25wR4luJOj+2xx6SKXngKu9hhtYn++ueJGKaeUS3YtoHN0Ww7WB0QNWtJRcpoR7u3yQkf1ys2TlM9vGEkF4vYFOCySRhYxF1rFI8galDFk9RwyJN+wgfoGDxN54py+yR6Am7QP54r3mc5dcEIMLrXPPWLJW6+36e9UIgQ7sec+pHYyQpy79/zwtaDbkWt3toU9Zgvc+dS7riP6iyC+kKzkjYitfe/d5W6GSnDLL7SeHNe1FShhdaECBrHiOkhXjrPWRipUuGiV07+BXghUjU576GsOKZO8Z5g5d4fQO7iaNGA4BZFPJZ4na8R4LqfhS6uIyIcPOq6cw2NuLYhPHiDFE8A88R4P6ihTn6ylGt/Cx8hQ74cP6X9nU0uSUY66AWxQwM2bPjUBQvroydDV2Ja+FR9rnnQ1AwVVrhJyon8CteTk2rbuuays8VBjql9Ur3oz/d6oEwxERK07Iy3lFcTM0SsVBiuT0AfAvkg6G4c1RYbVJO5340bO5Tp754W4vXKqH6/t5o+9ojKb1HVLm9uE6hqiHXNYyxJkw4gchiqveHcPLfAmzSWN2S64BkrYQ9GEwZZGIrDx8=
+  - secure: IzxtAOmiMpuADx30UElsHjYJORIROSA0o4RsqC+CxVwpFvGSz03Qum2KbdeR0pO4Cu7jrICbItxHwZdujDdxY+P1MkhNs/B1cHZFLAR766ul1pggKTsO71yuJkTF3ksXXxaTiaO846e0dRSOlscMOQq8Pwkd8AStWkRj369U40+AJduUZWsWMIxoUAYnZhFed6XfW1WQqCQw0vnUzcoHhXl0qnotHCnUif5OgfhB9P342fpk8ZRw7ay6ICMyRiiIwUCzP/BlAsXH8wJTA+7K+W0/tECYYc/0MbVqm1DV7AiVc/nOa54QBedfgqwFm3o7IaKHrQVS09YMQXuc086e3E+h5Cql7IWLXJYZtD1PIdUOHGq85B4cMeImCJP2fDOcKp9CuV4bPHyWVWytDnjFp1cAIyw2jL+NlOcJkjzTk6ZwLGQHy3Jp/5yRzmhBqrRRg0fuIxm7eDDt5UMh8thmi7VqRMf4a3CDLBt2WureJ7qfw3Que9C8akoD8oZACUJcZ37igSod0iSp7WoErwM8LOAPJjkkaXRXmcNWfW6X6WtH3rBGyhgN531J+qDzl/whqfteRMO0l646ot6wKfat2aptVMlnpDLSZreC3UPYUlxK6THDY2Kc2ufCvbyq9YpVTEsYMEnuadPATFJjYWm17Yox5jYBbx9TvPPDUeM0s6g=
 before_install:
 - chmod +x gradlew
 after_success:
-- "[[ $TRAVIS_BRANCH == \"master\" ]] && [[ $TRAVIS_PULL_REQUEST == \"false\" ]] && { ./gradlew :matcher:uploadArchives -Ppublishing -PnexusUsername=\"${SONATYPE_USERNAME}\" -PnexusPassword=\"${SONATYPE_PASSWORD}\"; echo $?;};"
+- '[[ $TRAVIS_BRANCH == "master" ]] && [[ $TRAVIS_PULL_REQUEST == "false" ]] && {
+  ./gradlew :matcher:uploadArchives -Ppublishing -PnexusUsername="${SONATYPE_USERNAME}"
+  -PnexusPassword="${SONATYPE_PASSWORD}"; echo $?;};'
+- '[[ $TRAVIS_BRANCH == "master" ]] && [[ $TRAVIS_PULL_REQUEST == "false" ]] && {
+  ./gradlew :matcher:cobertura :matcher:coveralls};'
