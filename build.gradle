@@ -46,6 +46,13 @@ subprojects {
         options.addStringOption('Xdoclint:none', '-quiet')
     }
 
+    jacocoTestReport {
+        reports {
+            xml.enabled = true // coveralls plugin depends on xml format report
+            html.enabled = true
+        }
+    }
+
 /*    task javadocJar(type: Jar) {
         classifier = 'javadoc'
         from javadoc
