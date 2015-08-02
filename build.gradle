@@ -6,7 +6,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
-        classpath 'net.saliman:gradle-cobertura-plugin:2.0.0'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
     }
 }
@@ -17,10 +16,10 @@ repositories {
     mavenCentral()
 }
 
-cobertura.coverageFormats = ['html', 'xml']
-
 allprojects {
     apply plugin: 'idea'
+    apply plugin: 'jacoco'
+    apply plugin: 'com.github.kt3k.coveralls'
 }
 
 subprojects {
