@@ -1,4 +1,5 @@
 [![Build Status](https://api.travis-ci.org/Boereck/casematch.svg)](https://travis-ci.org/Boereck/casematch)
+[![Coverage Status](https://coveralls.io/repos/Boereck/casematch/badge.svg?branch=master&service=github)](https://coveralls.io/github/Boereck/casematch?branch=master)
 
 Case Matcher
 ============
