@@ -42,7 +42,7 @@ public class ArrayMatchHelpers {
      * @param <T> Type of array elements
      * @return Stream created from input array.
      */
-    public static <T> Stream<T> $(T[] arr) {
+    public static <T> Stream<T> $(T... arr) {
         if(arr == null) {
             return Stream.empty();
         }
@@ -132,20 +132,6 @@ public class ArrayMatchHelpers {
     public static <I> TestableFunction<I[], Found> findCountInArray(Predicate<? super I> p) throws NullPointerException {
         Objects.requireNonNull(p);
         return c -> findCount(c, p);
-    }
-
-    /**
-     * This method returns a function that returns an optional of {@code Found}, that holds a value, if elements
-     * were found, and an empty optional, if no elements were found that match predicate {@code p}.
-     * @param p used to check how many elements match this predicate. Must not be {@code null}.
-     * @param <I> Type of elements of input collection to be checked.
-     * @return Function that returns an optional of {@code Found}, that holds a value, if elements
-     * were found, and an empty optional, if no elements were found that match predicate {@code p}.
-     * @throws NullPointerException if {@code p} is {@code null}.
-     */
-    public static  <I> OptionalMapper<I[], Found> findCountExistingInArray(Predicate<? super I> p) throws NullPointerException {
-        Objects.requireNonNull(p);
-        return findCountInArray(p).filter(f -> !(f instanceof FoundNone));
     }
 
     /**
@@ -265,4 +251,19 @@ public class ArrayMatchHelpers {
      * Predicate checking if an array is not {@code null} and has a length bigger than 0
      */
     public static final Predicate<Object[]> arrayNotEmpty = o -> o != null && o.length > 0;
+
+    /**
+     * Predicate checking if an int array is not {@code null} and has a length bigger than 0
+     */
+    public static final Predicate<int[]> intArrayNotEmpty = o -> o != null && o.length > 0;
+
+    /**
+     * Predicate checking if a long array is not {@code null} and has a length bigger than 0
+     */
+    public static final Predicate<long[]> longArrayNotEmpty = o -> o != null && o.length > 0;
+
+    /**
+     * Predicate checking if a double array is not {@code null} and has a length bigger than 0
+     */
+    public static final Predicate<double[]> doubleArrayNotEmpty = o -> o != null && o.length > 0;
 }
