@@ -128,7 +128,6 @@ public interface ResultLongCaseMatcher<O> {
      * @param f   will be called if the function {@code p} returns an non-empty optional and the case is determined to be the
      *            matching case. The consumer will be called with the value wrapped in the optional object. The result of the
      *            function will be the result of the case found.
-     * @param <T> type of object extracted by function {@code p}.
      * @return instance of ResultLongCaseMatcher (which might the same as this object) to define further cases.
      * @throws NullPointerException might be thrown if either parameter {@code p} or {@code f} is {@code null}.
      * @param <T> type of element extracted from input object that is matched on.
