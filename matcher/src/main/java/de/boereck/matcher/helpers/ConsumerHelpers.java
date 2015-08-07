@@ -119,7 +119,7 @@ public final class ConsumerHelpers {
      * will not return a regular return value.
      * @throws NullPointerException will be thrown if {@code exSupplier} is {@code null}.
      */
-    public static <I, O> Function<I, O> thenThrowF(Supplier<? extends RuntimeException> exSupplier) throws NullPointerException {
+    public static <I, O> Function<I, O> thenThrowFun(Supplier<? extends RuntimeException> exSupplier) throws NullPointerException {
         Objects.requireNonNull(exSupplier);
         return i -> {
             throw exSupplier.get();
@@ -212,7 +212,7 @@ public final class ConsumerHelpers {
     public static Consumer<Object> toStringLogAsMsg(Logger logger, Level level) {
         Objects.requireNonNull(logger);
         Objects.requireNonNull(level);
-        return o -> logger.log(level, o.toString());
+        return o -> logger.log(level, Objects.toString(o));
     }
 
     public static final Consumer<Object> ignore = o -> {
@@ -316,6 +316,7 @@ public final class ConsumerHelpers {
      * @throws NullPointerException will be thrown if {@code format} is {@code null}.
      */
     public static Consumer<Object> sysoutFormat(Locale locale, String format) throws NullPointerException {
+        Objects.requireNonNull(format);
         Objects.requireNonNull(format);
         return o -> System.out.printf(locale, format, o);
     }

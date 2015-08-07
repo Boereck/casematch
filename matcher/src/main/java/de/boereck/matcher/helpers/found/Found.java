@@ -1,5 +1,7 @@
 package de.boereck.matcher.helpers.found;
 
+import java.util.function.Predicate;
+
 /**
  * This class represents a result of searching for elements, e.g. in a collection,
  * that match a criterion.
@@ -66,6 +68,8 @@ public abstract class Found {
      * @return amount of found elements.
      */
     public abstract long count();
+
+    public static Predicate<Found> foundAny = f -> !(f instanceof FoundNone);
 
     // TODO new class FoundHelpers with the following static methods:
     // TODO public static Predicate<Found> foundAtLeast(count n) ...

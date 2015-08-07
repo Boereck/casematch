@@ -259,21 +259,6 @@ public class CollectionMatchHelpers {
     }
 
     /**
-     * This method returns a function that returns an optional of {@code Found}, that holds a value, if elements
-     * were found, and an empty optional, if no elements were found that match predicate {@code p}.
-     *
-     * @param p   used to check how many elements match this predicate. Must not be {@code null}.
-     * @param <I> Type of elements of input collection to be checked.
-     * @return Function that returns an optional of {@code Found}, that holds a value, if elements
-     * were found, and an empty optional, if no elements were found that match predicate {@code p}.
-     * @throws NullPointerException if {@code p} is {@code null}.
-     */
-    public static <I> OptionalMapper<Collection<I>, Found> findCountExisting(Predicate<? super I> p) throws NullPointerException {
-        Objects.requireNonNull(p);
-        return findCount(p).filter(f -> !(f instanceof FoundNone));
-    }
-
-    /**
      * Returns a predicate that checks if a collection is not {@code null} and contains an element that matches the predicate
      * {@code p}.
      *
