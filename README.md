@@ -1,6 +1,6 @@
 [![Build Status](https://api.travis-ci.org/Boereck/casematch.svg)](https://travis-ci.org/Boereck/casematch)
 [![Coverage Status](https://coveralls.io/repos/Boereck/casematch/badge.svg?branch=master&service=github)](https://coveralls.io/github/Boereck/casematch?branch=master)
-[![License (https://img.shields.io/github/license/Boereck/casematch.svg)]
+[![License (https://img.shields.io/github/license/Boereck/casematch.svg)](https://github.com/Boereck/casematch/blob/master/LICENSE)
  
 Case Matcher
 ============
