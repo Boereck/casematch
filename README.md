@@ -1,6 +1,7 @@
 [![Build Status](https://api.travis-ci.org/Boereck/casematch.svg)](https://travis-ci.org/Boereck/casematch)
 [![Coverage Status](https://coveralls.io/repos/Boereck/casematch/badge.svg?branch=master&service=github)](https://coveralls.io/github/Boereck/casematch?branch=master)
-
+[![License (https://img.shields.io/github/license/Boereck/casematch.svg)]
+ 
 Case Matcher
 ============
 This is a Java 8 library providing a fluent API to define case matching in an object oriented and functional way. 
