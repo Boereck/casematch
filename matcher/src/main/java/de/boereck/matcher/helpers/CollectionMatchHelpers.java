@@ -45,8 +45,9 @@ public class CollectionMatchHelpers {
     /**
      * Shortcut for {@code filter($(c),clazz)}
      *
-     * @param c     collection to be filtered
-     * @param clazz filter type of elements that will remain in the returned Stream
+     * @param c     collection to be filtered. Must not be {@code null}.
+     * @param clazz filter type of elements that will remain in the returned Stream.
+     *              Must not be {@code null}.
      * @param <I>   type of input elements
      * @param <O>   type of output elements
      * @return Stream of elements in collection {@code c} that are of type O
@@ -129,7 +130,8 @@ public class CollectionMatchHelpers {
      * are tested positive with the given predicate. Depending on the result, a subclass of
      * {@link Found} will be returned. This will either be {@link de.boereck.matcher.helpers.found.FoundAll},
      * {@link de.boereck.matcher.helpers.found.FoundNone} or {@link de.boereck.matcher.helpers.found.FoundSome}.
-     * Be aware that under the covers java stream APIs may be used.
+     * Be aware that under the covers java stream APIs may be used. If the given collection {@code c} is {@code null},
+     * an instance of {@code FoundNone} will be returned.
      *
      * @param c   collection that will be traversed and elements checked for predicate {@code p}.
      * @param p   Predicate, every element from {@code c} is checked with. Must not be {@code null}.
@@ -169,49 +171,22 @@ public class CollectionMatchHelpers {
                     }
                 }
             }
+
+            FoundAggregate combineWith(FoundAggregate other) {
+                this.allMatching &= other.allMatching;
+                this.count += other.count;
+                return this;
+            }
+
+            void increaseIfMatching(T t) {
+                if (p.test(t)) {
+                    count++;
+                } else {
+                    allMatching = false;
+                }
+            }
         }
-        return new Collector<T, FoundAggregate, Found>() {
-
-            @Override
-            public Supplier<FoundAggregate> supplier() {
-                return FoundAggregate::new;
-            }
-
-            @Override
-            public BiConsumer<FoundAggregate, T> accumulator() {
-                return (fa, t) -> {
-                    // if the element matches the predicate, we can increase
-                    // the count, otherwise not every element matches.
-                    if (p.test(t)) {
-                        fa.count++;
-                    } else {
-                        fa.allMatching = false;
-                    }
-                };
-            }
-
-            @Override
-            public BinaryOperator<FoundAggregate> combiner() {
-                return (a, b) -> {
-                    // only if both aggregates recorded
-                    // positive predicate evaluations for all
-                    // elements, the same is true for the combined result
-                    a.allMatching &= b.allMatching;
-                    a.count += b.count;
-                    return a;
-                };
-            }
-
-            @Override
-            public Function<FoundAggregate, Found> finisher() {
-                return FoundAggregate::toFound;
-            }
-
-            @Override
-            public Set<Characteristics> characteristics() {
-                return EnumSet.of(Characteristics.UNORDERED);
-            }
-        };
+        return Collector.of(FoundAggregate::new, FoundAggregate::increaseIfMatching, FoundAggregate::combineWith, FoundAggregate::toFound, Collector.Characteristics.UNORDERED);
     }
 
     /**

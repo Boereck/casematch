@@ -1,6 +1,12 @@
 package de.boereck.test.matcher.helpers;
 
 import de.boereck.matcher.function.optionalmap.OptionalMapper;
+import de.boereck.matcher.function.testable.TestableFunction;
+import de.boereck.matcher.function.testable.TestableToLongFunction;
+import de.boereck.matcher.helpers.found.Found;
+import de.boereck.matcher.helpers.found.FoundAll;
+import de.boereck.matcher.helpers.found.FoundNone;
+import de.boereck.matcher.helpers.found.FoundSome;
 import org.junit.Test;
 
 import java.util.*;
@@ -174,7 +180,9 @@ public class CollectionMatchHelpersTest {
 
     @Test(expected = NoSuchElementException.class)
     public void testForAllThrowing() {
-        forAll((t) -> {throw new NoSuchElementException();}).test(singletonList("foo"));
+        forAll((t) -> {
+            throw new NoSuchElementException();
+        }).test(singletonList("foo"));
     }
 
     @Test
@@ -194,4 +202,154 @@ public class CollectionMatchHelpersTest {
         boolean result = forAll((e) -> e.equals("foo")).test(null);
         assertFalse(result);
     }
+
+    @Test(expected = NullPointerException.class)
+    public void testCountNull() {
+        count(null);
+    }
+
+    @Test
+    public void testCountNullCollection() {
+        TestableToLongFunction<Collection<Object>> f = count(o -> true);
+        long res = f.applyAsLong(null);
+        assertEquals(0, res);
+    }
+
+    @Test
+    public void testCountAll() {
+        TestableToLongFunction<Collection<Object>> f = count(o -> true);
+        long res = f.applyAsLong(asList("foo", "bar", "baz"));
+        assertEquals(3, res);
+    }
+
+    @Test
+    public void testCountSome() {
+        TestableToLongFunction<Collection<Integer>> f = count(i -> i>0);
+        long res = f.applyAsLong(asList(-1, 2, 0, -10, 4));
+        assertEquals(2, res);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testFindCountNullPredicate() {
+        findCount(Collections.emptyList(), null);
+    }
+
+    @Test
+    public void testFindCountNullCollection() {
+        Found f = findCount(null, p -> true);
+        assertTrue(f instanceof FoundNone);
+    }
+
+    @Test
+    public void testFindCountNoMatch() {
+        Found f = findCount(asList("foo", "bar", "baz"), p -> false);
+        assertTrue(f instanceof FoundNone);
+    }
+
+    @Test
+    public void testFindCountSomeMatch() {
+        Found f = findCount(asList("foo", "bar", "baz", "tar"), s -> s.startsWith("b"));
+        assertTrue(f instanceof FoundSome && f.count() == 2);
+    }
+
+    @Test
+    public void testFindCountAllMatch() {
+        Found f = findCount(asList("foo", "bar", "baz", "tar"), s -> true);
+        assertTrue(f instanceof FoundAll && f.count() == 4);
+    }
+
+
+    @Test(expected = NullPointerException.class)
+    public void testFindCountFuncNullPredicate() {
+        findCount(null);
+    }
+
+    @Test
+    public void testFindCountFuncNullCollection() {
+        TestableFunction<Collection<String>, Found> func = findCount(p -> true);
+        Found f = func.apply(null);
+        assertTrue(f instanceof FoundNone);
+    }
+
+    @Test
+    public void testFindCountFuncNoMatch() {
+        TestableFunction<Collection<String>, Found> func = findCount(p -> false);
+        Found f = func.apply(asList("foo", "bar", "baz"));
+        assertTrue(f instanceof FoundNone);
+    }
+
+    @Test
+    public void testFindCountFuncSomeMatch() {
+        TestableFunction<Collection<String>, Found> func = findCount(s -> s.startsWith("b"));
+        Found f = func.apply(asList("foo", "bar", "baz", "tar"));
+        assertTrue(f instanceof FoundSome && f.count() == 2);
+    }
+
+    @Test
+    public void testFindCountFuncAllMatch() {
+        TestableFunction<Collection<String>, Found> func = findCount(s -> true);
+        Found f = func.apply( asList("foo", "bar", "baz", "tar") );
+        assertTrue(f instanceof FoundAll && f.count() == 4);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testFilterExistsNull() {
+        filterExists(null);
+    }
+
+    @Test()
+    public void testFilterExistsNullInput() {
+        OptionalMapper<Collection<Object>, List<Object>> fe = filterExists(s -> true);
+        Optional<List<Object>> res = fe.apply(null);
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test()
+    public void testFilterExistsNoneExisting() {
+        OptionalMapper<Collection<Object>, List<Object>> fe = filterExists(s -> false);
+        Optional<List<Object>> res = fe.apply(asList("foo", "bar", "baz"));
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test()
+    public void testFilterExistsExisting() {
+        OptionalMapper<Collection<String>, List<String>> fe = filterExists(s -> s.startsWith("b"));
+        Optional<List<String>> res = fe.apply(asList("foo", "bar", "baz"));
+        assertNotNull(res);
+        assertTrue(res.isPresent());
+        assertEquals(res.get(), Arrays.asList("bar", "baz"));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testElementsOfTypeNull() {
+        elementsOfType(null);
+    }
+
+    @Test()
+    public void testElementsOfTypeNullInput() {
+        OptionalMapper<Collection<Object>, List<String>> f = elementsOfType(String.class);
+        Optional<List<String>> res = f.apply(null);
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test()
+    public void testElementsOfTypeNoMatch() {
+        OptionalMapper<Collection<Object>, List<String>> f = elementsOfType(String.class);
+        Optional<List<String>> res = f.apply(Arrays.asList(1, 2.0, Optional.empty()));
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test()
+    public void testElementsOfTypeMatch() {
+        OptionalMapper<Collection<Object>, List<String>> f = elementsOfType(String.class);
+        Optional<List<String>> res = f.apply(Arrays.asList(1, 2.0, "foo", Optional.empty()));
+        assertNotNull(res);
+        assertTrue(res.isPresent());
+        assertEquals(singletonList("foo"), res.get());
+    }
+
 }

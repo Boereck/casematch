@@ -368,8 +368,7 @@ public class ConsumerHelpersTest {
     @Test
     public void testSyserrFormat() {
         final PrintStream out = System.err;
-        try {
-            ByteArrayOutputStream newOut = new ByteArrayOutputStream();
+        try {ByteArrayOutputStream newOut = new ByteArrayOutputStream();
             System.setErr(new PrintStream(newOut));
             String str = "hello %s";
             String expected = "hello world";

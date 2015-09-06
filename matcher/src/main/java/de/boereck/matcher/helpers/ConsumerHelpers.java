@@ -2,6 +2,7 @@ package de.boereck.matcher.helpers;
 
 import org.omg.CORBA.NO_IMPLEMENT;
 
+import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -226,21 +227,33 @@ public final class ConsumerHelpers {
 
     /**
      * Reference to {@code System.out.println(Object)}
+     * Be aware that the reference is taken when this class is loaded.
+     * There is no guarantee that the {@link System#setOut(PrintStream)}
+     * calls are recognized by this static field.
      */
     public static final Consumer<Object> sysout = System.out::println;
 
     /**
      * Reference to {@code System.out.println(int)}
+     * Be aware that the reference is taken when this class is loaded.
+     * There is no guarantee that the {@link System#setOut(PrintStream)}
+     * calls are recognized by this static field.
      */
     public static final IntConsumer sysoutI = System.out::println;
 
     /**
      * Reference to {@code System.out.println(long)}
+     * Be aware that the reference is taken when this class is loaded.
+     * There is no guarantee that the {@link System#setOut(PrintStream)}
+     * calls are recognized by this static field.
      */
     public static final LongConsumer sysoutL = System.out::println;
 
     /**
      * Reference to {@code System.out.println(double)}
+     * Be aware that the reference is taken when this class is loaded.
+     * There is no guarantee that the {@link System#setOut(PrintStream)}
+     * calls are recognized by this static field.
      */
     public static final DoubleConsumer sysoutD = System.out::println;
 

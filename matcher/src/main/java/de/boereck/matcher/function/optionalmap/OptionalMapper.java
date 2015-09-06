@@ -564,8 +564,8 @@ public interface OptionalMapper<I, O> extends Function<I, Optional<O>> {
     default  TestableFunction<I,O> partial() {
         return i -> {
             Optional<O> result = apply(i);
-            if(result == null) {
-                throw  new NoSuchElementException();
+            if(result == null || !result.isPresent()) {
+                throw new NoSuchElementException();
             }
             return result.get();
         };
