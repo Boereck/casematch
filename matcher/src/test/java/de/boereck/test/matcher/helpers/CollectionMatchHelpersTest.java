@@ -11,14 +11,12 @@ import org.junit.Test;
 
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static de.boereck.matcher.helpers.CollectionMatchHelpers.*;
 import static java.util.Arrays.*;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
-import static java.util.stream.Collectors.*;
 
 public class CollectionMatchHelpersTest {
 
@@ -352,4 +350,161 @@ public class CollectionMatchHelpersTest {
         assertEquals(singletonList("foo"), res.get());
     }
 
+    @Test
+    public void testCastToCollectionNull() {
+        Optional<Collection<?>> res = castToCollection().apply(null);
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test
+    public void testCastToCollectionNotCollection() {
+        Optional<Collection<?>> res = castToCollection().apply("foo");
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test
+    public void testCastListToCollectionOfString() {
+        Optional<Collection<?>> res = castToCollection().apply(asList("foo", "bar"));
+        assertNotNull(res);
+        assertTrue(res.isPresent());
+        Collection<?> col = res.get();
+        assertEquals(2, col.size());
+        col.containsAll(asList("foo", "bar"));
+    }
+
+    @Test
+    public void testCastSetToCollectionOfString() {
+        Optional<Collection<?>> res = castToCollection().apply(new HashSet<>(asList("foo", "bar")));
+        assertNotNull(res);
+        assertTrue(res.isPresent());
+        Collection<?> col = res.get();
+        assertEquals(2, col.size());
+        col.containsAll(asList("foo", "bar"));
+    }
+
+    ///
+
+    @Test
+    public void testCastToListNull() {
+        Optional<List<?>> res = castToList().apply(null);
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test
+    public void testCastToListNotCollection() {
+        Optional<List<?>> res = castToList().apply("foo");
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test
+    public void testCastListToListOfString() {
+        Optional<List<?>> res = castToList().apply(asList("foo", "bar"));
+        assertNotNull(res);
+        assertTrue(res.isPresent());
+        Collection<?> col = res.get();
+        assertEquals(2, col.size());
+        col.containsAll(asList("foo", "bar"));
+    }
+
+    @Test
+    public void testCastSetToListOfString() {
+        Optional<List<?>> res = castToList().apply(new HashSet<>(asList("foo", "bar")));
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    ///
+
+    @Test
+    public void testCastToMapNull() {
+        Optional<Map<?,?>> res = castToMap().apply(null);
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test
+    public void testCastToMapNotCollection() {
+        Optional<Map<?,?>> res = castToMap().apply("foo");
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test
+    public void testCastMapToMapOfString() {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("foo", "bar");
+        Optional<Map<?,?>> res = castToMap().apply(map);
+        assertNotNull(res);
+        assertTrue(res.isPresent());
+        Map<?,?> m = res.get();
+        assertEquals(1, m.size());
+        assertEquals("bar", m.get("foo"));
+    }
+
+    @Test
+    public void testCastListToMap() {
+        Optional<Map<?,?>> res = castToMap().apply(asList("foo", "bar"));
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test
+    public void testHasValueForNullMap() {
+        OptionalMapper<Map<String, Object>, Object> func = hasValueFor("foo");
+        assertNotNull(func);
+        Optional<Object> res = func.apply(null);
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test
+    public void testHasValueForNotAvailable() {
+        OptionalMapper<Map<String, String>, String> func = hasValueFor("foo");
+        assertNotNull(func);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("bar", "baz");
+        Optional<String> res = func.apply(map);
+        assertNotNull(res);
+        assertFalse(res.isPresent());
+    }
+
+    @Test
+    public void testHasValueForAvailable() {
+        OptionalMapper<Map<String, String>, String> func = hasValueFor("foo");
+        assertNotNull(func);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("foo", "bar");
+        Optional<String> res = func.apply(map);
+        assertNotNull(res);
+        assertTrue(res.isPresent());
+        assertEquals("bar", res.get());
+    }
+
+    @Test
+    public void testIsCollectionOfNull() {
+        boolean res = isCollection().test(null);
+        assertFalse(res);
+    }
+
+    @Test
+    public void testIsCollectionNotCollection() {
+        boolean res = isCollection().test("foo");
+        assertFalse(res);
+    }
+
+    @Test
+    public void testIsCollectionOnList() {
+        boolean res = isCollection().test(singletonList("foo"));
+        assertTrue(res);
+    }
+
+    @Test
+    public void testIsCollectionOnSet() {
+        boolean res = isCollection().test(new HashSet<>(singletonList("foo")));
+        assertTrue(res);
+    }
 }
